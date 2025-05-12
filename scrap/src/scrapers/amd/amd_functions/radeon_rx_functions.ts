@@ -1,4 +1,4 @@
-import { MyUrl } from "../../../global_functions/types";
+import { MyUrl } from "../../../global/types";
 import { Radeon } from "../types";
 import { getAmdProducts } from './shared_functions'
 

@@ -1,8 +1,8 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
 import { InitialAmdProps, Radeon, Ryzen } from '../types'
-import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global_functions/functions'
-import { MyUrl } from '../../../global_functions/types'
+import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
+import { MyUrl } from '../../../global/types'
 
 dotenv.config()
 const { amd_website_domain } = process.env

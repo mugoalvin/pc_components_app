@@ -1,128 +1,126 @@
-import { Entity, PrimaryGeneratedColumn, Column, ColumnOptions } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { getColumnOptions } from "../entityFunctions"
 
-const defaultColumnProperties: ColumnOptions = {
-	nullable: true
-}
 
 @Entity()
 export class AmdRyzen {
 	@PrimaryGeneratedColumn()
 	id?: number
 
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	name?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	family?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	series?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	image?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	link?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	form_factor?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	market_segment?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	amd_pro_technologies?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	regional_availability?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	former_codename?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	architecture?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("int"))
 	number_of_cpu_cores?: number
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	multithreading_smt?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("int"))
 	number_of_threads?: number
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	max_boost_clock?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	base_clock?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	l1_cache?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	l2_cache?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	l3_cache?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	default_tdp?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	processor_technology_for_cpu_cores?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	processor_technology_for_i_o_die?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("int"))
 	package_die_count?: number
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	unlocked_for_overclocking?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	amd_expo_memory_overclocking_technology?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	precision_boost_overdrive?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	curve_optimizer_voltage_offsets?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions("boolean"))
 	amd_ryzen_master_support?: boolean
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	cpu_socket?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	supporting_chipsets?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	cpu_boost_technology?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	instruction_set?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	supported_extensions?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	thermal_solution_pib?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	thermal_solution_mpk?: string
 
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	recommended_cooler?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	max_operating_temperature_tjmax?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	launch_date?: string
 	
-	@Column(defaultColumnProperties)
+	@Column(getColumnOptions())
 	os_support?: string
 }

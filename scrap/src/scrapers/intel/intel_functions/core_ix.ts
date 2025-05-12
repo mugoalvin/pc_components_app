@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
 import { Page } from "puppeteer"
 
-import { MyUrl } from "../../amd/types"
 import { InitialIntelProps, IntelFamily } from "../types"
+import { MyUrl } from '../../../global/types'
 
 
 dotenv.config()

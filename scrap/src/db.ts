@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm'
 import dotenv from 'dotenv'
 
-import { handleError } from './global_functions/functions'
+import { handleError } from './global/functions'
 import { AmdRadeon } from './entities/amd/radeon'
 import { AmdRyzen } from "./entities/amd/ryzen"
 import { IntelCoreIx } from "./entities/intel/core"

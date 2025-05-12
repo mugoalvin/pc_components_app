@@ -1,5 +1,5 @@
-import { Column, ColumnOptions, ColumnType, Entity, PrimaryGeneratedColumn } from "typeorm"
-import { getColumnOptions } from "../functions"
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { getColumnOptions } from "../entityFunctions"
 
 
 @Entity()

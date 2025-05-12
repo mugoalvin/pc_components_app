@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
-import { getColumnOptions } from "../functions";
+import { getColumnOptions } from "../entityFunctions";
 
 @Entity()
 export class IntelUltra {

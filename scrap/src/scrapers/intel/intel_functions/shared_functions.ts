@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
-import { normalizeKey, normalizeValue } from '../../../global_functions/functions'
+import { normalizeKey, normalizeValue } from '../../../global/functions'
 import { InitialIntelProps, IntelCore, IntelCoreUltra } from '../types'
 
 dotenv.config()
@@ -59,7 +59,11 @@ export async function fetchProcessorSpecifications(page: Page, products: Initial
 
 	for (const product of products) {
 		const detailedInfo = await getMoreInfoPerProcessor(page, product) as IntelCore | IntelCoreUltra
-		console.log(`  ✓ ${product.name}`)
+
+		const index: number = products.indexOf(product) + 1
+		const length = products.length
+		console.log(`${index}/${length} ✓ ${product.name}`)
+
 		detailedProcessorsInfo.push(detailedInfo)
 	}
 

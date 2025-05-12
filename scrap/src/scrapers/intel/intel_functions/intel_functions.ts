@@ -1,11 +1,11 @@
 import { launch } from 'puppeteer'
 
-import { MyUrl } from '../../../global_functions/types'
+import { MyUrl } from '../../../global/types'
 import { InitialIntelProps, IntelCore, IntelCoreUltra } from '../types'
 import { fetchProcessorFamilies, getFamilyProcessors } from './core_ix'
 import { fetchProcessorSpecifications } from './shared_functions'
 import { getIntelCoreUltraProcessors } from './core_ultra'
-import { launchOptions, handleError } from '../../../global_functions/functions'
+import { launchOptions, handleError } from '../../../global/functions'
 
 
 
@@ -35,7 +35,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl): Promise<IntelCore
 			await page.close()
 		}
 
-		return await fetchProcessorSpecifications(page, intelCoreProcessors)
+		return await fetchProcessorSpecifications(page, intelCoreProcessors) as IntelCore[]
 	}
 	catch (error) {
 		handleError(error)

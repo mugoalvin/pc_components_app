@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 import { fetchAmdRyzenProcessors, validateRyzenProcessors } from "./amd_functions/ryzen_functions"
 import { saveRyzenProcessors } from '../../saveRecords/amd/ryzen'
-import { normalizeData } from '../../global_functions/functions'
+import { normalizeData } from '../../global/functions'
 
 dotenv.config()
 const { amd_website_domain, amd_desktop_prosessors_route } = process.env

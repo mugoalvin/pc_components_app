@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 
 import { getAmdRadeonRx, validateRadeonRxProcessors } from './amd_functions/radeon_rx_functions'
-import { normalizeData } from '../../global_functions/functions'
+import { normalizeData } from '../../global/functions'
 import { saveRadeonCards } from '../../saveRecords/amd/radeon'
 
 dotenv.config()

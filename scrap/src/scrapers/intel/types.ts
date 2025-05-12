@@ -146,7 +146,7 @@ export interface IntelCore {
 	maximum_turbo_power?: string
 	launch_date?: string
 	embedded_options_available?: boolean
-	use_conditions?: string
+	use_conditions?: string | string[]
 	datasheet?: string
 	memory_types?: string
 	max_number_of_memory_channels?: number
@@ -189,7 +189,7 @@ export interface IntelCore {
     ecc_memory_supported?: boolean
     graphics_base_frequency?: string
     graphics_max_dynamic_frequency?: string
-    graphics_output?: string
+    graphics_output?: string[]
     execution_units?: number
     max_resolution_hdmi?: string
     max_resolution_dp?: string

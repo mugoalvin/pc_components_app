@@ -1,10 +1,12 @@
 import { Page } from "puppeteer"
-import { MyUrl } from "../../amd/types"
+
 import { InitialIntelProps } from "../types"
+import { MyUrl } from "../../../global/types"
 
 export async function getIntelCoreUltraProcessors(page: Page, url: MyUrl): Promise<InitialIntelProps[]> {
-	await page.goto(`${url.domain}${url.route}`, {waitUntil: 'networkidle0'})
-
+	// await page.goto(`${url.domain}${url.route}`, {waitUntil: 'networkidle0'})
+	await page.goto(`${url.domain}${url.route}`)
+	
 	return await page.evaluate(() => {
 		function formatProcessorName(processorName: string): string {
 			return processorName

@@ -1,5 +1,4 @@
-import { MyUrl } from "../../../global_functions/types"
-import { ProcessedRyzen } from "../../../saveRecords/processedData"
+import { MyUrl } from "../../../global/types"
 import { Ryzen } from "../types"
 import { getAmdProducts } from "./shared_functions"
 
@@ -12,7 +11,7 @@ export async function fetchAmdRyzenProcessors(url: MyUrl): Promise<Ryzen[]> {
  * @param ryzenProcessors An array of Ryzen Processors
  * @returns Validated Ryzen processors
  */
-export function validateRyzenProcessors(ryzenProcessors: ProcessedRyzen[]): ProcessedRyzen[] {
+export function validateRyzenProcessors(ryzenProcessors: Record<string, any>[]): Record<string, any>[] {
     return ryzenProcessors.filter(ryzen => {
         return (
             (typeof(ryzen.name) == "string" || typeof(ryzen.name) == undefined) &&

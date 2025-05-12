@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import { getColumnOptions } from "../functions";
+import { getColumnOptions } from "../entityFunctions";
 
 @Entity()
 export class IntelCoreIx {
@@ -24,13 +24,13 @@ export class IntelCoreIx {
 	@Column(getColumnOptions())
 	recommended_customer_price?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("int"))
 	number_of_performance_cores?: number
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("int"))
 	number_of_efficient_cores?: number
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("int"))
 	total_threads?: number
 
 	@Column(getColumnOptions())
@@ -63,7 +63,7 @@ export class IntelCoreIx {
 	@Column(getColumnOptions())
 	launch_date?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	embedded_options_available?: boolean
 
 	@Column(getColumnOptions())
@@ -75,13 +75,13 @@ export class IntelCoreIx {
 	@Column(getColumnOptions())
 	memory_types?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("int"))
 	max_number_of_memory_channels?: number
 
 	@Column(getColumnOptions())
 	max_memory_bandwidth?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	ecc_memory_supported?: boolean
 
 	@Column(getColumnOptions())
@@ -117,10 +117,10 @@ export class IntelCoreIx {
 	@Column(getColumnOptions("float"))
 	multi_format_codec_engines?: number
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_quick_sync_video?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_clear_video_hd_technology?: boolean
 
 	@Column(getColumnOptions("int"))
@@ -129,7 +129,7 @@ export class IntelCoreIx {
 	@Column(getColumnOptions())
 	device_id?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	max_number_of_dmi_lanes?: boolean
 
 	@Column(getColumnOptions())
@@ -159,37 +159,37 @@ export class IntelCoreIx {
 	@Column(getColumnOptions())
 	max_operating_temperature?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_volume_management_device_vmd?: boolean
 
 	@Column(getColumnOptions("int"))
 	intel_gaussian_neural_accelerator?: number
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_thread_director?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_deep_learning_boost_intel_dl_boost_on_cpu?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_speed_shift_technology?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_adaptive_boost_technology?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_thermal_velocity_boost?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_turbo_boost_max_technology_3_0?: boolean
 
 	@Column(getColumnOptions("int"))
 	intel_turbo_boost_technology?: number
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_hyper_threading_technology?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_64?: boolean
 
 	@Column(getColumnOptions())
@@ -198,73 +198,72 @@ export class IntelCoreIx {
 	@Column(getColumnOptions())
 	instruction_set_extensions?: string
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	idle_states?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	enhanced_intel_speedstep_technology?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	thermal_monitoring_technologies?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_hardware_shield_eligibility?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_threat_detection_technology_tdt?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_active_management_technology_amt?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_standard_manageability_ism?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_remote_platform_erase_rpe?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_one_click_recovery?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_control_flow_enforcement_technology?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_total_memory_encryption_multi_key?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_aes_new_instructions?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	secure_key?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_os_guard?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_trusted_execution_technology?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	execute_disable_bit?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_boot_guard?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	mode_based_execute_control_mbec?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_stable_it_platform_program_sipp?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_virtualization_technology_with_redirect_protection_vt_rp?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_virtualization_technology_vt_x?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_virtualization_technology_for_directed_i_o_vt_d?: boolean
 
-	@Column(getColumnOptions())
+	@Column(getColumnOptions("boolean"))
 	intel_vt_x_with_extended_page_tables_ept?: boolean
-
 }
