@@ -31,10 +31,21 @@ export async function getFamilyProcessors(page: Page, family: IntelFamily) {
 	await page.waitForSelector("tbody")
 	const familyProcessors = await page.evaluate(() => {
 		const tableRows = Array.from(document.querySelectorAll("tbody tr"))
+		// function formatProcessorName(processorName: string): string {
+		// 	return processorName
+		// 		?.slice( 0, processorName?.indexOf("Processor"))
+		// 		.trim()
+		// }
+
 		function formatProcessorName(processorName: string): string {
+			if (!processorName) return ''
+			const cutIndex = processorName.indexOf("(")
+			if (cutIndex !== -1) processorName = processorName.slice(0, cutIndex);
+			
 			return processorName
-				?.slice( 0, processorName?.indexOf("Processor"))
-				.trim()
+				.replace("Processor", '')
+				.replace("  ", ' ')
+				.trim();
 		}
 		
 		return tableRows.map(row => {

@@ -1,7 +1,7 @@
 import { launch } from 'puppeteer'
 
 import { MyUrl } from '../../../global/types'
-import { InitialIntelProps, IntelCore, IntelCoreUltra } from '../types'
+import { InitialIntelProps, IntelCore, IntelCoreUltra, IntelUltraSeries } from '../types'
 import { fetchProcessorFamilies, getFamilyProcessors } from './core_ix'
 import { fetchProcessorSpecifications } from './shared_functions'
 import { getIntelCoreUltraProcessors } from './core_ultra'
@@ -21,21 +21,44 @@ import { launchOptions, handleError } from '../../../global/functions'
  * 3. Scrapes processor info for each family
  * 4. Gets detailed specs for each processor
  */
+// export async function scrapeIntelCoreIxProcessors(url: MyUrl): Promise<IntelCore[]> {
+// 	const browser = await launch(launchOptions)
+// 	try {
+// 		const page = await browser.newPage()
+// 		const families = await fetchProcessorFamilies(page, url)
+// 		const intelCoreProcessors: InitialIntelProps[] = []
+
+// 		for (const family of families) {
+// 			const page = await browser.newPage()
+// 			const data = await getFamilyProcessors(page, family)
+// 			intelCoreProcessors.push(...data)
+// 			await page.close()
+// 		}
+
+// 		return await fetchProcessorSpecifications(page, intelCoreProcessors) as IntelCore[]
+// 	}
+// 	catch (error) {
+// 		handleError(error)
+// 		return []
+// 	}
+// 	finally {
+// 		await browser.close()
+// 	}
+// }
+
+
+
+
+
+
 export async function scrapeIntelCoreIxProcessors(url: MyUrl): Promise<IntelCore[]> {
 	const browser = await launch(launchOptions)
+	const page = await browser.newPage()
 	try {
-		const page = await browser.newPage()
-		const families = await fetchProcessorFamilies(page, url)
-		const intelCoreProcessors: InitialIntelProps[] = []
-
-		for (const family of families) {
-			const page = await browser.newPage()
-			const data = await getFamilyProcessors(page, family)
-			intelCoreProcessors.push(...data)
-			await page.close()
-		}
-
-		return await fetchProcessorSpecifications(page, intelCoreProcessors) as IntelCore[]
+		await page.goto(`${url.domain}${url.route}`)
+		
+		document.querySelectorAll(".product-category.Processors")[1]
+		return []
 	}
 	catch (error) {
 		handleError(error)
@@ -60,13 +83,18 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl): Promise<IntelCore
  * 2. Gets initial processor data from main Ultra page
  * 3. Fetches detailed specifications for each processor
  */
-export async function scrapeIntelCoreUltraProcessors(url: MyUrl): Promise<IntelCoreUltra[]> {
+export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelUltraSeries): Promise<IntelCoreUltra[]> {
 	const browser = await launch(launchOptions)
 
 	try{
 		const page = await browser.newPage()
-		const initialProcessorValues = await getIntelCoreUltraProcessors(page, url)
-		return await fetchProcessorSpecifications(page, initialProcessorValues) as IntelCoreUltra[]
+		const initialProcessorValues = await getIntelCoreUltraProcessors(page, url, series)
+		return await fetchProcessorSpecifications(page, initialProcessorValues, series)
+
+		// return (await fetchProcessorSpecifications(page, initialProcessorValues)).map(processor => ({
+		// 	...processor,
+		// 	series
+		// })) as IntelCoreUltra[]
 	}
 	catch (error) {
 		handleError(error)

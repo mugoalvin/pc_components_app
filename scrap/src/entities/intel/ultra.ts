@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
 import { getColumnOptions } from "../entityFunctions";
+import { IntelUltraSeries, IntelUltraSeriesValues } from "../../scrapers/intel/types";
 
 @Entity()
 export class IntelUltra {
@@ -11,6 +12,12 @@ export class IntelUltra {
 
 	@Column(getColumnOptions())
 	code_name?: string;
+
+	@Column(getColumnOptions("enum", {
+		enum: IntelUltraSeriesValues,
+		enumName: "intel_ultra_series"
+	}))
+	series?: IntelUltraSeries;
 
 	@Column(getColumnOptions())
 	vertical_segment?: string;

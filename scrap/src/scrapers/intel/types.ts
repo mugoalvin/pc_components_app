@@ -8,10 +8,16 @@ export interface InitialIntelProps {
 	link: string
 }
 
+export type IntelUltraSeries = "Series 1" | "Series 2"
+export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
+export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron}
+export enum IntelProducts { Processors, Graphics }
+
 export interface IntelCoreUltra {
     name?: string;
     code_name?: string;
     vertical_segment?: string;
+    series?: string
     processor_number?: string;
     overall_peak_tops_int8?: number;
     recommended_customer_price?: string;

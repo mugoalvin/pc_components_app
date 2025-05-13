@@ -1,27 +1,51 @@
 import { Page } from "puppeteer"
 
-import { InitialIntelProps } from "../types"
+import { IntelUltraSeries, Processors } from "../types"
 import { MyUrl } from "../../../global/types"
+import { readProcessorsTable } from "./shared_functions"
 
-export async function getIntelCoreUltraProcessors(page: Page, url: MyUrl): Promise<InitialIntelProps[]> {
-	// await page.goto(`${url.domain}${url.route}`, {waitUntil: 'networkidle0'})
-	await page.goto(`${url.domain}${url.route}`)
-	
-	return await page.evaluate(() => {
-		function formatProcessorName(processorName: string): string {
-			return processorName
-				?.slice( 0, processorName?.indexOf("("))
-				.replace("Processor", '')
-				.replace("  ", ' ')
-				.trim()
+// Extracts series text and links from the page
+async function getSeriesTextAndLinks(page: Page, data_panel_key: string) {
+	await page.waitForSelector(`[data-panel-key=${data_panel_key}]`);
+	await page.click(`[data-panel-key=${data_panel_key}] span`);
+
+	return await page.evaluate((data_panel_key) => {
+		const series = Array.from(document.querySelectorAll(`[data-parent-panel-key=${data_panel_key}] .product-row .name a`));
+		return series.map(serie => ({
+			text: serie.textContent,
+			link: serie.getAttribute("href"),
+		}));
+	}, data_panel_key);
+}
+
+// Processes a specific series or all series
+async function processSeries(page: Page, url: MyUrl, seriesTextAndLink: { text: string | null; link: string | null }[], series?: IntelUltraSeries) {
+	if (series) {
+		const seriesToScrape = seriesTextAndLink.find(serie => serie.text?.includes(series))
+		await page.goto(`${url.domain}${seriesToScrape?.link}`)
+
+		return await readProcessorsTable(page)
+	} else {
+		const results = []
+		for (const serie of seriesTextAndLink) {
+			await page.goto(`${url.domain}${serie.link}`)
+			const data = await readProcessorsTable(page)
+			results.push(...data)
 		}
+		return results;
+	}
+}
 
-		const tableRows = Array.from(document.querySelectorAll('tbody tr'))
-		return tableRows.map(row => {
-			const name = formatProcessorName(row?.querySelector('td div a')?.textContent || '')
-			const link = row?.querySelector('td div a')?.getAttribute('href') || ''
+// Main function
+export async function getIntelCoreUltraProcessors(page: Page, url: MyUrl, series?: IntelUltraSeries) {
+	await page.goto(`${url.domain}${url.route}`)
+	await page.click(`[data-panel-key=Processors]`)
+	await page.waitForSelector(".product-categories.product-categories-2")
 
-			return { name, link } as InitialIntelProps
-		})
-	})
+	const data_panel_key = await page.evaluate(index => {
+		return document.querySelectorAll(".product-category.Processors")[index]?.getAttribute("data-panel-key")
+	}, Processors.Ultra)
+
+	const seriesTextAndLink = await getSeriesTextAndLinks(page, data_panel_key!)
+	return await processSeries(page, url, seriesTextAndLink, series)
 }
