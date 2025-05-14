@@ -11,7 +11,7 @@ const { intel_website_domain, intel_ark_route } = process.env
 export async function runIntelArk() {
 	const desiredGraphicsToScrape: IntelGraphicsScrapingOptions = {
 		family: IntelGraphics.Ark,
-		series: ArkSeries.A_Series
+		series: ArkSeries.B_Series
 	}
 
 	const intel_ark_graphics = await scrapeIntelArkGpu({

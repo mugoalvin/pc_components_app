@@ -14,9 +14,9 @@ export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 			);
 		}
 		await queryRunner.commitTransaction();
-		
+		console.log("\nSuccessfully saved Intel Ultra Processors.")
 	} catch (error) {
-		console.error("Error saving Ryzen cards:", error);
+		console.error("Error saving Ultra Processors:", error);
 		await queryRunner.rollbackTransaction();
 	} finally {
 		await queryRunner.release();

@@ -138,6 +138,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
     for (const product of products) {
         try {
             const specs = await fetchProductDetails(page, product, isScrapingGraphicsCards) as Ryzen | Radeon
+            console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
             results.push(specs)
         } catch (error) {
             console.error(`Failed to fetch info for ${product.product_name}:`, error)

@@ -9,6 +9,9 @@ export interface InitialIntelProps {
 }
 
 export type IntelUltraSeries = "Series 1" | "Series 2"
+
+export enum IntelUltraSeriesScrape { Serie1 = "Series 1", Serie2 =  "Series 2" }
+
 export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
 export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron}
 export enum IntelProducts { Processors, Graphics }
@@ -262,15 +265,15 @@ export interface IntelArk {
     graphics_clock?: string
     gpu_peak_tops_int8?: number
     tbp?: string
-    pci_express_configurations?: string | string[]
+    pci_express_configurations?: string[]
     device_id?: string
     graphics_memory_interface?: string
     graphics_memory_bandwidth?: string
     graphics_memory_speed?: string
-    graphics_output?: string | string[]
+    graphics_output?: string[]
     hdmi_variable_refresh_rate_vrr?: boolean
     vesa_adaptive_sync?: boolean
-    media_profiles?: string | string[]
+    media_profiles?: string[]
     max_resolution_hdmi?: string
     max_resolution_dp?: string
     h_265_hevc_hardware_encode_decode?: boolean
