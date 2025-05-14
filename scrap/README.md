@@ -24,7 +24,7 @@ Before running the project, ensure you have the following installed:
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mugoalvin/pc_components_app/tree/main/scrap.git
    cd scrap
 2. Install dependencies:
 	```
@@ -37,8 +37,8 @@ Before running the project, ensure you have the following installed:
 	# Database
 	HOST=localhost
 	PORT=3306
-	USERNAME=<your-username>
-	PASSWORD=<your-password>
+	USERNAME=
+	PASSWORD=
 	DATABASE_NAME=pc_components
 	NODE_ENV=development
 	```

@@ -31,11 +31,6 @@ export async function getFamilyProcessors(page: Page, family: IntelFamily) {
 	await page.waitForSelector("tbody")
 	const familyProcessors = await page.evaluate(() => {
 		const tableRows = Array.from(document.querySelectorAll("tbody tr"))
-		// function formatProcessorName(processorName: string): string {
-		// 	return processorName
-		// 		?.slice( 0, processorName?.indexOf("Processor"))
-		// 		.trim()
-		// }
 
 		function formatProcessorName(processorName: string): string {
 			if (!processorName) return ''
@@ -44,6 +39,7 @@ export async function getFamilyProcessors(page: Page, family: IntelFamily) {
 			
 			return processorName
 				.replace("Processor", '')
+				.replace("processor", '')
 				.replace("  ", ' ')
 				.trim();
 		}

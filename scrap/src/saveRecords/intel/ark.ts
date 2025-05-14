@@ -15,7 +15,7 @@ export async function saveIntelArkGraphics(coreIxProcessors: any[]) {
 		}
 
 		await queryRunner.commitTransaction();
-		console.log("Successfully saved Intel Ark Graphics Cards.");
+		console.log("\nSuccessfully saved Intel Ark Graphics Cards.")
 	} catch (error) {
 		console.error("Error saving Intel Ark Graphics Cards:", error);
 		await queryRunner.rollbackTransaction();

@@ -13,7 +13,7 @@ const { intel_website_domain } = process.env
  * @param processor - Initial processor information containing the link
  * @returns Promise containing normalized processor specifications
  */
-async function getMoreInfoPerProcessor(page: Page, processor: InitialIntelProps) {
+async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
 	await page.goto(`${intel_website_domain}${processor.link}`)
 	const detailedData = await page.evaluate(() => {
 		const sections = Array.from(document.querySelectorAll(".tech-section"))
@@ -49,26 +49,27 @@ async function getMoreInfoPerProcessor(page: Page, processor: InitialIntelProps)
  * Iterates through a list of processors and fetches detailed specifications for each
  * @param page - Puppeteer Page instance
  * @param products - Array of initial processor information
+ * @param series - Series number of Intel Ultra.
  * @returns Promise<IntelCore[]> Array of detailed processor specifications
  */
-export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise<IntelCore[] | IntelCoreUltra[] | IntelArk[]> {
-	console.log("\nGetting detailed information per processor")
-	const detailedProcessorsInfo: IntelCore[] | IntelCoreUltra[] = []
+export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise< IntelCore[] | IntelCoreUltra[] | IntelArk[] > {
+	console.log("\nGetting detailed information per product.")
+	const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
 
 	for (const product of products) {
-		const detailedInfo = ({
-			...(await getMoreInfoPerProcessor(page, product) as IntelCore | IntelCoreUltra),
-			series
-		})
+		const raw = await getMoreInfoPerProduct(page, product)
+		let detailedInfo: IntelCore | IntelCoreUltra | IntelArk
+		detailedInfo = series ? {...raw as IntelCoreUltra, series} : raw as IntelCore | IntelArk
 
 		const index = products.indexOf(product) + 1
 		const length = products.length
 		console.log(`${index}/${length} ✓ ${product.name}`)
 
-		detailedProcessorsInfo.push(detailedInfo)
+		// @ts-ignore
+		detailedSpecifications.push(detailedInfo)
 	}
 
-	return detailedProcessorsInfo
+	return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
 }
 
 

@@ -1,10 +1,9 @@
 import { launch } from 'puppeteer'
 
 import { MyUrl } from '../../../global/types'
-import { InitialIntelProps, IntelCore, IntelCoreUltra, IntelCoreScrapingOptions, IntelUltraSeries, Processors } from '../types'
-import { fetchProcessorFamilies, getFamilyProcessors } from './core_ix'
+import { IntelCore, IntelCoreUltra, IntelCoreScrapingOptions, IntelUltraSeries, Processors } from '../types'
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
-import { getIntelCoreUltraProcessors, getTextsAndLinks, processSeries } from './core_ultra'
+import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
 import { launchOptions, handleError } from '../../../global/functions'
 
 
@@ -17,19 +16,7 @@ export function findTierAndGenMatch(processorCells: { text: string | null; link:
 	})
 }
 
-/**
- * Scrapes detailed information for Intel Core ix series processors
- * @param url - Object containing domain and route for Intel processors page
- * @param scrapeOptions - Object containing Intel Tiers and Generation
- * @returns Promise containing array of detailed processor information
- * @throws Error if scraping fails
- * 
- * Process:
- * 1. Launches headless browser
- * 2. Gets all processor families (i3, i5, i7, i9)
- * 3. Scrapes processor info for each family
- * 4. Gets detailed specs for each processor
- */
+
 export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: IntelCoreScrapingOptions): Promise<IntelCore[]> {
 	const browser = await launch(launchOptions)
 	const page = await browser.newPage()
@@ -47,7 +34,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 
 		await page.goto(`${url.domain}${match?.link}`)
 		const initialProcessorValues = await readIntelTable(page)
-		return await fetchDetailedSpecifications(page, initialProcessorValues)
+		return await fetchDetailedSpecifications(page, initialProcessorValues) as IntelCore[]
 	}
 	catch (error) {
 		handleError(error)
@@ -59,31 +46,12 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 }
 
 
-
-
-/**
- * Scrapes detailed information for Intel Core Ultra processors
- * @param url - Object containing domain and route for Intel Ultra processors page
- * @returns Promise containing array of detailed Ultra processor information
- * @throws Error if scraping fails
- * 
- * Process:
- * 1. Launches headless browser
- * 2. Gets initial processor data from main Ultra page
- * 3. Fetches detailed specifications for each processor
- */
 export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelUltraSeries): Promise<IntelCoreUltra[]> {
 	const browser = await launch(launchOptions)
-
 	try{
 		const page = await browser.newPage()
 		const initialProcessorValues = await getIntelCoreUltraProcessors(page, url, series)
-		return await fetchDetailedSpecifications(page, initialProcessorValues, series)
-
-		// return (await fetchProcessorSpecifications(page, initialProcessorValues)).map(processor => ({
-		// 	...processor,
-		// 	series
-		// })) as IntelCoreUltra[]
+		return await fetchDetailedSpecifications(page, initialProcessorValues, series) as IntelCoreUltra[]
 	}
 	catch (error) {
 		handleError(error)

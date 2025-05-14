@@ -13,19 +13,13 @@ export function normalizeKey(str: string) {
 
 export function normalizeValue(value: string): string | string[] | number | boolean {
 	if (!value || typeof value !== 'string') return value
-
 	if (value.toLowerCase().trim() === 'yes') return true
 	if (value.toLowerCase().trim() === 'no') return false
 
 	const numericMatch = value.match(/^([\d.]+)\s*()?$/i)
-	if (numericMatch) {
-		return parseFloat(numericMatch[1])
-	}
-
-	if (value.includes(',')) {
-		return value.split(',').map(v => v.trim())
-	}
-
+	if (numericMatch) return parseFloat(numericMatch[1])
+	if (value.includes(',')) return value.split(',').map(v => v.trim())
+	
 	return value.trim()
 }
 
@@ -43,7 +37,7 @@ export const launchOptions: LaunchOptions = {
 	defaultViewport: {
 		width: 1920,
 		height: 1080,
-		deviceScaleFactor: 0,
+		deviceScaleFactor: 1,
 		isLandscape: true
 	}
 }

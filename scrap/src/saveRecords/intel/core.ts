@@ -15,7 +15,7 @@ export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 		}
 
 		await queryRunner.commitTransaction();
-		console.log("Done successfully.");
+		console.log("\nSuccessfully saved Intel Core Processors.")
 	} catch (error) {
 		console.error("Error saving Core Ix processors:", error);
 		await queryRunner.rollbackTransaction();

@@ -33,3 +33,13 @@ export const initDatabase = async () => {
 			handleError(error)
 		})
 }
+
+export const disconnectDatabase = async () => {
+	await AppDataSource.destroy()
+		.then(() => {
+			console.log("\nDisconnected From The Database!")
+		})
+		.then(err => {
+			handleError(err)
+		})
+}

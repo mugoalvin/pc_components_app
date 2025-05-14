@@ -8,5 +8,9 @@ export async function getAmdRadeonRx(url: MyUrl): Promise<Radeon[]> {
 
 
 export function validateRadeonRxProcessors(radeonRxGraphicsCards: Radeon[]): Radeon[] {
-	return radeonRxGraphicsCards
+	return radeonRxGraphicsCards.filter(radeon => {
+		return Object.values(radeon).map(value => {
+			value !== null
+		})
+	})
 }
