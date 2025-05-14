@@ -13,6 +13,26 @@ export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
 export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron}
 export enum IntelProducts { Processors, Graphics }
 
+export type IntelTier = "i9" | "i7" | "i5" | "i3"
+export type IntelGenerations = 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4
+export type IntelCoreScrapingOptions = {
+    tier: IntelTier,
+    generation: IntelGenerations
+}
+
+export enum IntelGraphics { Ark, ArkPro, DataCenter }
+
+export enum ArkSeries { B_Series, A_Series }
+export enum ArkProSeries { A_Series }
+export enum DataCenterSeries { Max_Series, Flex_Series }
+
+export type IntelGraphicsScrapingOptions = 
+    { family: IntelGraphics.Ark, series: ArkSeries } |
+    { family: IntelGraphics.ArkPro, series: ArkProSeries } |
+    { family: IntelGraphics.DataCenter, series: DataCenterSeries }
+
+
+
 export interface IntelCoreUltra {
     name?: string;
     code_name?: string;
@@ -221,4 +241,61 @@ export interface IntelCore {
     intel_trusted_execution_technology?: boolean
     intel_stable_it_platform_program_sipp?: boolean
     intel_virtualization_technology_with_redirect_protection_vt_rp?: boolean
+}
+
+
+
+export interface IntelArk {
+    name?: string
+    model_number?: string
+    code_name?: string
+    microarchitecture?: string
+    lithography_type?: string
+    vertical_segment?: string
+    marketing_status?: string
+    launch_date?: string
+    embedded_options_available?: boolean
+    render_slices?: number
+    ray_tracing_units?: number
+    intel_xe_matrix_extensions_intel_xmx_engines?: number
+    xe_vector_engines?: number
+    graphics_clock?: string
+    gpu_peak_tops_int8?: number
+    tbp?: string
+    pci_express_configurations?: string | string[]
+    device_id?: string
+    graphics_memory_interface?: string
+    graphics_memory_bandwidth?: string
+    graphics_memory_speed?: string
+    graphics_output?: string | string[]
+    hdmi_variable_refresh_rate_vrr?: boolean
+    vesa_adaptive_sync?: boolean
+    media_profiles?: string | string[]
+    max_resolution_hdmi?: string
+    max_resolution_dp?: string
+    h_265_hevc_hardware_encode_decode?: boolean
+    av1_encode_decode?: boolean
+    vp9_bitstream_decoding?: boolean
+    oneapi_support?: boolean
+    openvino_support?: boolean
+    directx_support?: string
+    vulkan_support?: number
+    opengl_support?: string
+    opencl_support?: number
+    multi_format_codec_engines?: number
+    intel_extension_for_pytorch_ipex_support?: boolean
+    intel_xe_super_sampling_xess_support?: boolean
+    slots?: number
+    weight?: string
+    minimum_power_supply_unit?: string
+    power_connectors?: string
+    
+    execution_units?: number;
+    memory_type?: string;
+    tgp?: string;
+    graphics_clock_lp?: string;
+    tbp_lp?: string;
+    intel_deep_link_hyper_compute?: boolean;
+    intel_deep_link_hyper_encode?: boolean;
+    intel_deep_link_stream_assist?: boolean;
 }

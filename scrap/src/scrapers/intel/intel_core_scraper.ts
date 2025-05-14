@@ -5,9 +5,10 @@ import { scrapeIntelCoreUltraProcessors, scrapeIntelCoreIxProcessors } from './i
 import { saveIntelUltraProcessors } from '../../saveRecords/intel/ultra';
 import { normalizeData } from '../../global/functions';
 import { saveIntelCoreIxProcessors } from '../../saveRecords/intel/core';
+import { IntelCoreScrapingOptions } from './types';
 
 dotenv.config();
-const { intel_website_domain, intel_core_ultra_processors_route, intel_core_ix_processors, intel_ark_route } = process.env;
+const { intel_website_domain, intel_ark_route } = process.env;
 
 async function writeJsonToFile(fileName: string, data: any) {
 	try {
@@ -42,47 +43,17 @@ async function readJsonFromFile(fileName: string): Promise<any[]> {
 }
 
 
-
-export async function runIntelScraper() {
-	// Scarapes Intel Core Ultra Processors
-	// const intel_ultra_processors = await scrapeIntelCoreUltraProcessors({
-	//     domain: intel_website_domain || '',
-	//     route: intel_core_ultra_processors_route || ''
-	// })
-	// // const intel_ultra_processors = await readJsonFromFile("intel_ultra_processors.json")
-	// const processedUltraProcessors = normalizeData(intel_ultra_processors)
-	// saveIntelUltraProcessors(processedUltraProcessors)
-
-
-	// const intel_core_processors = await scrapeIntelCoreIxProcessors({
-	//     domain: intel_website_domain || '',
-	//     route: intel_core_ix_processors || ''
-	// })
-
-	// // const intel_core_processors = await readJsonFromFile("intel_core_processors.json")
-	// const processedCoreIx = normalizeData(intel_core_processors)
-	// saveIntelCoreIxProcessors(processedCoreIx)
-}
-
-
-export async function runIntelUltra() {
-	const ultra_processors = await scrapeIntelCoreUltraProcessors({
-		domain: intel_website_domain || '',
-		route: intel_ark_route || ''
-	})
-
-	const processedUltraProcessors = normalizeData(ultra_processors)
-	saveIntelUltraProcessors(processedUltraProcessors)
-}
-
-
 export async function runIntelCoreIx() {
+	const desiredIntelProcessoesToScrape: IntelCoreScrapingOptions = {
+		tier: 'i9',
+		generation: 14
+	}
+
 	const intel_core_processors = await scrapeIntelCoreIxProcessors({
 	    domain: intel_website_domain || '',
-	    route: intel_core_ix_processors || ''
-	})
+	    route: intel_ark_route || ''
+	}, desiredIntelProcessoesToScrape)
 
-	// const intel_core_processors = await readJsonFromFile("intel_core_processors.json")
 	const processedCoreIx = normalizeData(intel_core_processors)
 	saveIntelCoreIxProcessors(processedCoreIx)
 }

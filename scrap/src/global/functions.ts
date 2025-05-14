@@ -1,5 +1,5 @@
 import { LaunchOptions } from "puppeteer";
-import { IntelCore, IntelCoreUltra } from "../scrapers/intel/types";
+import { IntelArk, IntelCore, IntelCoreUltra } from "../scrapers/intel/types";
 import { Radeon, Ryzen } from "../scrapers/amd/types";
 
 export function normalizeKey(str: string) {
@@ -59,7 +59,7 @@ export function convertArrayToString(inputValue: string | string[]): string {
 }
 
 
-export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | Ryzen[] | Radeon[]) {
+export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | Ryzen[] | Radeon[] | IntelArk[]) {
 	return arrayOfObjects.map(obj => {
 		return Object.keys(obj).reduce((acc, key) => {
 			const value = obj[key as keyof typeof obj]

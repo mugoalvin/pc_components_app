@@ -6,6 +6,7 @@ import { AmdRadeon } from './entities/amd/radeon'
 import { AmdRyzen } from "./entities/amd/ryzen"
 import { IntelCoreIx } from "./entities/intel/core"
 import { IntelUltra } from "./entities/intel/ultra"
+import { Ark } from './entities/intel/ark'
 
 dotenv.config()
 const {HOST, USERNAME, PORT, PASSWORD, DATABASE_NAME, NODE_ENV } = process.env
@@ -18,7 +19,7 @@ export const AppDataSource = new DataSource({
     username: USERNAME,
 	password: PASSWORD || '',
 	database: DATABASE_NAME,
-	entities: [ AmdRadeon, AmdRyzen, IntelCoreIx, IntelUltra ],
+	entities: [ AmdRadeon, AmdRyzen, IntelCoreIx, IntelUltra, Ark ],
 	synchronize: isDevelopment
 })
 

@@ -2,7 +2,7 @@ import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
 import { normalizeKey, normalizeValue } from '../../../global/functions'
-import { InitialIntelProps, IntelCore, IntelCoreUltra, IntelUltraSeries } from '../types'
+import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra, IntelUltraSeries } from '../types'
 
 dotenv.config()
 const { intel_website_domain } = process.env
@@ -51,7 +51,7 @@ async function getMoreInfoPerProcessor(page: Page, processor: InitialIntelProps)
  * @param products - Array of initial processor information
  * @returns Promise<IntelCore[]> Array of detailed processor specifications
  */
-export async function fetchProcessorSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise<IntelCore[] | IntelCoreUltra[]> {
+export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise<IntelCore[] | IntelCoreUltra[] | IntelArk[]> {
 	console.log("\nGetting detailed information per processor")
 	const detailedProcessorsInfo: IntelCore[] | IntelCoreUltra[] = []
 
@@ -72,7 +72,7 @@ export async function fetchProcessorSpecifications(page: Page, products: Initial
 }
 
 
-export async function readProcessorsTable(page: Page): Promise<InitialIntelProps[]> {	
+export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {	
 	return await page.evaluate(() => {
 		function formatProcessorName(processorName: string): string {
 			if (!processorName) return ''
