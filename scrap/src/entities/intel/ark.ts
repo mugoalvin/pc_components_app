@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { getColumnOptions } from "../entityFunctions";
 
+@Unique(["name"])
 @Entity()
 export class Ark {
 	@PrimaryGeneratedColumn()
