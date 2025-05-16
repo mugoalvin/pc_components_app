@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { getColumnOptions } from "../entityFunctions";
 
+@Unique(["name"])
 @Entity()
 export class IntelCoreIx {
     @PrimaryGeneratedColumn()

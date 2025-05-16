@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm"
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm"
 import { getColumnOptions } from "../entityFunctions";
 import { IntelUltraSeries, IntelUltraSeriesValues } from "../../scrapers/intel/types";
 
+@Unique(["name"])
 @Entity()
 export class IntelUltra {
 	@PrimaryGeneratedColumn()

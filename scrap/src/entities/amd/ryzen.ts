@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm"
 import { getColumnOptions } from "../entityFunctions"
 
 
+@Unique(["name"])
 @Entity()
 export class AmdRyzen {
 	@PrimaryGeneratedColumn()

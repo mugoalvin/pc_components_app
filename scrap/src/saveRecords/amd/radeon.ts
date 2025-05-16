@@ -9,10 +9,11 @@ export async function saveRadeonCards(radeonCards: any[]) {
 
     try {
         for (const card of radeonCards) {
-            await queryRunner.manager.save(
-				AmdRadeon,
-				queryRunner.manager.create(AmdRadeon, card)
-			);
+            await queryRunner.manager.upsert(
+                AmdRadeon,
+                card,
+                ["name"]
+            )
         }
         await queryRunner.commitTransaction();
         console.log("\nSuccessfully saved all Radeon Cards.")
