@@ -1,6 +1,6 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
-import { InitialAmdProps, Radeon, Ryzen } from '../types'
+import { InitialAmdProps, Radeon, RadeonSeries, Ryzen } from '../types'
 import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
 import { MyUrl } from '../../../global/types'
 
@@ -151,22 +151,30 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
 /**
  * Main function to scrape AMD products
  * @param url - URL configuration object
+ * @param serie - AMD Ryzen or Radeon series to scrape else all
  * @returns Array of detailed product information
  */
-export async function getAmdProducts(url: MyUrl): Promise<Ryzen[] | Radeon[]> {
+export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries): Promise<Ryzen[] | Radeon[]> {
     const browser = await launch(launchOptions)
-
     try {
         const page = await browser.newPage()
 		await page.goto(`${url.domain}${url.route}`, { waitUntil: ['networkidle0', 'domcontentloaded', 'load'] })
+
         const amd_series = await fetchAmdSeriesIds(page, url.tabIndex || 1)
         const isScrapingGraphicsCards: boolean = url.tabIndex == 2
         const products: InitialAmdProps[] = []
-        
-        for (const series of amd_series) {
-            await page.click(`#${series.id}`)
-            const results = await fetchSeriesProducts(page, series.id || '') as InitialAmdProps[]
-            products.push(...results)
+         
+        if (serie !== undefined) {
+            await page.click(`#${amd_series[serie || 0].id}`)
+            const seriesProducts = await fetchSeriesProducts(page, amd_series[serie || 0].id || '') as InitialAmdProps[]
+            products.push(...seriesProducts)
+        }
+        else {
+            for (const series of amd_series) {
+                await page.click(`#${series.id}`)
+                const results = await fetchSeriesProducts(page, series.id || '') as InitialAmdProps[]
+                products.push(...results)
+            }
         }
         
         return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]

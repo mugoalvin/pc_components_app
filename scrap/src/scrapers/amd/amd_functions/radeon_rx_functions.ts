@@ -1,9 +1,9 @@
 import { MyUrl } from "../../../global/types";
-import { Radeon } from "../types";
+import { Radeon, RadeonSeries } from "../types";
 import { getAmdProducts } from './shared_functions'
 
-export async function getAmdRadeonRx(url: MyUrl): Promise<Radeon[]> {
-	return await getAmdProducts(url) as Radeon[]
+export async function getAmdRadeonRx(url: MyUrl, serie?: RadeonSeries): Promise<Radeon[]> {
+	return await getAmdProducts(url, serie) as Radeon[]
 }
 
 

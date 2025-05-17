@@ -1,3 +1,6 @@
+export enum RyzenSeries { Series9000, Series8000, Series7000, Series5000, Series4000 }
+export enum RadeonSeries { Series9000, Series7000, Series6000 }
+
 export interface InitialAmdProps {
 	product_name: string
 	product_link: string

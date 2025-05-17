@@ -4,6 +4,7 @@ import { getAmdRadeonRx, validateRadeonRxProcessors } from './amd_functions/rade
 import { normalizeData } from '../../global/functions'
 import { saveRadeonCards } from '../../saveRecords/amd/radeon'
 import { AmdScrape } from '../../global/types'
+import { RadeonSeries } from './types'
 
 dotenv.config()
 
