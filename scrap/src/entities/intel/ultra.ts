@@ -3,8 +3,8 @@ import { getColumnOptions } from "../entityFunctions";
 import { IntelUltraSeries, IntelUltraSeriesValues } from "../../scrapers/intel/types";
 
 @Unique(["name"])
-@Entity()
-export class IntelUltra {
+@Entity({ name: "ultra" })
+export class UltraEntity {
 	@PrimaryGeneratedColumn()
 	id?: number;
 

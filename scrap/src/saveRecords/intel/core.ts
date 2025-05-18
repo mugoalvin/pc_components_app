@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { IntelCoreIx } from "../../entities/intel/core";
+import { CoreEntity } from "../../entities/intel/core";
 
 export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -9,7 +9,7 @@ export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 	try {
 		for (const coreIx of coreIxProcessors) {
 			await queryRunner.manager.upsert(
-				IntelCoreIx,
+				CoreEntity,
 				coreIx,
 				["name"]
 			);

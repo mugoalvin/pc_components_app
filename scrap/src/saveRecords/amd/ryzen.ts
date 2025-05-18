@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { AmdRyzen } from "../../entities/amd/ryzen";
+import { RyzenEntity } from "../../entities/amd/ryzen";
 
 export async function saveRyzenProcessors(ryzenProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -9,7 +9,7 @@ export async function saveRyzenProcessors(ryzenProcessors: any[]) {
 	try {
 		for (const ryzen of ryzenProcessors) {
 			await queryRunner.manager.upsert(
-				AmdRyzen,
+				RyzenEntity,
 				ryzen,
 				["name"]
 			);

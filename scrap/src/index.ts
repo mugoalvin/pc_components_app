@@ -12,7 +12,7 @@ async function startScraping() {
 			// runIntelArk()
 			// runIntelUltra()
 			// runIntelCoreIx()
-			runRyzenScraper()
+			// runRyzenScraper()
 			// runRadeonRxScraper()
 		})
 }

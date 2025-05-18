@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { AmdRadeon } from "../../entities/amd/radeon";
+import { RadeonEntity } from "../../entities/amd/radeon";
 
 export async function saveRadeonCards(radeonCards: any[]) {
     const queryRunner = AppDataSource.createQueryRunner();
@@ -10,7 +10,7 @@ export async function saveRadeonCards(radeonCards: any[]) {
     try {
         for (const card of radeonCards) {
             await queryRunner.manager.upsert(
-                AmdRadeon,
+                RadeonEntity,
                 card,
                 ["name"]
             )

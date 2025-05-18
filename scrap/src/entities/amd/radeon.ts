@@ -3,8 +3,8 @@ import { getColumnOptions } from "../entityFunctions"
 
 
 @Unique(["name"])
-@Entity()
-export class AmdRadeon {
+@Entity({ name: "radeon" })
+export class RadeonEntity {
     @PrimaryGeneratedColumn()
     id?: number
 
