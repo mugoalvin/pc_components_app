@@ -1,8 +1,9 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
-import { InitialAmdProps, Radeon, RadeonSeries, Ryzen } from '../types'
+import { InitialAmdProps, Radeon, RadeonSeries, Ryzen, RyzenDesktopSeries, RyzenLaptopSeries } from '../types'
 import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
 import { MyUrl } from '../../../global/types'
+
 
 dotenv.config()
 const { amd_website_domain } = process.env
@@ -154,7 +155,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
  * @param serie - AMD Ryzen or Radeon series to scrape else all
  * @returns Array of detailed product information
  */
-export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries): Promise<Ryzen[] | Radeon[]> {
+export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries | RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[] | Radeon[]> {
     const browser = await launch(launchOptions)
     try {
         const page = await browser.newPage()
@@ -177,7 +178,8 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries): Promise<
             }
         }
         
-        return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
+        const detailed = await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
+        return detailed
 
     } catch (error) {
         handleError(error)

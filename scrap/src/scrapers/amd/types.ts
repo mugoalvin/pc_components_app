@@ -1,5 +1,12 @@
-export enum RyzenSeries { Series9000, Series8000, Series7000, Series5000, Series4000 }
+export enum AmdScrape { Ryzen = 1, Radeon }
+export enum AmdDevice { Desktop, Laptop }
+
+export enum RyzenDesktopSeries { Series9000, Series8000, Series7000, Series5000, Series4000 }
+export enum RyzenLaptopSeries { RyzenAiMax, RyzenAi300, Ryzen200, Ryzen9000, Ryzen8000, Ryzen7000, Ryzen6000 }
+
 export enum RadeonSeries { Series9000, Series7000, Series6000 }
+
+
 
 export interface InitialAmdProps {
 	product_name: string

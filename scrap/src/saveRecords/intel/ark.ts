@@ -8,9 +8,10 @@ export async function saveIntelArkGraphics(coreIxProcessors: any[]) {
 
 	try {
 		for (const coreIx of coreIxProcessors) {
-			await queryRunner.manager.save(
+			await queryRunner.manager.upsert(
 				Ark,
-				queryRunner.manager.create(Ark, coreIx)
+				coreIx,
+				["name"]
 			);
 		}
 

@@ -8,9 +8,10 @@ export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 
 	try {
 		for (const coreIx of coreIxProcessors) {
-			await queryRunner.manager.save(
+			await queryRunner.manager.upsert(
 				IntelCoreIx,
-				queryRunner.manager.create(IntelCoreIx, coreIx)
+				coreIx,
+				["name"]
 			);
 		}
 

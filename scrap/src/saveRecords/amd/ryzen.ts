@@ -8,9 +8,10 @@ export async function saveRyzenProcessors(ryzenProcessors: any[]) {
 
 	try {
 		for (const ryzen of ryzenProcessors) {
-			await queryRunner.manager.save(
+			await queryRunner.manager.upsert(
 				AmdRyzen,
-				queryRunner.manager.create(AmdRyzen, ryzen)
+				ryzen,
+				["name"]
 			);
 		}
 

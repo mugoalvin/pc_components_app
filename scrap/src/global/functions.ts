@@ -1,4 +1,7 @@
 import { LaunchOptions } from "puppeteer";
+import fs from "fs";
+import path from "path";
+
 import { IntelArk, IntelCore, IntelCoreUltra } from "../scrapers/intel/types";
 import { Radeon, Ryzen } from "../scrapers/amd/types";
 
@@ -57,11 +60,46 @@ export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | R
 	return arrayOfObjects.map(obj => {
 		return Object.keys(obj).reduce((acc, key) => {
 			const value = obj[key as keyof typeof obj]
-			acc[key] = Array.isArray(value) ?
+			const targetKey = key == "processor_architecture" ? "architecture" : key
+			acc[targetKey] = Array.isArray(value) ?
 				convertArrayToString(value) :
 				typeof value == "boolean" ? value || false : value
 				?? undefined;
 			return acc;
 		}, {} as Record<string, any>)
 	})
+}
+
+
+
+export async function writeJsonToFile(fileName: string, data: any) {
+	try {
+		const dataFolderPath = path.join(__dirname, '../../../data');
+		const filePath = path.join(dataFolderPath, fileName);
+		if (!fs.existsSync(dataFolderPath)) {
+			fs.mkdirSync(dataFolderPath, { recursive: true });
+		}
+		fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+		console.log(`✅ Successfully wrote data to ${filePath}`);
+	} catch (error) {
+		console.error(`❌ Error writing to file ${fileName}:`, error);
+	}
+}
+
+
+export async function readJsonFromFile(fileName: string): Promise<any[]> {
+	try {
+		const dataFolderPath = path.join(__dirname, '../../../data');
+		const filePath = path.join(dataFolderPath, fileName);
+
+		if (!fs.existsSync(filePath)) {
+			throw new Error(`File ${fileName} does not exist at ${filePath}`);
+		}
+
+		const fileContent = fs.readFileSync(filePath, 'utf-8');
+		return JSON.parse(fileContent);
+	} catch (error) {
+		console.error(`❌ Error reading from file ${fileName}:`, error);
+		throw error;
+	}
 }

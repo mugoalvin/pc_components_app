@@ -1,4 +1,4 @@
-export enum AmdScrape { Ryzen = 1 , Radeon, Something }
+import { AmdScrape } from "../scrapers/amd/types"
 
 export interface MyUrl {
 	domain: string

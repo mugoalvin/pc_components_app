@@ -8,9 +8,10 @@ export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 
 	try {
 		for (const ultra of ultraProcessors) {
-			await queryRunner.manager.save(
+			await queryRunner.manager.upsert(
 				IntelUltra,
-				queryRunner.manager.create(IntelUltra, ultra)
+				ultra,
+				["name"]
 			);
 		}
 		await queryRunner.commitTransaction();
