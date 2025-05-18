@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { Ark } from "../../entities/intel/ark";
+import { ArkEntity } from "../../entities/intel/ark";
 
 export async function saveIntelArkGraphics(coreIxProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -8,9 +8,10 @@ export async function saveIntelArkGraphics(coreIxProcessors: any[]) {
 
 	try {
 		for (const coreIx of coreIxProcessors) {
-			await queryRunner.manager.save(
-				Ark,
-				queryRunner.manager.create(Ark, coreIx)
+			await queryRunner.manager.upsert(
+				ArkEntity,
+				coreIx,
+				["name"]
 			);
 		}
 

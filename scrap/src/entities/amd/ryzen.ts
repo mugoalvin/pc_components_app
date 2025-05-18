@@ -3,8 +3,8 @@ import { getColumnOptions } from "../entityFunctions"
 
 
 @Unique(["name"])
-@Entity()
-export class AmdRyzen {
+@Entity({ name: "ryzen" })
+export class RyzenEntity {
 	@PrimaryGeneratedColumn()
 	id?: number
 
@@ -16,6 +16,9 @@ export class AmdRyzen {
 	
 	@Column(getColumnOptions())
 	series?: string
+	
+	@Column(getColumnOptions())
+	architecture?: string
 	
 	@Column(getColumnOptions())
 	image?: string
@@ -37,9 +40,6 @@ export class AmdRyzen {
 	
 	@Column(getColumnOptions())
 	former_codename?: string
-	
-	@Column(getColumnOptions())
-	architecture?: string
 	
 	@Column(getColumnOptions("int"))
 	number_of_cpu_cores?: number
@@ -67,6 +67,9 @@ export class AmdRyzen {
 	
 	@Column(getColumnOptions())
 	default_tdp?: string
+
+	@Column(getColumnOptions())
+	amd_configurable_tdp_ctdp?: string
 	
 	@Column(getColumnOptions())
 	processor_technology_for_cpu_cores?: string

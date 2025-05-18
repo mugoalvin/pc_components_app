@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { IntelUltra } from "../../entities/intel/ultra";
+import { UltraEntity } from "../../entities/intel/ultra";
 
 export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -8,9 +8,10 @@ export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 
 	try {
 		for (const ultra of ultraProcessors) {
-			await queryRunner.manager.save(
-				IntelUltra,
-				queryRunner.manager.create(IntelUltra, ultra)
+			await queryRunner.manager.upsert(
+				UltraEntity,
+				ultra,
+				["name"]
 			);
 		}
 		await queryRunner.commitTransaction();

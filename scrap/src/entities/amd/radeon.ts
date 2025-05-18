@@ -3,16 +3,10 @@ import { getColumnOptions } from "../entityFunctions"
 
 
 @Unique(["name"])
-@Entity()
-export class AmdRadeon {
+@Entity({ name: "radeon" })
+export class RadeonEntity {
     @PrimaryGeneratedColumn()
     id?: number
-
-    @Column(getColumnOptions())
-    image?: string
-
-    @Column(getColumnOptions())
-    link?: string
 
     @Column(getColumnOptions())
     name?: string
@@ -21,19 +15,25 @@ export class AmdRadeon {
     family?: string
 
     @Column(getColumnOptions())
+    max_memory_size?: string
+
+    @Column(getColumnOptions())
+    memory_type?: string
+
+    @Column(getColumnOptions())
+    memory_speed?: string
+
+    @Column(getColumnOptions())
+    memory_interface?: string
+
+    @Column(getColumnOptions())
+    memory_bandwidth?: string
+
+    @Column(getColumnOptions())
     series?: string
 
     @Column(getColumnOptions())
     board_type?: string
-
-    @Column(getColumnOptions("longtext"))
-    os_support?: string
-
-    @Column(getColumnOptions())
-    additional_power_connector?: string
-
-    @Column(getColumnOptions("float"))
-    compute_units?: number
 
     @Column(getColumnOptions())
     boost_frequency?: string
@@ -44,8 +44,23 @@ export class AmdRadeon {
     @Column(getColumnOptions())
     base_frequency?: string
 
+    @Column(getColumnOptions("longtext"))
+    os_support?: string
+
+    @Column(getColumnOptions())
+    additional_power_connector?: string
+
+    @Column(getColumnOptions("float"))
+    compute_units?: number
+
     @Column(getColumnOptions("float"))
     ray_accelerators?: number
+
+    @Column(getColumnOptions())
+    image?: string
+
+    @Column(getColumnOptions())
+    link?: string
 
     @Column(getColumnOptions("float"))
     ai_accelerators?: number
@@ -91,21 +106,6 @@ export class AmdRadeon {
 
     @Column(getColumnOptions())
     amd_infinity_cache_technology?: string
-
-    @Column(getColumnOptions())
-    memory_speed?: string
-
-    @Column(getColumnOptions())
-    max_memory_size?: string
-
-    @Column(getColumnOptions())
-    memory_type?: string
-
-    @Column(getColumnOptions())
-    memory_interface?: string
-
-    @Column(getColumnOptions())
-    memory_bandwidth?: string
 
     @Column(getColumnOptions())
     effective_memory_bandwidth?: string

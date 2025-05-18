@@ -1,10 +1,51 @@
+import { z } from 'zod'
 import { MyUrl } from "../../../global/types"
-import { Ryzen } from "../types"
+import { Ryzen, RyzenDesktopSeries, RyzenLaptopSeries } from "../types"
 import { getAmdProducts } from "./shared_functions"
 
-export async function fetchAmdRyzenProcessors(url: MyUrl): Promise<Ryzen[]> {
-    return await getAmdProducts(url) as Ryzen[]
+export async function fetchAmdRyzenProcessors(url: MyUrl, serie?: RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[]> {
+    return await getAmdProducts(url, serie) as Ryzen[]
 }
+
+const RyzenScheme = z.object({
+    name: z.string().optional(),
+	family: z.string().optional(),
+	series: z.string().optional(),
+	image: z.string().optional(),
+	form_factor: z.string().optional(),
+	market_segment: z.string().optional(),
+	amd_pro_technologies: z.boolean().optional(),
+	regional_availability: z.string().optional(),
+	former_codename: z.string().optional(),
+	architecture: z.string().optional(),
+	number_of_cpu_cores: z.number().optional(),
+	multithreading_smt: z.boolean().optional(),
+	number_of_threads: z.number().optional(),
+	max_boost_clock: z.string().optional(),
+	base_clock: z.string().optional(),
+	l1_cache: z.string().optional(),
+	l2_cache: z.string().optional(),
+	l3_cache: z.string().optional(),
+	default_tdp: z.string().optional(),
+	processor_technology_for_cpu_cores: z.string().optional(),
+	processor_technology_for_i_o_die: z.string().optional(),
+	package_die_count: z.number().optional(),
+	unlocked_for_overclocking: z.boolean().optional(),
+	amd_expo_memory_overclocking_technology: z.boolean().optional(),
+	precision_boost_overdrive: z.boolean().optional(),
+	curve_optimizer_voltage_offsets: z.boolean().optional(),
+	amd_ryzen_master_support: z.boolean().optional(),
+	cpu_socket: z.string().optional(),
+	supporting_chipsets: z.string().optional(),
+	cpu_boost_technology: z.string().optional(),
+	instruction_set: z.string().optional(),
+	supported_extensions: z.string().optional(),
+	thermal_solution_pib: z.string().optional(),
+	recommended_cooler: z.string().optional(),
+	max_operating_temperature_tjmax: z.string().optional(),
+	launch_date: z.string().optional(),
+	os_support: z.string().optional()
+})
 
 /**
  * Filters and returns Ryzen processors which pass validation
@@ -12,52 +53,11 @@ export async function fetchAmdRyzenProcessors(url: MyUrl): Promise<Ryzen[]> {
  * @returns Validated Ryzen processors
  */
 export function validateRyzenProcessors(ryzenProcessors: Record<string, any>[]): Record<string, any>[] {
-    return ryzenProcessors.filter(ryzen => {
-        return (
-            (typeof(ryzen.name) == "string" || typeof(ryzen.name) == undefined) &&
-            (typeof(ryzen.family) == "string" || typeof(ryzen.family) == undefined) &&
-            (typeof(ryzen.series) == "string" || typeof(ryzen.series) == undefined) &&
-            (typeof(ryzen.image) == "string" && ryzen.image != '')  &&
-            
-            typeof(ryzen.form_factor) == "string" || typeof(ryzen.form_factor) == undefined &&
-            typeof(ryzen.market_segment) == "string" || typeof(ryzen.market_segment) == undefined &&
-            typeof(ryzen.amd_pro_technologies) == "boolean" || typeof(ryzen.amd_pro_technologies) == undefined &&
-            typeof(ryzen.regional_availability) == "string" || typeof(ryzen.regional_availability) == undefined &&
-            typeof(ryzen.former_codename) == "string" || typeof(ryzen.former_codename) == undefined &&
-            typeof(ryzen.architecture) == "string" || typeof(ryzen.architecture) == undefined &&
-            typeof(ryzen.number_of_cpu_cores) == "number" &&
-            ryzen.number_of_cpu_cores > 0 &&
-
-            typeof(ryzen.multithreading_smt) == "boolean" || typeof(ryzen.multithreading_smt) == undefined  &&
-            typeof(ryzen.number_of_threads) == "number" &&
-            ryzen.number_of_threads > 0 &&
-
-            typeof(ryzen.max_boost_clock) == "string" || typeof(ryzen.max_boost_clock) == undefined  &&
-            typeof(ryzen.base_clock) == "string" || typeof(ryzen.base_clock) == undefined  &&
-            typeof(ryzen.l1_cache) == "string" || typeof(ryzen.l1_cache) == undefined  &&
-            typeof(ryzen.l2_cache) == "string" || typeof(ryzen.l2_cache) == undefined  &&
-            typeof(ryzen.l3_cache) == "string" || typeof(ryzen.l3_cache) == undefined  &&
-            typeof(ryzen.default_tdp) == "string" || typeof(ryzen.default_tdp) == undefined  &&
-            typeof(ryzen.processor_technology_for_cpu_cores) == "string" || typeof(ryzen.processor_technology_for_cpu_cores) == undefined  &&
-            typeof(ryzen.processor_technology_for_i_o_die) == "string" || typeof(ryzen.processor_technology_for_i_o_die) == undefined  &&
-            typeof(ryzen.package_die_count) == "number" &&
-            ryzen.package_die_count > 0 &&
-            
-            typeof(ryzen.unlocked_for_overclocking) == "boolean" || typeof(ryzen.unlocked_for_overclocking) == undefined  &&
-            typeof(ryzen.amd_expo_memory_overclocking_technology) == "boolean" || typeof(ryzen.amd_expo_memory_overclocking_technology) == undefined  &&
-            typeof(ryzen.precision_boost_overdrive) == "boolean" || typeof(ryzen.precision_boost_overdrive) == undefined  &&
-            typeof(ryzen.curve_optimizer_voltage_offsets) == "boolean" || typeof(ryzen.curve_optimizer_voltage_offsets) == undefined  &&
-            typeof(ryzen.amd_ryzen_master_support) == "boolean" || typeof(ryzen.amd_ryzen_master_support) == undefined  &&
-            typeof(ryzen.cpu_socket) == "string" || typeof(ryzen.cpu_socket) == undefined  &&
-            typeof(ryzen.supporting_chipsets) == "string" || typeof(ryzen.supporting_chipsets) == undefined  &&
-            typeof(ryzen.cpu_boost_technology) == "string" || typeof(ryzen.cpu_boost_technology) == undefined  &&
-            typeof(ryzen.instruction_set) == "string" || typeof(ryzen.instruction_set) == undefined  &&
-            typeof(ryzen.supported_extensions) == "string" || typeof(ryzen.supported_extensions) == undefined  &&
-            typeof(ryzen.thermal_solution_pib) == "string" || typeof(ryzen.thermal_solution_pib) == undefined  &&
-            typeof(ryzen.recommended_cooler) == "string" || typeof(ryzen.recommended_cooler) == undefined  &&
-            typeof(ryzen.max_operating_temperature_tjmax) == "string" || typeof(ryzen.max_operating_temperature_tjmax) == undefined  &&
-            typeof(ryzen.launch_date) == "string" || typeof(ryzen.launch_date) == undefined  &&
-            typeof(ryzen.os_support) == "string"
-        )
+    // return ryzenProcessors
+    const values = ryzenProcessors.filter(ryzen => {
+        const results = RyzenScheme.safeParse(ryzen)
+		return results.success
     })
+
+	return values
 }
