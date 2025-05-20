@@ -5,16 +5,8 @@ import { IntelCore, IntelCoreUltra, IntelCoreScrapingOptions, IntelUltraSeries, 
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
 import { launchOptions, handleError } from '../../../global/functions'
+import { findTierAndGenMatch } from './core_ix'
 
-
-export function findTierAndGenMatch(processorCells: { text: string | null; link: string | null }[], scrapeOptions: IntelCoreScrapingOptions) {
-	return processorCells.find(cell => {
-		const matchesTier = cell.text?.includes(scrapeOptions.tier)
-		const matchesGeneration = cell.text?.includes(`${scrapeOptions.generation}th`)
-
-		return matchesTier && matchesGeneration
-	})
-}
 
 
 export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: IntelCoreScrapingOptions): Promise<IntelCore[]> {
@@ -37,8 +29,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 		return await fetchDetailedSpecifications(page, initialProcessorValues) as IntelCore[]
 	}
 	catch (error) {
-		handleError(error)
-		return []
+		handleError(error, `Failed to scrape ${scrapeOptions.generation}th gen Intel Core ${scrapeOptions.tier} processors.`)
 	}
 	finally {
 		await browser.close()
@@ -54,8 +45,7 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 		return await fetchDetailedSpecifications(page, initialProcessorValues, series) as IntelCoreUltra[]
 	}
 	catch (error) {
-		handleError(error)
-		return []
+		handleError(error, `Failed to scrape Intel Ultra ${series} Processors`)
 	}
 	finally {
 		await browser.close()

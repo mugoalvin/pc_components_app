@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
-import { normalizeKey, normalizeValue } from '../../../global/functions'
+import { handleError, normalizeKey, normalizeValue } from '../../../global/functions'
 import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra, IntelUltraSeries } from '../types'
 
 dotenv.config()
@@ -54,44 +54,53 @@ async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
  */
 export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise< IntelCore[] | IntelCoreUltra[] | IntelArk[] > {
 	console.log("\nGetting detailed information per product.")
-	const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
+	try {
+		const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
+		for (const product of products) {
+			const raw = await getMoreInfoPerProduct(page, product)
+			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk
+			detailedInfo = series ? {...raw as IntelCoreUltra, series} : raw as IntelCore | IntelArk
 
-	for (const product of products) {
-		const raw = await getMoreInfoPerProduct(page, product)
-		let detailedInfo: IntelCore | IntelCoreUltra | IntelArk
-		detailedInfo = series ? {...raw as IntelCoreUltra, series} : raw as IntelCore | IntelArk
+			const index = products.indexOf(product) + 1
+			const length = products.length
+			console.log(`${index}/${length} ✓ ${product.name}`)
 
-		const index = products.indexOf(product) + 1
-		const length = products.length
-		console.log(`${index}/${length} ✓ ${product.name}`)
+			// @ts-ignore
+			detailedSpecifications.push(detailedInfo)
+		}
 
-		// @ts-ignore
-		detailedSpecifications.push(detailedInfo)
+		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
 	}
-
-	return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
+	catch (err) {
+		handleError(err, "Failed to fetch detailed information")
+	}
 }
 
 
-export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {	
-	return await page.evaluate(() => {
-		function formatProcessorName(processorName: string): string {
-			if (!processorName) return ''
-			const cutIndex = processorName.indexOf("(")
-			if (cutIndex !== -1) processorName = processorName.slice(0, cutIndex);
-			
-			return processorName
-				.replace("Processor", '')
-				.replace("  ", ' ')
-				.trim();
-		}
+export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {
+	try {
+		return await page.evaluate(() => {
+			function formatProcessorName(processorName: string): string {
+				if (!processorName) return ''
+				const cutIndex = processorName.indexOf("(")
+				if (cutIndex !== -1) processorName = processorName.slice(0, cutIndex);
+				
+				return processorName
+					.replace("Processor", '')
+					.replace("  ", ' ')
+					.trim();
+			}
 
-		const tableRows = Array.from(document.querySelectorAll('tbody tr'))
-		return tableRows.map(row => {
-			const name = formatProcessorName(row?.querySelector('td div a')?.textContent || '')
-			const link = row?.querySelector('td div a')?.getAttribute('href') || ''
+			const tableRows = Array.from(document.querySelectorAll('tbody tr'))
+			return tableRows.map(row => {
+				const name = formatProcessorName(row?.querySelector('td div a')?.textContent || '')
+				const link = row?.querySelector('td div a')?.getAttribute('href') || ''
 
-			return { name, link } as InitialIntelProps
+				return { name, link } as InitialIntelProps
+			})
 		})
-	})
+	}
+	catch (err) {
+		handleError(err, "Unable to read Intel data table.")
+	}
 }

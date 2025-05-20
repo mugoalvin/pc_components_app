@@ -142,8 +142,8 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
             results.push(specs)
         } catch (error) {
-            console.error(`Failed to fetch info for ${product.product_name}:`, error)
             results.push(product as InitialAmdProps)
+            handleError(error, `Failed to fetch info for ${product.product_name}`)
         }
     }
     return results
@@ -178,12 +178,9 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries | RyzenDes
             }
         }
         
-        const detailed = await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
-        return detailed
-
+        return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
     } catch (error) {
-        handleError(error)
-        return []
+        handleError(error, "Failed to fetch AMD products")
     } finally {
         await browser.close()
     }
