@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../db";
 import { RadeonEntity } from "../../entities/amd/radeon";
+import { handleError } from "../../global/functions";
 
 export async function saveRadeonCards(radeonCards: any[]) {
     const queryRunner = AppDataSource.createQueryRunner();
@@ -18,8 +19,8 @@ export async function saveRadeonCards(radeonCards: any[]) {
         await queryRunner.commitTransaction();
         console.log("\nSuccessfully saved all Radeon Cards.")
     } catch (error) {
-        console.error("Error saving Radeon cards:", error);
         await queryRunner.rollbackTransaction();
+        handleError(error, "Error saving Radeon cards");
     } finally {
         await queryRunner.release();
     }

@@ -24,8 +24,7 @@ export async function scrapeIntelArkGpu(url: MyUrl, options: IntelGraphicsScrapi
 		return await fetchDetailedSpecifications(page, seriesGraphics) as IntelArk[]
 	}
 	catch (err) {
-		handleError(err)
-		return []
+		handleError(err, "Failed to scrape Intel Ark Graphics Cards")
 	}
 	finally {
 		browser.close()

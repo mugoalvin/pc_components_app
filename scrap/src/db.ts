@@ -30,7 +30,7 @@ export const initDatabase = async () => {
 			console.log("Connection to the database was successful!\nSyncronized tables.\n")
 		})
 		.catch(error => {
-			handleError(error)
+			handleError(error, "Failed to connect to the database!")
 		})
 }
 
@@ -40,6 +40,6 @@ export const disconnectDatabase = async () => {
 			console.log("\nDisconnected From The Database!")
 		})
 		.then(err => {
-			handleError(err)
+			handleError(err, "Failed to disconnect from the database!")
 		})
 }

@@ -8,21 +8,27 @@ export interface InitialIntelProps {
 	link: string
 }
 
-export type IntelUltraSeries = "Series 1" | "Series 2"
-
-export enum IntelUltraSeriesScrape { Serie1 = "Series 1", Serie2 =  "Series 2" }
-
-export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
-export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron}
 export enum IntelProducts { Processors, Graphics }
 
+// =============================================================Intel Processors=============================================================
+export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron}
+
+// Ultra Processors
+export type IntelUltraSeries = "Series 1" | "Series 2"
+export enum IntelUltraSeriesScrape { Serie1 = "Series 1", Serie2 =  "Series 2" }
+export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
+
+// Core Processors
 export type IntelTier = "i9" | "i7" | "i5" | "i3"
 export type IntelGenerations = 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4
 export type IntelCoreScrapingOptions = {
     tier: IntelTier,
     generation: IntelGenerations
 }
+// ==========================================================================================================================================
 
+
+// ==============================================================Intel Graphics==============================================================
 export enum IntelGraphics { Ark, ArkPro, DataCenter }
 
 export enum ArkSeries { B_Series, A_Series }
@@ -34,6 +40,7 @@ export type IntelGraphicsScrapingOptions =
     { family: IntelGraphics.ArkPro, series: ArkProSeries } |
     { family: IntelGraphics.DataCenter, series: DataCenterSeries }
 
+// ==========================================================================================================================================
 
 
 export interface IntelCoreUltra {

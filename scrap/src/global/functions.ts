@@ -27,11 +27,12 @@ export function normalizeValue(value: string): string | string[] | number | bool
 }
 
 
-export function handleError(error: any) {
+export function handleError(error: unknown, context?: string): never {
 	if (error instanceof Error) {
-		throw new Error(error.message)
+		error.message = context ? `${context}: ${error.message}` : error.message
+		throw error
 	} else {
-		throw new Error('An unknown error occurred')
+		throw new Error(context ? `${context} : Unknown error` : 'An unknown error occurred')
 	}
 }
 
@@ -82,7 +83,7 @@ export async function writeJsonToFile(fileName: string, data: any) {
 		fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 		console.log(`✅ Successfully wrote data to ${filePath}`);
 	} catch (error) {
-		console.error(`❌ Error writing to file ${fileName}:`, error);
+		handleError(error, `❌ Error writing to file ${fileName}`);
 	}
 }
 
@@ -99,7 +100,6 @@ export async function readJsonFromFile(fileName: string): Promise<any[]> {
 		const fileContent = fs.readFileSync(filePath, 'utf-8');
 		return JSON.parse(fileContent);
 	} catch (error) {
-		console.error(`❌ Error reading from file ${fileName}:`, error);
-		throw error;
+		handleError(error, `❌ Error reading from file ${fileName}`);
 	}
 }

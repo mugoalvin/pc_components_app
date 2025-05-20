@@ -1,16 +1,17 @@
 import { AppDataSource } from "../../db";
 import { ArkEntity } from "../../entities/intel/ark";
+import { handleError } from "../../global/functions";
 
-export async function saveIntelArkGraphics(coreIxProcessors: any[]) {
+export async function saveIntelArkGraphics(arkGraphicsCards: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
 	await queryRunner.connect();
 	await queryRunner.startTransaction();
 
 	try {
-		for (const coreIx of coreIxProcessors) {
+		for (const ark of arkGraphicsCards) {
 			await queryRunner.manager.upsert(
 				ArkEntity,
-				coreIx,
+				ark,
 				["name"]
 			);
 		}
@@ -18,8 +19,8 @@ export async function saveIntelArkGraphics(coreIxProcessors: any[]) {
 		await queryRunner.commitTransaction();
 		console.log("\nSuccessfully saved Intel Ark Graphics Cards.")
 	} catch (error) {
-		console.error("Error saving Intel Ark Graphics Cards:", error);
 		await queryRunner.rollbackTransaction();
+		handleError(error, "Error saving Intel Ark Graphics Cards");
 	} finally {
 		await queryRunner.release();
 	}

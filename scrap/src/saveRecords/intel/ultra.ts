@@ -1,5 +1,6 @@
 import { AppDataSource } from "../../db";
 import { UltraEntity } from "../../entities/intel/ultra";
+import { handleError } from "../../global/functions";
 
 export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -17,8 +18,8 @@ export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 		await queryRunner.commitTransaction();
 		console.log("\nSuccessfully saved Intel Ultra Processors.")
 	} catch (error) {
-		console.error("Error saving Ultra Processors:", error);
 		await queryRunner.rollbackTransaction();
+		handleError(error, "Error saving Ultra Processors");
 	} finally {
 		await queryRunner.release();
 	}
