@@ -17,7 +17,6 @@ export async function saveRadeonCards(radeonCards: any[]) {
             )
         }
         await queryRunner.commitTransaction();
-        console.log("\nSuccessfully saved all Radeon Cards.")
     } catch (error) {
         await queryRunner.rollbackTransaction();
         handleError(error, "Error saving Radeon cards");

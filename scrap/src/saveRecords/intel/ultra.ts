@@ -4,10 +4,10 @@ import { handleError } from "../../global/functions";
 
 export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
-	await queryRunner.connect();
-	await queryRunner.startTransaction();
-
 	try {
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
+
 		for (const ultra of ultraProcessors) {
 			await queryRunner.manager.upsert(
 				UltraEntity,
@@ -16,7 +16,6 @@ export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 			);
 		}
 		await queryRunner.commitTransaction();
-		console.log("\nSuccessfully saved Intel Ultra Processors.")
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
 		handleError(error, "Error saving Ultra Processors");

@@ -90,7 +90,7 @@ export async function writeJsonToFile(fileName: string, data: any) {
 
 export async function readJsonFromFile(fileName: string): Promise<any[]> {
 	try {
-		const dataFolderPath = path.join(__dirname, '../../../data');
+		const dataFolderPath = path.join(__dirname, '../../../scrap/data');
 		const filePath = path.join(dataFolderPath, fileName);
 
 		if (!fs.existsSync(filePath)) {

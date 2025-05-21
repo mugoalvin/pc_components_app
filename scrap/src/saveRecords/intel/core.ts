@@ -4,10 +4,10 @@ import { handleError } from "../../global/functions";
 
 export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
-	await queryRunner.connect();
-	await queryRunner.startTransaction();
-
 	try {
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
+
 		for (const coreIx of coreIxProcessors) {
 			await queryRunner.manager.upsert(
 				CoreEntity,
@@ -17,7 +17,6 @@ export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 		}
 
 		await queryRunner.commitTransaction();
-		console.log("\nSuccessfully saved Intel Core Processors.")
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
 		handleError(error, "Error saving Core Ix processors")

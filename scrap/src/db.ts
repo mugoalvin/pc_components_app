@@ -1,5 +1,5 @@
-import { DataSource } from 'typeorm'
 import dotenv from 'dotenv'
+import { DataSource } from 'typeorm'
 
 import { handleError } from './global/functions'
 import { RadeonEntity } from './entities/amd/radeon'
@@ -8,8 +8,9 @@ import { CoreEntity } from "./entities/intel/core"
 import { UltraEntity } from "./entities/intel/ultra"
 import { ArkEntity } from './entities/intel/ark'
 
+
 dotenv.config()
-const {HOST, USERNAME, PORT, PASSWORD, DATABASE_NAME, NODE_ENV } = process.env
+const { HOST, USERNAME, PORT, PASSWORD, DATABASE_NAME, NODE_ENV } = process.env
 const isDevelopment = NODE_ENV == 'development'
 
 export const AppDataSource = new DataSource({
@@ -23,23 +24,20 @@ export const AppDataSource = new DataSource({
 	synchronize: isDevelopment
 })
 
-
-export const initDatabase = async () => {
+export async function initDatabase() {
 	await AppDataSource.initialize()
-		.then(() => {
-			console.log("Connection to the database was successful!\nSyncronized tables.\n")
-		})
 		.catch(error => {
-			handleError(error, "Failed to connect to the database!")
+			handleError(error)
 		})
+}	
+
+export async function reconnectDatabase() {
+	AppDataSource.isInitialized || await initDatabase()
 }
 
-export const disconnectDatabase = async () => {
+export async function disConnectDatabase() {
 	await AppDataSource.destroy()
-		.then(() => {
-			console.log("\nDisconnected From The Database!")
-		})
-		.then(err => {
-			handleError(err, "Failed to disconnect from the database!")
+		.catch(err => {
+			handleError(err)
 		})
 }
