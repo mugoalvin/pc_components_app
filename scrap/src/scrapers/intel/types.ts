@@ -15,15 +15,17 @@ export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celero
 
 // Ultra Processors
 export type IntelUltraSeries = "Series 1" | "Series 2"
-export enum IntelUltraSeriesScrape { Serie1 = "Series 1", Serie2 =  "Series 2" }
+export enum IntelUltraSeriesEnum { Serie1 = "Series 1", Serie2 = "Series 2" }
 export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
 
 // Core Processors
 export type IntelTier = "i9" | "i7" | "i5" | "i3"
-export type IntelGenerations = 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4
+export type IntelGeneration = 14 | 13 | 12 | 11 | 10 | 9 | 8 | 7 | 6 | 5 | 4
+export const intelTiers: IntelTier[] = ["i9", "i7", "i5", "i3"];
+export const intelGenerations: IntelGeneration[] = [14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4]
 export type IntelCoreScrapingOptions = {
     tier: IntelTier,
-    generation: IntelGenerations
+    generation: IntelGeneration
 }
 // ==========================================================================================================================================
 
