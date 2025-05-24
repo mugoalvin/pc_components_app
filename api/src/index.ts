@@ -1,7 +1,8 @@
-import dotenv from 'dotenv'
-import cors from 'cors'
-import express from 'express'
 import axios from 'axios'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+
 import router from './routes/root.js'
 import scrapeRouter from './routes/scrape.js'
 

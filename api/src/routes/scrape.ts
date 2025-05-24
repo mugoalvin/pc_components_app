@@ -1,7 +1,18 @@
 import axios from "axios";
 import dotenv from "dotenv"
 import express from "express";
-import { AmdDevice, ArkSeries, IntelCoreScrapingOptions, IntelGenerationEnum, IntelGraphics, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, RadeonSeries, RyzenDesktopSeries } from "../utils/types.js";
+import {
+	AmdDevice,
+	ArkSeries,
+	IntelCoreScrapingOptions,
+	IntelGraphics,
+	IntelGraphicsScrapingOptions,
+	IntelUltraSeriesEnum,
+	RadeonSeries,
+	RyzenDesktopSeries,
+	IntelGenerationEnum,
+	IntelTierEnum
+	} from "../../../types/types.js";
 
 dotenv.config()
 const { SERVER_DOMAIN } = process.env
