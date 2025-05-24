@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { MyUrl } from "../../../global/types"
-import { Ryzen, RyzenDesktopSeries, RyzenLaptopSeries } from "../types"
+import { MyUrl, RyzenDesktopSeries, RyzenLaptopSeries } from "../../../../../types/types"
+import { Ryzen } from "../../../../../types/interfaces"
 import { getAmdProducts } from "./shared_functions"
 
 export async function fetchAmdRyzenProcessors(url: MyUrl, serie?: RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[]> {

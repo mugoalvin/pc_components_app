@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { normalizeData, readJsonFromFile } from "../../global/functions"
 import { saveIntelUltraProcessors } from "../../saveRecords/intel/ultra"
 import { scrapeIntelCoreUltraProcessors } from "./intel_functions/intel_functions"
-import { IntelCoreUltra, IntelUltraSeries, IntelUltraSeriesEnum, IntelUltraSeriesValues } from './types';
+import { IntelUltraSeries } from "../../../../types/types";
 import { AppDataSource, initDatabase } from '../../db';
 
 dotenv.config();

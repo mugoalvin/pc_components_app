@@ -1,9 +1,11 @@
 import dotenv from "dotenv"
-import { scrapeIntelArkGpu } from "./intel_functions/ark";
-import { IntelArk, IntelGraphicsScrapingOptions } from "./types";
-import { normalizeData, readJsonFromFile } from "../../global/functions";
-import { saveIntelArkGraphics } from "../../saveRecords/intel/ark";
+
 import { AppDataSource, initDatabase } from "../../db";
+import { IntelGraphicsScrapingOptions } from "../../../../types/types";
+import { scrapeIntelArkGpu } from "./intel_functions/ark";
+import { IntelArk } from "../../../../types/interfaces";
+import { normalizeData } from "../../global/functions";
+import { saveIntelArkGraphics } from "../../saveRecords/intel/ark";
 
 dotenv.config()
 const { intel_website_domain, intel_ark_route } = process.env

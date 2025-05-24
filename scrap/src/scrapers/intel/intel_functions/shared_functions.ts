@@ -2,7 +2,8 @@ import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
 import { handleError, normalizeKey, normalizeValue } from '../../../global/functions'
-import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra, IntelUltraSeries } from '../types'
+import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../types/interfaces'
+import { IntelUltraSeries } from '../../../../../types/types'
 
 dotenv.config()
 const { intel_website_domain } = process.env
