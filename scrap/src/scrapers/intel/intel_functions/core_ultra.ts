@@ -1,7 +1,6 @@
 import { Page } from "puppeteer"
 
-import { IntelUltraSeries, Processors } from "../types"
-import { MyUrl } from "../../../global/types"
+import { MyUrl, IntelUltraSeries, Processors } from "../../../../../types/types"
 import { readIntelTable } from "./shared_functions"
 
 // Extracts series text and links from the page

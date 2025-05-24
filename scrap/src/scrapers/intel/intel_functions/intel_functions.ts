@@ -1,7 +1,7 @@
 import { launch } from 'puppeteer'
 
-import { MyUrl } from '../../../global/types'
-import { IntelCore, IntelCoreUltra, IntelCoreScrapingOptions, IntelUltraSeries, Processors } from '../types'
+import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, Processors } from "../../../../../types/types"
+import { IntelCore, IntelCoreUltra } from "../../../../../types/interfaces"
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
 import { launchOptions, handleError } from '../../../global/functions'

@@ -1,8 +1,8 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
-import { InitialAmdProps, Radeon, RadeonSeries, Ryzen, RyzenDesktopSeries, RyzenLaptopSeries } from '../types'
+import { InitialAmdProps, Radeon, Ryzen} from '../../../../../types/interfaces'
+import { RadeonSeries, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../types/types'
 import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
-import { MyUrl } from '../../../global/types'
 
 
 dotenv.config()
@@ -39,9 +39,9 @@ export async function fetchSeriesProducts(page: Page, series_id: string) {
     return await page.evaluate((selector) => {
         const amd_products_in_series = Array.from(document.querySelectorAll(selector))
         return amd_products_in_series.map(product => {
-            const product_name = product.textContent || ''
-            const product_link = product.getAttribute('href') || ''
-            return { product_name, product_link }
+            const name = product.textContent || ''
+            const link = product.getAttribute('href') || ''
+            return { name, link }
         })
     }, selector)
 }
@@ -71,7 +71,7 @@ export async function fetchProductDetails(page: Page, product: InitialAmdProps, 
  * @returns Detailed Ryzen specifications
  */
 async function getMoreRyzenInfo(page: Page, product: InitialAmdProps) {
-    await page.goto(product.product_link)
+    await page.goto(product.link)
     await page.click('.accordion.accordion-flush.product-specs-categories li:first-child button')
     await page.waitForSelector("#panel-product-specs")
 
@@ -82,7 +82,7 @@ async function getMoreRyzenInfo(page: Page, product: InitialAmdProps) {
 
         return {
             image: imageUrl,
-            link: product.product_link,
+            link: product.link,
             ...specSections.reduce((acc, spec) => {
                 const key = spec.querySelector('dt')?.textContent?.trim() || ''
                 const value = spec.querySelector('dd')?.textContent?.trim() || ''
@@ -99,7 +99,7 @@ async function getMoreRyzenInfo(page: Page, product: InitialAmdProps) {
  * @returns Detailed Radeon specifications
  */
 async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
-    await page.goto(product.product_link)
+    await page.goto(product.link)
     await page.click('.expansion-toggle.text-end')
 
     return await page.evaluate((product, domain) => {
@@ -121,7 +121,7 @@ async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
 
         return {
             image: imageUrl,
-            link: product.product_link,
+            link: product.link,
             ...allSpecs
         }
     }, product, amd_website_domain)
@@ -143,7 +143,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             results.push(specs)
         } catch (error) {
             results.push(product as InitialAmdProps)
-            handleError(error, `Failed to fetch info for ${product.product_name}`)
+            handleError(error, `Failed to fetch info for ${product.name}`)
         }
     }
     return results

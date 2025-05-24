@@ -2,8 +2,7 @@ import { LaunchOptions } from "puppeteer";
 import fs from "fs";
 import path from "path";
 
-import { IntelArk, IntelCore, IntelCoreUltra } from "../scrapers/intel/types";
-import { Radeon, Ryzen } from "../scrapers/amd/types";
+import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../../types/interfaces";
 
 export function normalizeKey(str: string) {
 	return str
@@ -43,7 +42,8 @@ export const launchOptions: LaunchOptions = {
 		height: 1080,
 		deviceScaleFactor: 1,
 		isLandscape: true
-	}
+	},
+	args: ['--no-sandbox', '--disable-setuid-sandbox']
 }
 
 

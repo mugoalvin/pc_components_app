@@ -5,8 +5,7 @@ import runRadeonRxScraper from "../scrapers/amd/amd_radeon_scraper"
 import { runIntelCoreIx } from "../scrapers/intel/intel_core_scraper"
 import { runIntelUltra } from "../scrapers/intel/intel_ultra_scraper"
 import { runIntelArk } from "../scrapers/intel/intel_ark_scraper"
-import { ArkSeries, IntelCoreScrapingOptions, intelGenerations, IntelGraphics, IntelGraphicsScrapingOptions, intelTiers, IntelUltraSeriesValues } from '../scrapers/intel/types'
-import { AmdScrape } from '../scrapers/amd/types'
+import { ArkSeries, IntelCoreScrapingOptions, intelGenerations, IntelGraphics, IntelGraphicsScrapingOptions, intelTiers, IntelUltraSeriesValues } from '../../../types/types'
 
 
 const scrapeRouter = express.Router()

@@ -15,6 +15,4 @@ databaseRouter.post('/disconnect', async (_, res) => {
 		.catch(error => res.status(500).json({error: error.message}))
 })
 
-
-
 export default databaseRouter
