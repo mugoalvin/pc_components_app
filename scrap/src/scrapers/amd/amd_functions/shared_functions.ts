@@ -2,7 +2,7 @@ import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
 import { InitialAmdProps, Radeon, Ryzen} from '../../../../../types/interfaces'
 import { RadeonSeries, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../types/types'
-import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
+import { handleError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 
 
 dotenv.config()
@@ -58,7 +58,9 @@ export async function fetchProductDetails(page: Page, product: InitialAmdProps, 
         await getMoreRadeonRxInfo(page, product) : 
         await getMoreRyzenInfo(page, product)
 
-    return Object.entries(specs).reduce((acc, [key, value]) => ({
+    const cleanedSpecs = keepOnlyKeys(specs, amdKeysToKeep)
+
+    return Object.entries(cleanedSpecs).reduce((acc, [key, value]) => ({
         ...acc,
         [key === 'image' ? key : normalizeKey(key)]: key === 'image' ? value : normalizeValue(value)
     }), {})
@@ -135,18 +137,17 @@ async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
  * @returns Array of either Ryzen or Radeon detailed product information
  */
 async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[], isScrapingGraphicsCards: boolean) {
-    const results: (Ryzen | Radeon | InitialAmdProps)[] = []
+    const detailedSpecs: (Ryzen | Radeon)[] = []
     for (const product of products) {
         try {
             const specs = await fetchProductDetails(page, product, isScrapingGraphicsCards) as Ryzen | Radeon
             console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
-            results.push(specs)
+            detailedSpecs.push(specs)
         } catch (error) {
-            results.push(product as InitialAmdProps)
             handleError(error, `Failed to fetch info for ${product.name}`)
         }
     }
-    return results
+    return detailedSpecs
 }
 
 /**
@@ -185,3 +186,16 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries | RyzenDes
         await browser.close()
     }
 }
+
+
+
+
+export const amdKeysToKeep = [
+    // Ryzen
+    "image", "link", "name", "family", "series", "architecture", "number_of_cpu_cores", "number_of_threads",
+    "max_boost_clock", "base_clock", "default_tdp", "cpu_socket", "max_operating_temperature_tjmax", "launch_date",
+
+    // Radeon
+    "image", "link", "name", "family", "series", "board_type", "additional_power_connector", "boost_frequency",
+    "max_memory_size", "memory_type", "memory_speed", "displayport", "hdmi", "launch_date"
+]

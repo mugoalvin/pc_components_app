@@ -31,7 +31,7 @@ export function handleError(error: unknown, context?: string): never {
 		error.message = context ? `${context}: ${error.message}` : error.message
 		throw error
 	} else {
-		throw new Error(context ? `${context} : Unknown error` : 'An unknown error occurred')
+		throw new Error(context ? `${context}` : 'Unknown error : An unknown error occurred')
 	}
 }
 
@@ -71,6 +71,12 @@ export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | R
 	})
 }
 
+
+export function keepOnlyKeys(originalObj: Object, keysToKeep: string[]) {
+	return Object.fromEntries(
+		Object.entries(originalObj).filter(([key]) => keysToKeep.includes(key))
+	)
+}
 
 
 export async function writeJsonToFile(fileName: string, data: any) {

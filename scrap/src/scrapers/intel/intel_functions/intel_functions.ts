@@ -51,3 +51,16 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 		await browser.close()
 	}
 }
+
+
+
+export const intelsKeysToKeep = [
+	// Intel Core
+	"name", "code_name", "vertical_segment", "processor_number", "lithography", 
+	"number_of_performance_cores", "number_of_efficient_cores", "total_threads", "max_turbo_frequency",
+	"cache", "processor_base_power", "launch_date", "memory_types", "graphics_output", "max_resolution_hdmi", "max_resolution_dp",
+	"number_of_displays_supported", 
+
+	// Intel Ultra
+	"xe_cores", "ray_tracing", "recommended_customer_price",
+]
