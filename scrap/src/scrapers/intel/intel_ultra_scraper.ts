@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import { normalizeData, readJsonFromFile } from "../../global/functions"
+import { normalizeData } from "../../global/functions"
 import { saveIntelUltraProcessors } from "../../saveRecords/intel/ultra"
 import { scrapeIntelCoreUltraProcessors } from "./intel_functions/intel_functions"
 import { IntelUltraSeries } from "../../../../types/types";

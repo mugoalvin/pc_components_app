@@ -46,7 +46,7 @@ scrapeRouter.post('/ultra', async function(req, res) {
 
 
 scrapeRouter.post('/core', async function(req, res) {
-	const requestBody: IntelCoreScrapingOptions = { tier: IntelTierEnum.i9, generation: IntelGenerationEnum.gen14 }
+	const requestBody: IntelCoreScrapingOptions = { tier: IntelTierEnum.i7, generation: IntelGenerationEnum.gen10 }
 
 	await axios.post(`${SERVER_DOMAIN}/scrape/intel_core`, requestBody)
 		.then(serverResponce => {

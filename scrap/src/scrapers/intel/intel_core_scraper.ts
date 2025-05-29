@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { scrapeIntelCoreIxProcessors } from './intel_functions/intel_functions';
-import { normalizeData, readJsonFromFile } from '../../global/functions';
+import { normalizeData } from '../../global/functions';
 import { saveIntelCoreIxProcessors } from '../../saveRecords/intel/core';
 import { IntelCoreScrapingOptions } from "../../../../types/types";
 import { AppDataSource, initDatabase } from '../../db';

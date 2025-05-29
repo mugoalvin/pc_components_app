@@ -1,9 +1,10 @@
 import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
-import { handleError, normalizeKey, normalizeValue } from '../../../global/functions'
+import { handleError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../types/interfaces'
 import { IntelUltraSeries } from '../../../../../types/types'
+import { intelsKeysToKeep } from './intel_functions'
 
 dotenv.config()
 const { intel_website_domain } = process.env
@@ -58,9 +59,11 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 	try {
 		const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
 		for (const product of products) {
-			const raw = await getMoreInfoPerProduct(page, product)
-			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk
-			detailedInfo = series ? {...raw as IntelCoreUltra, series} : raw as IntelCore | IntelArk
+			const rawData = await getMoreInfoPerProduct(page, product)
+			const cleanedRawData = keepOnlyKeys(rawData, intelsKeysToKeep)
+
+			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk 
+			detailedInfo = series ? { ...cleanedRawData as IntelCoreUltra, series } : cleanedRawData as IntelCore | IntelArk
 
 			const index = products.indexOf(product) + 1
 			const length = products.length
@@ -87,8 +90,9 @@ export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {
 				if (cutIndex !== -1) processorName = processorName.slice(0, cutIndex);
 				
 				return processorName
-					.replace("Processor", '')
-					.replace("  ", ' ')
+					.replace("Processor", "")
+					.replace("processor", "")
+					.replace("  ", " ")
 					.trim();
 			}
 
