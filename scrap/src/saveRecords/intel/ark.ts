@@ -1,6 +1,6 @@
 import { AppDataSource } from "../../db";
 import { ArkEntity } from "../../entities/intel/ark";
-import { handleError } from "../../global/functions";
+import { throwError } from "../../global/functions";
 
 export async function saveIntelArkGraphics(arkGraphicsCards: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -18,7 +18,7 @@ export async function saveIntelArkGraphics(arkGraphicsCards: any[]) {
 		await queryRunner.commitTransaction();
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		handleError(error, "Error saving Intel Ark Graphics Cards");
+		throwError(error, "Error saving Intel Ark Graphics Cards");
 	} finally {
 		await queryRunner.release();
 	}

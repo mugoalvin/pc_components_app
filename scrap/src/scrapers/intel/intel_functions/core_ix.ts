@@ -1,4 +1,4 @@
-import { handleError } from "../../../global/functions";
+import { throwError } from "../../../global/functions";
 import { IntelCoreScrapingOptions } from '../../../../../types/types'
 
 export function findTierAndGenMatch(processorCells: { text: string | null; link: string | null }[], scrapeOptions: IntelCoreScrapingOptions) {
@@ -11,6 +11,6 @@ export function findTierAndGenMatch(processorCells: { text: string | null; link:
 		})
 	}
 	catch (err) {
-		handleError(err, "Unable to find processors tier and generation match.")
+		throwError(err, "Unable to find processors tier and generation match.")
 	}
 }
