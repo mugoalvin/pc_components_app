@@ -83,4 +83,16 @@ scrapeRouter.post('/radeon', async function(req, res) {
 		})
 })
 
+
+scrapeRouter.post('/geforce', async function (req, res) {
+	await axios.post(`${SERVER_DOMAIN}/scrape/geforce`)
+		.then(serverResponce => {
+			res.json({success: serverResponce.data})
+		})
+		.catch(err => {
+			res.send(err.errorMsg)
+		})
+})
+
+
 export default scrapeRouter

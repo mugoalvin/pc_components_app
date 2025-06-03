@@ -6,6 +6,7 @@ import { runIntelCoreIx } from "../scrapers/intel/intel_core_scraper"
 import { runIntelUltra } from "../scrapers/intel/intel_ultra_scraper"
 import { runIntelArk } from "../scrapers/intel/intel_ark_scraper"
 import { ArkSeries, IntelCoreScrapingOptions, intelGenerations, IntelGraphics, IntelGraphicsScrapingOptions, intelTiers, IntelUltraSeriesValues } from '../../../types/types'
+import { runNvidiaGeforce } from '../scrapers/nvidia/geforce_scraper'
 
 
 const scrapeRouter = express.Router()
@@ -100,6 +101,21 @@ scrapeRouter.post('/amd_radeon', async function(req, res) {
 	try{
 		await runRadeonRxScraper(series)
 		res.json({success: 'Successfully saved all Radeon Cards.'})
+	}
+	catch(error: any) {
+		res.json({
+			errorMsg: error.message
+		})
+	}
+})
+
+
+scrapeRouter.post('/geforce', async function(req, res) {
+	try {
+		await runNvidiaGeforce()
+			.then(responce => {
+				res.json({ success: "Successfully scraped all Nvidia Cards." })
+			})
 	}
 	catch(error: any) {
 		res.json({
