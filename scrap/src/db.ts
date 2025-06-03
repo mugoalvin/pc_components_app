@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
 
-import { handleError } from './global/functions'
+import { throwError } from './global/functions'
 import { RadeonEntity } from './entities/amd/radeon'
 import { RyzenEntity } from "./entities/amd/ryzen"
 import { CoreEntity } from "./entities/intel/core"
@@ -27,7 +27,7 @@ export const AppDataSource = new DataSource({
 export async function initDatabase() {
 	await AppDataSource.initialize()
 		.catch(error => {
-			handleError(error)
+			throwError(error)
 		})
 }	
 
@@ -38,6 +38,6 @@ export async function reconnectDatabase() {
 export async function disConnectDatabase() {
 	await AppDataSource.destroy()
 		.catch(err => {
-			handleError(err)
+			throwError(err)
 		})
 }

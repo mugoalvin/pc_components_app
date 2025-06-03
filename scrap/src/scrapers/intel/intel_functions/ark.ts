@@ -1,7 +1,7 @@
 import { launch } from "puppeteer";
 
 import { IntelArk } from '../../../../../types/interfaces'
-import { handleError, launchOptions } from "../../../global/functions";
+import { throwError, launchOptions } from "../../../global/functions";
 import { MyUrl, IntelGraphicsScrapingOptions } from '../../../../../types/types'
 import { getTextsAndLinks } from "./core_ultra";
 import { fetchDetailedSpecifications, readIntelTable } from "./shared_functions";
@@ -25,7 +25,7 @@ export async function scrapeIntelArkGpu(url: MyUrl, options: IntelGraphicsScrapi
 		return await fetchDetailedSpecifications(page, seriesGraphics) as IntelArk[]
 	}
 	catch (err) {
-		handleError(err, "Failed to scrape Intel Ark Graphics Cards")
+		throwError(err, "Failed to scrape Intel Ark Graphics Cards")
 	}
 	finally {
 		browser.close()

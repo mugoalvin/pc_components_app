@@ -1,6 +1,6 @@
 import { AppDataSource } from "../../db";
 import { CoreEntity } from "../../entities/intel/core";
-import { handleError } from "../../global/functions";
+import { throwError } from "../../global/functions";
 
 export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -19,7 +19,7 @@ export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 		await queryRunner.commitTransaction();
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		handleError(error, "Error saving Core Ix processors")
+		throwError(error, "Error saving Core Ix processors")
 	} finally {
 		await queryRunner.release();
 	}

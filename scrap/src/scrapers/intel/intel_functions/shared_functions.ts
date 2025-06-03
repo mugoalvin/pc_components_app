@@ -1,7 +1,7 @@
 import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
-import { handleError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
+import { throwError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../types/interfaces'
 import { IntelUltraSeries } from '../../../../../types/types'
 import { intelsKeysToKeep } from './intel_functions'
@@ -76,7 +76,7 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
 	}
 	catch (err) {
-		handleError(err, "Failed to fetch detailed information")
+		throwError(err, "Failed to fetch detailed information")
 	}
 }
 
@@ -106,6 +106,6 @@ export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {
 		})
 	}
 	catch (err) {
-		handleError(err, "Unable to read Intel data table.")
+		throwError(err, "Unable to read Intel data table.")
 	}
 }

@@ -2,7 +2,7 @@ import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
 import { InitialAmdProps, Radeon, Ryzen} from '../../../../../types/interfaces'
 import { RadeonSeries, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../types/types'
-import { handleError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
+import { throwError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 
 
 dotenv.config()
@@ -144,7 +144,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
             detailedSpecs.push(specs)
         } catch (error) {
-            handleError(error, `Failed to fetch info for ${product.name}`)
+            throwError(error, `Failed to fetch info for ${product.name}`)
         }
     }
     return detailedSpecs
@@ -181,7 +181,7 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries | RyzenDes
         
         return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
     } catch (error) {
-        handleError(error, "Failed to fetch AMD products")
+        throwError(error, "Failed to fetch AMD products")
     } finally {
         await browser.close()
     }
