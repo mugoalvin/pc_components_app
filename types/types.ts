@@ -48,3 +48,13 @@ export type IntelGraphicsScrapingOptions =
     { family: IntelGraphics.Ark, series: ArkSeries } |
     { family: IntelGraphics.ArkPro, series: ArkProSeries } |
     { family: IntelGraphics.DataCenter, series: DataCenterSeries }
+
+
+// ================================================> Nvidia <================================================
+export enum NvidiaGeforceSeries { 
+    Series50 = 'compare-50',
+    Series40 = 'compare-40',
+    Series30 = 'compare-specs',
+    Series20 = 'compare-20',
+    Series16 = 'compare-16'
+}
