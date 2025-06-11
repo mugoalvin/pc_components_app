@@ -18,7 +18,7 @@ export enum RadeonSeries { Series9000, Series7000, Series6000 }
 
 // =================================================> Intel <=================================================
 export enum IntelProducts { Processors, Graphics }
-export enum Processors {Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron}
+export enum IntelProcessorLine { Ultra, Core, IntelProcessor, Xeon, Atom, Pentium, Celeron }
 
 // Ultra Processors
 export type IntelUltraSeries = "Series 1" | "Series 2"
@@ -58,3 +58,8 @@ export enum NvidiaGeforceSeries {
     Series20 = 'compare-20',
     Series16 = 'compare-16'
 }
+
+
+
+// ================================================> Graphics <================================================
+export enum GraphicsBrand { "Ark", "Nvidia", "Radeon" }

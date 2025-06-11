@@ -1,9 +1,9 @@
 import dotenv from "dotenv"
 
 import { AppDataSource, initDatabase } from "../../db";
-import { IntelGraphicsScrapingOptions } from "../../../../types/types";
+import { IntelGraphicsScrapingOptions } from "../../../../packages/types";
 import { scrapeIntelArkGpu } from "./intel_functions/ark";
-import { IntelArk } from "../../../../types/interfaces";
+import { IntelArk } from "../../../../packages/interfaces";
 import { normalizeData } from "../../global/functions";
 import { saveIntelArkGraphics } from "../../saveRecords/intel/ark";
 

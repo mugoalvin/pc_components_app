@@ -1,7 +1,7 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
-import { InitialAmdProps, Radeon, Ryzen} from '../../../../../types/interfaces'
-import { RadeonSeries, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../types/types'
+import { InitialAmdProps, Radeon, Ryzen } from '../../../../../packages/interfaces'
+import { RadeonSeries, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../packages/types'
 import { throwError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 
 

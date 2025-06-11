@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import { fetchAmdRyzenProcessors, validateRyzenProcessors } from "./amd_functions/ryzen_functions"
 import { saveRyzenProcessors } from '../../saveRecords/amd/ryzen'
 import { normalizeData } from '../../global/functions'
-import { AmdScrape, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../types/types'
+import { AmdScrape, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../packages/types'
 import { AppDataSource, initDatabase } from '../../db'
 
 dotenv.config()

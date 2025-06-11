@@ -1,7 +1,7 @@
 import { launch } from 'puppeteer'
 
-import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, Processors } from "../../../../../types/types"
-import { IntelCore, IntelCoreUltra } from "../../../../../types/interfaces"
+import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine } from "../../../../../packages/types"
+import { IntelCore, IntelCoreUltra } from "../../../../../packages/interfaces"
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
 import { launchOptions, throwError } from '../../../global/functions'
@@ -19,7 +19,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 
 		const data_panel_key = await page.evaluate(index => {
 			return document.querySelectorAll(".product-category.Processors")[index]?.getAttribute("data-panel-key")
-		}, Processors.Core)
+		}, IntelProcessorLine.Core)
 
 		const processorCells = await getTextsAndLinks(page, data_panel_key || '')
 		const match = findTierAndGenMatch(processorCells, scrapeOptions)
