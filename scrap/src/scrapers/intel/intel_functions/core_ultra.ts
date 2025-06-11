@@ -1,6 +1,6 @@
 import { Page } from "puppeteer"
 
-import { MyUrl, IntelUltraSeries, Processors } from "../../../../../types/types"
+import { MyUrl, IntelUltraSeries, IntelProcessorLine } from "../../../../../packages/types"
 import { readIntelTable } from "./shared_functions"
 
 // Extracts series text and links from the page
@@ -43,7 +43,7 @@ export async function getIntelCoreUltraProcessors(page: Page, url: MyUrl, series
 
 	const data_panel_key = await page.evaluate(index => {
 		return document.querySelectorAll(".product-category.Processors")[index]?.getAttribute("data-panel-key")
-	}, Processors.Ultra)
+	}, IntelProcessorLine.Ultra)
 
 	const seriesTextAndLink = await getTextsAndLinks(page, data_panel_key!)
 	return await processSeries(page, url, seriesTextAndLink, series)

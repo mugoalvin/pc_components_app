@@ -2,7 +2,7 @@ import { LaunchOptions } from "puppeteer";
 import fs from "fs";
 import path from "path";
 
-import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../../types/interfaces";
+import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../../packages/interfaces";
 
 export function normalizeKey(str: string) {
 	return str

@@ -2,8 +2,8 @@ import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
 import { throwError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
-import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../types/interfaces'
-import { IntelUltraSeries } from '../../../../../types/types'
+import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../packages/interfaces'
+import { IntelUltraSeries } from '../../../../../packages/types'
 import { intelsKeysToKeep } from './intel_functions'
 
 dotenv.config()

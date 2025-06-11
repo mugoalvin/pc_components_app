@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { AppDataSource, initDatabase } from "../../db";
 import { throwError, normalizeData } from "../../global/functions"
 import { scrapeNvidiaGpu } from './nvidia_functions/geforce'
-import { NvidiaGeforceSeries } from '../../../../types/types';
+import { NvidiaGeforceSeries } from '../../../../packages/types';
 
 dotenv.config()
 const { nvidia_website_domain, nvidia_geforce_route } = process.env

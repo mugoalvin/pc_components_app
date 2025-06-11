@@ -1,7 +1,7 @@
 import { z } from "zod"
 
-import { MyUrl, RadeonSeries } from "../../../../../types/types";
-import { Radeon } from "../../../../../types/interfaces";
+import { MyUrl, RadeonSeries } from "../../../../../packages/types";
+import { Radeon } from "../../../../../packages/interfaces";
 import { getAmdProducts } from './shared_functions'
 
 export async function getAmdRadeonRx(url: MyUrl, serie?: RadeonSeries): Promise<Radeon[]> {

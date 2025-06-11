@@ -1,5 +1,5 @@
 import { launch, Page } from 'puppeteer';
-import { MyUrl, NvidiaGeforceSeries } from '../../../../../types/types';
+import { MyUrl, NvidiaGeforceSeries } from '../../../../../packages/types';
 import { throwError, launchOptions, normalizeKey } from '../../../global/functions';
 
 

@@ -1,8 +1,8 @@
 import { launch } from "puppeteer";
 
-import { IntelArk } from '../../../../../types/interfaces'
+import { IntelArk } from '../../../../../packages/interfaces'
 import { throwError, launchOptions } from "../../../global/functions";
-import { MyUrl, IntelGraphicsScrapingOptions } from '../../../../../types/types'
+import { MyUrl, IntelGraphicsScrapingOptions } from '../../../../../packages/types'
 import { getTextsAndLinks } from "./core_ultra";
 import { fetchDetailedSpecifications, readIntelTable } from "./shared_functions";
 
