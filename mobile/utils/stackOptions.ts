@@ -1,4 +1,4 @@
-import { ProductsBrandModel } from "./types"
+import { ProductBrandFilter } from "./types"
 import { router } from "expo-router"
 
 export function getScreenOptions(theme: any) {
@@ -24,7 +24,7 @@ export function getScreenOptions(theme: any) {
 	}
 }
 
-export const openPage = (categoryType: ProductsBrandModel) => router.push({
+export const openPage = (categoryType: ProductBrandFilter) => router.push({
 	pathname: "/pages/[...filters]",
 	// @ts-ignore
 	params: categoryType

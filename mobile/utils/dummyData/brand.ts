@@ -109,24 +109,3 @@ export const dummyProcessorsData = [
 		extra: "$554.00"
 	}
 ]
-
-
-
-export const dummyAmdSeries = [
-	{
-		title: "High End",
-		data: [ "Ryzen 9000 Series", "Ryzen 8000 Series", "Ryzen 7000 Series" ]
-	},
-	{
-		title: "Mid-Range",
-		data: [ "Ryzen 5000 Series", "Ryzen 4000 Series" ]
-	},
-	{
-		title: "AI-Focused",
-		data: [ "Ryzen Ai Max", "Ryzen Ai 300" ]
-	},
-	{
-		title: "Legacy",
-		data: [ " Ryzen 200", " Ryzen 9000", " Ryzen 8000", " Ryzen 7000", " Ryzen 6000" ]
-	}
-]

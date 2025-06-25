@@ -15,11 +15,11 @@ const ChipCustom = ({chipText, selected, icon, onPress} : ChipsProps) => {
 
 	return (
 		<Chip
+			mode="flat"
 			icon={icon}
 			onPress={onPress}
 			selected={selected}
 			closeIcon="cancel"
-			rippleColor={theme.colors.tertiary}
 		>
 			<AppText color={theme.colors.secondary} >{chipText}</AppText>
 		</Chip>

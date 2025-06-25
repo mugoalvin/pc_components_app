@@ -1,12 +1,11 @@
+import { openPage } from "@/utils/stackOptions";
+import { ComponentTypeEnum } from '@/utils/types';
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { useTheme } from "react-native-paper";
-
-import { openPage } from "@/utils/stackOptions";
-import { DashboardCategoryTypeEnum } from '@/utils/types';
 import { ScrollView } from "react-native-gesture-handler";
+import { useTheme } from "react-native-paper";
 import Row from '../components/row';
 import Body from "../components/ui/body";
 import CategoryDetails from '../components/ui/categoryDetails';
@@ -17,17 +16,17 @@ const Dashboard = () => {
 	const theme = useTheme()
 	const navigator = useNavigation()
 	const [ searchValue, setSearchValue ] = useState<string>("")
-	const [ isSearchBarloading, setIsSearchBarloading ] = useState<boolean>(false)
+	const [isSearchBarLoading, setIsSearchBarLoading] = useState<boolean>(false)
 	const [ isSearchBtnPressed, setIsSearchBtnPressed ] = useState<boolean>(false)
 
 	const changeButtonLoading = () => {
-		setIsSearchBarloading(prev => !prev)
+		setIsSearchBarLoading(prev => !prev)
 		setTimeout(() => {
-			setIsSearchBarloading(prev => !prev)
+			setIsSearchBarLoading(prev => !prev)
 		}, 2000);
 	}
 	
-		
+
 	useEffect(() => {
 		navigator.setOptions({
 			title: "Dashboard",
@@ -45,7 +44,7 @@ const Dashboard = () => {
 			{
 				isSearchBtnPressed &&
 					<SearchBarCustom
-						isSearchBarloading={isSearchBarloading}
+					isSearchBarloading={isSearchBarLoading}
 						searchValue={searchValue}
 						changeButtonLoading={changeButtonLoading}
 						setSearchValue={setSearchValue}
@@ -54,8 +53,8 @@ const Dashboard = () => {
 
 			<ScrollView className='flex-col' style={{ rowGap: 10 }}>
 				<Row>
-					<CategoryDetails categoryName='Processor' description='CPU cores and performance' icon='memory' onClick={() => openPage({ product: DashboardCategoryTypeEnum.Processors })} />
-					<CategoryDetails categoryName='Graphics Cards' description="GPU's for gaming and workstations" icon='monitor' onClick={() => openPage({ product: DashboardCategoryTypeEnum.Graphics })} />
+					<CategoryDetails categoryName='Processor' description='CPU cores and performance' icon='memory' onClick={() => openPage({ selectedComponent: ComponentTypeEnum.Processors })} />
+					<CategoryDetails categoryName='Graphics Cards' description="GPU's for gaming and workstations" icon='monitor' onClick={() => openPage({ selectedComponent: ComponentTypeEnum.Graphics })} />
 				</Row>
 				<Row>
 					<CategoryDetails categoryName='Memory' description='RAM modules and storage' icon='storage' />
@@ -63,6 +62,7 @@ const Dashboard = () => {
 				</Row>
 				<Row>
 					<CategoryDetails categoryName='Storage' description="SSD's, HDD's and NVME drives" icon='storage' />
+					<CategoryDetails categoryName='Scrape' description="Source Data from the internet" icon='download' temporary onClick={() => router.push({ pathname: "/pages/scrape" })} />
 				</Row>
 
 			</ScrollView>

@@ -1,36 +1,44 @@
 import Index from '@/app'
 import ProductsBrands from '@/app/pages/products_brands'
+import { isSet } from '@/utils/functions'
+import { ProductBrandFilter } from '@/utils/types'
 import { useLocalSearchParams } from 'expo-router'
 import React from 'react'
-import { ProductsBrandModel } from '../../utils/types'
 import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
 import Brand from './brand'
-import Products from './products'
+import IntelLines from './intelLines'
+import ProductDetails from './product_details'
+import ProductsNavigator from './products'
 
 
-const CategoryNavigator = () => {
-	const params = useLocalSearchParams() as Partial<ProductsBrandModel>
+export default function CategoryNavigator() {
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
+
 
 	// @ts-ignore
-	const { product, brand, line, series } = params
+	const { selectedComponent, brand, line, amdSeries, ultraSeries, generation } = params
 
-	if (!product) return <Index />
+	if (!isSet(selectedComponent)) return <Index />
 
-	if (product && !brand) return <ProductsBrands />
+	if (isSet(selectedComponent) && !isSet(brand)) return <ProductsBrands />
 
-	if (product && brand && !series) return <Brand />
+	if (isSet(selectedComponent) && String(selectedComponent) === "0" && isSet(brand) && String(brand) === "1") return <IntelLines />
 
-	if (product && brand && series) return <Products />
+	if (isSet(selectedComponent) && isSet(brand) && (!isSet(amdSeries) && !isSet(ultraSeries))) return <Brand />
+
+	if (isSet(selectedComponent) && isSet(brand) && (isSet(amdSeries) || isSet(ultraSeries)) && (!isSet(generation) || !isSet(line))) return <ProductsNavigator />
+
+	if (isSet(selectedComponent) && isSet(brand) && (isSet(amdSeries) || isSet(ultraSeries)) && (isSet(generation) || isSet(line))) return <ProductDetails />
+
 
 	return (
 		<Body>
-			<AppText>Product: {product}</AppText>
+			<AppText>Product: {selectedComponent}</AppText>
 			<AppText>Brand: {brand}</AppText>
 			<AppText>Line: {line}</AppText>
-			<AppText>Series: {series}</AppText>
+			<AppText>Series: {amdSeries || ultraSeries}</AppText>
+			<AppText>Generation: {generation}</AppText>
 		</Body>
 	)
 }
-
-export default CategoryNavigator
