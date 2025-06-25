@@ -4,14 +4,15 @@ import { Ryzen } from "../../../../../packages/interfaces"
 import { getAmdProducts } from "./shared_functions"
 
 export async function fetchAmdRyzenProcessors(url: MyUrl, serie?: RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[]> {
-    return await getAmdProducts(url, serie) as Ryzen[]
+	return await getAmdProducts(url, serie) as Ryzen[]
 }
 
 const RyzenScheme = z.object({
-    name: z.string().optional(),
+	name: z.string().optional(),
 	family: z.string().optional(),
 	series: z.string().optional(),
 	image: z.string().optional(),
+	device: z.string().optional(),
 	form_factor: z.string().optional(),
 	market_segment: z.string().optional(),
 	amd_pro_technologies: z.boolean().optional(),
@@ -53,11 +54,11 @@ const RyzenScheme = z.object({
  * @returns Validated Ryzen processors
  */
 export function validateRyzenProcessors(ryzenProcessors: Record<string, any>[]): Record<string, any>[] {
-    // return ryzenProcessors
-    const values = ryzenProcessors.filter(ryzen => {
-        const results = RyzenScheme.safeParse(ryzen)
+	// return ryzenProcessors
+	const values = ryzenProcessors.filter(ryzen => {
+		const results = RyzenScheme.safeParse(ryzen)
 		return results.success
-    })
+	})
 
 	return values
 }

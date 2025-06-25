@@ -11,7 +11,7 @@ dotenv.config()
 const { intel_website_domain, intel_ark_route } = process.env
 
 
-export async function runIntelArk(desiredGraphicsToScrape: IntelGraphicsScrapingOptions): Promise<void> {
+export default async function runIntelArk(desiredGraphicsToScrape: IntelGraphicsScrapingOptions): Promise<number> {
 	AppDataSource.isInitialized || await initDatabase()
 
 	const intel_ark_graphics = await scrapeIntelArkGpu({
@@ -21,4 +21,5 @@ export async function runIntelArk(desiredGraphicsToScrape: IntelGraphicsScraping
 
 	const processedArk = normalizeData(intel_ark_graphics) as Partial<IntelArk[]>
 	await saveIntelArkGraphics(processedArk)
+	return processedArk.length
 }

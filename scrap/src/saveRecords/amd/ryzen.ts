@@ -1,6 +1,6 @@
 import { AppDataSource } from "../../db";
 import { RyzenEntity } from "../../entities/amd/ryzen";
-import { throwError } from "../../global/functions";
+import { handleError } from "../../global/functions";
 
 export async function saveRyzenProcessors(ryzenProcessors: any[]) {
 	const queryRunner = AppDataSource.createQueryRunner();
@@ -20,7 +20,7 @@ export async function saveRyzenProcessors(ryzenProcessors: any[]) {
 		console.log("\nSuccessfully saved all Ryzen Processors")
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		throwError(error, "Error saving Ryzen cards");
+		throw handleError(error, "Error saving Ryzen cards");
 	} finally {
 		await queryRunner.release();
 	}

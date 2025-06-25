@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
 
-import { throwError } from './global/functions'
+import { handleError } from './global/functions'
 import { RadeonEntity } from './entities/amd/radeon'
 import { RyzenEntity } from "./entities/amd/ryzen"
 import { CoreEntity } from "./entities/intel/core"
@@ -15,9 +15,9 @@ const isDevelopment = NODE_ENV == 'development'
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
-    host: HOST,
+	host: HOST,
 	port: Number(PORT),
-    username: USERNAME,
+	username: USERNAME,
 	password: PASSWORD || '',
 	database: DATABASE_NAME,
 	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity],
@@ -27,17 +27,14 @@ export const AppDataSource = new DataSource({
 export async function initDatabase() {
 	await AppDataSource.initialize()
 		.catch(error => {
-			throwError(error)
+			throw handleError(error)
 		})
 }	
 
-export async function reconnectDatabase() {
-	AppDataSource.isInitialized || await initDatabase()
-}
 
 export async function disConnectDatabase() {
 	await AppDataSource.destroy()
 		.catch(err => {
-			throwError(err)
+			throw handleError(err)
 		})
 }

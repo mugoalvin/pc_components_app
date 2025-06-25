@@ -1,10 +1,10 @@
 import { z } from "zod"
 
-import { MyUrl, RadeonSeries } from "../../../../../packages/types";
+import { MyUrl, RadeonSeriesEnum } from "../../../../../packages/types";
 import { Radeon } from "../../../../../packages/interfaces";
 import { getAmdProducts } from './shared_functions'
 
-export async function getAmdRadeonRx(url: MyUrl, serie?: RadeonSeries): Promise<Radeon[]> {
+export async function getAmdRadeonRx(url: MyUrl, serie?: RadeonSeriesEnum): Promise<Radeon[]> {
 	return await getAmdProducts(url, serie) as Radeon[]
 }
 
@@ -53,7 +53,7 @@ const RadeonSchema = z.object({
 	av1_encode: z.boolean().optional(),
 	displayport: z.string().optional(),
 	hdmi: z.string().optional(),
-	usb_type_c: z.string().optional(),
+	usb_type_c: z.boolean().optional(),
 	length: z.string().optional(),
 	slots: z.number().optional(),
 	launch_date: z.string().optional(),
@@ -61,7 +61,7 @@ const RadeonSchema = z.object({
 })
 
 // Validation function
-export function validateRadeonRxProcessors(radeonRxGraphicsCards: Radeon[]): Radeon[] {
+export function validateRadeonRxGraphics(radeonRxGraphicsCards: Radeon[]) {
 	return radeonRxGraphicsCards.filter(radeon => {
 		const result = RadeonSchema.safeParse(radeon)
 		return result.success

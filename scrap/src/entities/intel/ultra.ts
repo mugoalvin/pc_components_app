@@ -11,9 +11,6 @@ export class UltraEntity {
 	@Column(getColumnOptions())
 	name?: string;
 
-	@Column(getColumnOptions())
-	code_name?: string;
-
 	@Column(getColumnOptions("enum", {
 		enum: IntelUltraSeriesValues,
 		enumName: "intel_ultra_series"
@@ -24,16 +21,10 @@ export class UltraEntity {
 	vertical_segment?: string;
 
 	@Column(getColumnOptions())
-	processor_number?: string;
-
-	@Column(getColumnOptions())
 	recommended_customer_price?: string;
 
 	@Column(getColumnOptions("int"))
 	number_of_performance_cores?: number;
-
-	@Column(getColumnOptions("int"))
-	number_of_efficient_cores?: number;
 
 	@Column(getColumnOptions("int"))
 	total_threads?: number;
@@ -41,20 +32,10 @@ export class UltraEntity {
 	@Column(getColumnOptions())
 	max_turbo_frequency?: string;
 
-	@Column(getColumnOptions())
-	cache?: string;
-
-	@Column(getColumnOptions())
-	lithography?: string;
 
 	@Column(getColumnOptions())
 	launch_date?: string;
 
-	@Column(getColumnOptions())
-	memory_types?: string;
-
-	@Column(getColumnOptions())
-	graphics_output?: string;
 
 	@Column(getColumnOptions())
 	max_resolution_hdmi?: string;
@@ -67,12 +48,6 @@ export class UltraEntity {
 
 	@Column(getColumnOptions("int"))
 	xe_cores?: number;
-
-	@Column(getColumnOptions("boolean"))
-	ray_tracing?: boolean;
-
-	@Column(getColumnOptions())
-	tdp?: string;
 }
 
 // @Unique(["name"])

@@ -16,7 +16,10 @@ export class RyzenEntity {
 	
 	@Column(getColumnOptions())
 	series?: string
-	
+
+	@Column(getColumnOptions())
+	device?: string
+
 	@Column(getColumnOptions())
 	architecture?: string
 

@@ -8,13 +8,13 @@ import { AppDataSource, initDatabase } from '../../db';
 dotenv.config();
 const { intel_website_domain, intel_ark_route } = process.env
 
-export async function runIntelCoreIx(desiredIntelProcessoesToScrape: IntelCoreScrapingOptions) {
+export default async function runIntelCoreIx(desiredIntelProcessorsToScrape: IntelCoreScrapingOptions) {
 	AppDataSource.isInitialized || await initDatabase()
 	
 	const intel_core_processors = await scrapeIntelCoreIxProcessors({
 	    domain: intel_website_domain || '',
 	    route: intel_ark_route || ''
-	}, desiredIntelProcessoesToScrape)
+	}, desiredIntelProcessorsToScrape)
 
 	const processedCoreIx = normalizeData(intel_core_processors)
 	await saveIntelCoreIxProcessors(processedCoreIx)

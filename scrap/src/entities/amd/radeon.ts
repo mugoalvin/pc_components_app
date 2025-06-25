@@ -49,6 +49,9 @@ export class RadeonEntity {
 
     @Column(getColumnOptions())
     launch_date?: string
+}
+
+
 
 
     // @Column(getColumnOptions())
@@ -152,4 +155,3 @@ export class RadeonEntity {
 
     // @Column(getColumnOptions("longtext"))
     // supported_technologies?: string
-}

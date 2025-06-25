@@ -1,6 +1,6 @@
 import { launch, Page } from 'puppeteer';
 import { MyUrl, NvidiaGeforceSeries } from '../../../../../packages/types';
-import { throwError, launchOptions, normalizeKey } from '../../../global/functions';
+import { handleError, launchOptions, normalizeKey } from '../../../global/functions';
 
 
 async function getButtonClassName(page: Page, serieid: string): Promise<string> {
@@ -79,6 +79,6 @@ export async function scrapeNvidiaGpu(url: MyUrl, serieid: NvidiaGeforceSeries) 
 		}).slice(1)
 	}
 	catch (err) {
-		throwError(err, "Failed to scrape Nvidia GeForce Graphics.")
+		throw handleError(err, "Failed to scrape Nvidia GeForce Graphics.")
 	}
 }

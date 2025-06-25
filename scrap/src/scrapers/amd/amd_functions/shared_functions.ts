@@ -1,8 +1,8 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
 import { InitialAmdProps, Radeon, Ryzen } from '../../../../../packages/interfaces'
-import { RadeonSeries, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../packages/types'
-import { throwError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
+import { RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../packages/types'
+import { handleError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 
 
 dotenv.config()
@@ -58,9 +58,7 @@ export async function fetchProductDetails(page: Page, product: InitialAmdProps, 
         await getMoreRadeonRxInfo(page, product) : 
         await getMoreRyzenInfo(page, product)
 
-    const cleanedSpecs = keepOnlyKeys(specs, amdKeysToKeep)
-
-    return Object.entries(cleanedSpecs).reduce((acc, [key, value]) => ({
+    return Object.entries(specs).reduce((acc, [key, value]) => ({
         ...acc,
         [key === 'image' ? key : normalizeKey(key)]: key === 'image' ? value : normalizeValue(value)
     }), {})
@@ -144,7 +142,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
             detailedSpecs.push(specs)
         } catch (error) {
-            throwError(error, `Failed to fetch info for ${product.name}`)
+            throw handleError(error, `Failed to fetch info for ${product.name}`)
         }
     }
     return detailedSpecs
@@ -156,7 +154,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
  * @param serie - AMD Ryzen or Radeon series to scrape else all
  * @returns Array of detailed product information
  */
-export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries | RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[] | Radeon[]> {
+export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[] | Radeon[]> {
     const browser = await launch(launchOptions)
     try {
         const page = await browser.newPage()
@@ -181,21 +179,8 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeries | RyzenDes
         
         return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
     } catch (error) {
-        throwError(error, "Failed to fetch AMD products")
+        throw handleError(error, "Failed to fetch AMD products")
     } finally {
         await browser.close()
     }
 }
-
-
-
-
-export const amdKeysToKeep = [
-    // Ryzen
-    "image", "link", "name", "family", "series", "architecture", "number_of_cpu_cores", "number_of_threads",
-    "max_boost_clock", "base_clock", "default_tdp", "cpu_socket", "max_operating_temperature_tjmax", "launch_date",
-
-    // Radeon
-    "image", "link", "name", "family", "series", "board_type", "additional_power_connector", "boost_frequency",
-    "max_memory_size", "memory_type", "memory_speed", "displayport", "hdmi", "launch_date"
-]
