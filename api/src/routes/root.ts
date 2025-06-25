@@ -9,10 +9,10 @@ const router = express.Router()
 router.post("/connect", async (_, res) => {
 	try {
 		await axios.post(`${SERVER_DOMAIN}/database/connect`)
-		res.status(200).send("Success")
+		res.send("Success")
 	}
 	catch(error: any) {
-		res.status(500).send(error.message || "Failed to connect to the database!")
+		res.send(error.errorMsg || "Failed to connect to the database!")
 	}
 })
 

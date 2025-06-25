@@ -5,6 +5,7 @@ import express from 'express'
 
 import router from './routes/root.js'
 import scrapeRouter from './routes/scrape.js'
+import databaseRouter from './routes/database/database.js'
 
 dotenv.config()
 const { API_PORT } = process.env
@@ -14,6 +15,7 @@ const app = express()
 app.use(cors())
 app.use('/', router)
 app.use('/scrape', scrapeRouter)
+app.use('/database', databaseRouter)
 
 app.listen(API_PORT, () => {
 	console.log(`Api runnning on port ${API_PORT}`)

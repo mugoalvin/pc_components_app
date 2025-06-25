@@ -1,28 +1,16 @@
 import axios from "axios";
 import dotenv from "dotenv"
 import express from "express";
-import {
-	AmdDevice,
-	ArkSeries,
-	IntelCoreScrapingOptions,
-	IntelGraphics,
-	IntelGraphicsScrapingOptions,
-	IntelUltraSeriesEnum,
-	RadeonSeries,
-	RyzenDesktopSeries,
-	IntelGenerationEnum,
-	IntelTierEnum
-} from "../../../packages/types.js";
 
 dotenv.config()
 const { SERVER_DOMAIN } = process.env
 
 const scrapeRouter = express.Router()
+scrapeRouter.use(express.json())
 
-scrapeRouter.post('/ark', async function(req, res){
-	const requestBody :IntelGraphicsScrapingOptions = { family: IntelGraphics.Ark, series: ArkSeries.B_Series}
+scrapeRouter.post('/ark', async function (req, res) {
 
-	await axios.post(`${SERVER_DOMAIN}/scrape/intel_ark`, requestBody)
+	await axios.post(`${SERVER_DOMAIN}/scrape/intel_ark`, req.body)
 		.then(serverResponce => {
 			res.json(serverResponce.data)
 		})
@@ -32,10 +20,9 @@ scrapeRouter.post('/ark', async function(req, res){
 })
 
 
-scrapeRouter.post('/ultra', async function(req, res) {
-	const requestBody = { series: IntelUltraSeriesEnum.Serie2 }
+scrapeRouter.post('/ultra', async function (req, res) {
 
-	await axios.post(`${SERVER_DOMAIN}/scrape/intel_ultra`, requestBody)
+	await axios.post(`${SERVER_DOMAIN}/scrape/intel_ultra`, req.body)
 		.then(serverResponce => {
 			res.json(serverResponce.data)
 		})
@@ -45,10 +32,9 @@ scrapeRouter.post('/ultra', async function(req, res) {
 })
 
 
-scrapeRouter.post('/core', async function(req, res) {
-	const requestBody: IntelCoreScrapingOptions = { tier: IntelTierEnum.i7, generation: IntelGenerationEnum.gen10 }
+scrapeRouter.post('/core', async function (req, res) {
 
-	await axios.post(`${SERVER_DOMAIN}/scrape/intel_core`, requestBody)
+	await axios.post(`${SERVER_DOMAIN}/scrape/intel_core`, req.body)
 		.then(serverResponce => {
 			res.json(serverResponce.data)
 		})
@@ -58,23 +44,21 @@ scrapeRouter.post('/core', async function(req, res) {
 })
 
 
-scrapeRouter.post('/ryzen', async function(req, res) {
-	const requestBody = { isLaptop: AmdDevice.Desktop, series: RyzenDesktopSeries.Series9000 }
+scrapeRouter.post('/ryzen', async function (req, res) {
 
-	await axios.post(`${SERVER_DOMAIN}/scrape/amd_ryzen`, requestBody)
+	await axios.post(`${SERVER_DOMAIN}/scrape/amd_ryzen`, req.body)
 		.then(serverResponce => {
 			res.json(serverResponce.data)
 		})
 		.catch(err => {
-			res.send(err.errorMsg)
+			res.send(err.errorMsg || err.message)
 		})
 })
 
 
-scrapeRouter.post('/radeon', async function(req, res) {
-	const requestBody = { series: RadeonSeries.Series7000 }
+scrapeRouter.post('/radeon', async function (req, res) {
 
-	await axios.post(`${SERVER_DOMAIN}/scrape/amd_radeon`, requestBody)
+	await axios.post(`${SERVER_DOMAIN}/scrape/amd_radeon`, req.body)
 		.then(serverResponce => {
 			res.json(serverResponce.data)
 		})
@@ -85,7 +69,8 @@ scrapeRouter.post('/radeon', async function(req, res) {
 
 
 scrapeRouter.post('/geforce', async function (req, res) {
-	await axios.post(`${SERVER_DOMAIN}/scrape/geforce`)
+
+	await axios.post(`${SERVER_DOMAIN}/scrape/geforce`, req.body)
 		.then(serverResponce => {
 			res.json(serverResponce.data)
 		})
