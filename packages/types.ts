@@ -5,13 +5,26 @@ export interface MyUrl {
 }
 
 
+export type DatabaseTables = "ark" | "core" | "radeon" | "ryzen" | "ultra"
+
+
 // ==================================================> AMD <==================================================
 export enum AmdScrape { Ryzen = 1, Radeon }
 export enum AmdDevice { Desktop, Laptop }
 export enum RyzenDesktopSeries { Series9000, Series8000, Series7000, Series5000, Series4000 }
 export enum RyzenLaptopSeries { RyzenAiMax, RyzenAi300, Ryzen200, Ryzen9000, Ryzen8000, Ryzen7000, Ryzen6000 }
+export const RyzenLaptopArray = ["RyzenAiMax", "RyzenAi300", "Ryzen200", "Ryzen9000", "Ryzen8000", "Ryzen7000", "Ryzen6000"]
 
-export enum RadeonSeries { Series9000, Series7000, Series6000 }
+export enum RyzenSeriesEnum { Series9000, Series8000, Series7000, Series5000, Series4000, RyzenAiMax, RyzenAi300, Ryzen200, Ryzen9000, Ryzen8000, Ryzen7000, Ryzen6000 }
+
+// @ts-ignore
+export enum RyzenSeriesNameEnum { "Ryzen 9000 Series", "Ryzen 8000 Series", "Ryzen 7000 Series", "Ryzen 5000 Series", "Ryzen 4000 Series", "Ryzen AI Max 300 Series", "Ryzen AI 300 Series", "Ryzen 200 Series", "Ryzen 9000 Series", "Ryzen 8000 Series", "Ryzen 7000 Series", "Ryzen 6000 Series" }
+export const RyzenSeriesNameArray = [ "Ryzen 9000 Series", "Ryzen 8000 Series", "Ryzen 7000 Series", "Ryzen 5000 Series", "Ryzen 4000 Series", "Ryzen AI Max 300 Series", "Ryzen AI 300 Series", "Ryzen 200 Series", "Ryzen 9000 Series", "Ryzen 8000 Series", "Ryzen 7000 Series", "Ryzen 6000 Series" ]
+
+export const RyzenSeriesArray = ["Series9000", "Series8000", "Series7000", "Series5000", "Series4000", "RyzenAiMax", "RyzenAi300", "Ryzen200", "Ryzen9000", "Ryzen8000", "Ryzen7000", "Ryzen6000"]
+export type RyzenSeriesType = "Series9000" | "Series8000" | "Series7000" | "Series5000" | "Series4000" | "RyzenAiMax" | "RyzenAi300" | "Ryzen200" | "Ryzen9000" | "Ryzen8000" | "Ryzen7000" | "Ryzen6000"
+
+export enum RadeonSeriesEnum { Series9000, Series7000, Series6000 }
 
 
 
@@ -61,5 +74,14 @@ export enum NvidiaGeforceSeries {
 
 
 
+
+
+// ================================================> Processors <================================================
+export enum ProcessorsEnum { "AMD", "Intel" }
+export const ProcessorsArray = ["AMD", "Intel"]
+
+
+
 // ================================================> Graphics <================================================
-export enum GraphicsBrand { "Ark", "Nvidia", "Radeon" }
+export enum GraphicsBrandEnum { "Ark", "Nvidia", "Radeon" }
+export const GraphicsBrandArray = ["Intel Ark", "Nvidia", "AMD Radeon"]

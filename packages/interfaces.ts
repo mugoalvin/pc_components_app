@@ -48,8 +48,8 @@ export interface Radeon {
 	h265_hevc_encode?: boolean
 	av1_decode?: boolean
 	av1_encode?: boolean
-	displayport?: string
-	hdmi?: string
+    displayport?: string
+    hdmi?: string
 	usb_type_c?: boolean
 	length?: string
 	slots?: number
@@ -61,10 +61,11 @@ export interface Radeon {
 
 // Ryzen
 export interface Ryzen {
-	name?: string
+    name: string
 	family?: string
 	series?: string
 	image?: string
+    device?: string
 	form_factor?: string
 	market_segment?: string
 	amd_pro_technologies?: boolean
