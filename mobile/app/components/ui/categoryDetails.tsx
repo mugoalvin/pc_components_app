@@ -10,10 +10,11 @@ interface CategoryDetailsProps {
 	categoryName?: string
 	description?: string
 	icon?: string
+	temporary?: boolean
 	onClick?: () => void
 }
 
-export default function CategoryDetails({ categoryName, description, icon, onClick }: CategoryDetailsProps) {
+export default function CategoryDetails({ categoryName, description, icon, onClick, temporary }: CategoryDetailsProps) {
 	const theme = useTheme()
 
 	return (
@@ -29,21 +30,15 @@ export default function CategoryDetails({ categoryName, description, icon, onCli
 			onPress={onClick}
 		>
 			<>
-				{/* <LinearGradient
-					// @ts-ignore
-					colors={randomGradient}
-					style={{ borderRadius: 15 }}
-					className="bg-cyan"
-				> */}
-					<View className='items-center justify-center rounded-xl' style={{ width: 80, aspectRatio: 1 }}>
-						<MaterialIcons
-							// @ts-ignore
-							name={icon}
-							size={50}
-							color={theme.colors.onSecondaryContainer}
-						/>
-					</View>
-				{/* </LinearGradient> */}
+				{temporary && <AppText className='text-xl' color={theme.colors.error}>Temporary Card</AppText>}
+				<View className='items-center justify-center rounded-xl' style={{ width: 80, aspectRatio: 1 }}>
+					<MaterialIcons
+						// @ts-expect-error
+						name={icon}
+						size={50}
+						color={theme.colors.onSecondaryContainer}
+					/>
+				</View>
 
 				<AppText bold className='text-xl'>{categoryName}</AppText>
 				<AppText color={theme.colors.onSurfaceDisabled} className='text-center'>{description}</AppText>
