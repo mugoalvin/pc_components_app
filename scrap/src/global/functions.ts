@@ -26,7 +26,7 @@ export function normalizeValue(value: string): string | string[] | number | bool
 }
 
 
-export function throwError(error: unknown, context?: string): never {
+export function handleError(error: unknown, context?: string): never {
 	if (error instanceof Error) {
 		error.message = context
 			? `${context}: ${error.message}`
@@ -53,7 +53,8 @@ export const launchOptions: LaunchOptions = {
 }
 
 
-export function convertArrayToString(inputValue: string | string[]): string {
+export function convertArrayToString(inputValue: number | string | string[]): string {
+	if (typeof (inputValue) === 'number') return String(inputValue)
 	if (inputValue.length == 0) return ''
 	if (typeof(inputValue) == "string") return inputValue
 	return inputValue.reduce(
@@ -68,10 +69,15 @@ export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | R
 		return Object.keys(obj).reduce((acc, key) => {
 			const value = obj[key as keyof typeof obj]
 			const targetKey = key == "processor_architecture" ? "architecture" : key
-			acc[targetKey] = Array.isArray(value) ?
-				convertArrayToString(value) :
-				typeof value == "boolean" ? value || false : value
-				?? undefined;
+
+			if (targetKey === "displayport" || targetKey === "hdmi") {
+				acc[targetKey] = convertArrayToString(value as string | string[])
+			} else {
+				acc[targetKey] = Array.isArray(value) ?
+					convertArrayToString(value) :
+					typeof value == "boolean" ? value || false : value
+						?? undefined;
+			}
 			return acc;
 		}, {} as Record<string, any>)
 	})
@@ -95,7 +101,7 @@ export async function writeJsonToFile(fileName: string, data: any) {
 		fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 		console.log(`✅ Successfully wrote data to ${filePath}`);
 	} catch (error) {
-		throwError(error, `❌ Error writing to file ${fileName}`);
+		throw handleError(error, `❌ Error writing to file ${fileName}`);
 	}
 }
 
@@ -112,6 +118,6 @@ export async function readJsonFromFile(fileName: string): Promise<any[]> {
 		const fileContent = fs.readFileSync(filePath, 'utf-8');
 		return JSON.parse(fileContent);
 	} catch (error) {
-		throwError(error, `❌ Error reading from file ${fileName}`);
+		throw handleError(error, `❌ Error reading from file ${fileName}`);
 	}
 }

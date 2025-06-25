@@ -4,7 +4,7 @@ import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine }
 import { IntelCore, IntelCoreUltra } from "../../../../../packages/interfaces"
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
-import { launchOptions, throwError } from '../../../global/functions'
+import { launchOptions, handleError } from '../../../global/functions'
 import { findTierAndGenMatch } from './core_ix'
 
 
@@ -29,7 +29,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 		return await fetchDetailedSpecifications(page, initialProcessorValues) as IntelCore[]
 	}
 	catch (error) {
-		throwError(error, `Failed to scrape ${scrapeOptions.generation}th gen Intel Core ${scrapeOptions.tier} processors.`)
+		throw handleError(error, `Failed to scrape ${scrapeOptions.generation}th gen Intel Core ${scrapeOptions.tier} processors.`)
 	}
 	finally {
 		await browser.close()
@@ -45,7 +45,7 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 		return await fetchDetailedSpecifications(page, initialProcessorValues, series) as IntelCoreUltra[]
 	}
 	catch (error) {
-		throwError(error, `Failed to scrape Intel Ultra ${series} Processors`)
+		throw handleError(error, `Failed to scrape Intel Ultra ${series} Processors`)
 	}
 	finally {
 		await browser.close()
@@ -54,13 +54,13 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 
 
 
-export const intelsKeysToKeep = [
-	// Intel Core
-	"name", "code_name", "vertical_segment", "processor_number", "lithography", 
-	"number_of_performance_cores", "number_of_efficient_cores", "total_threads", "max_turbo_frequency",
-	"cache", "processor_base_power", "launch_date", "memory_types", "graphics_output", "max_resolution_hdmi", "max_resolution_dp",
-	"number_of_displays_supported", 
+// export const intelsKeysToKeep = [
+// 	// Intel Core
+// 	"name", "code_name", "vertical_segment", "processor_number", "lithography", 
+// 	"number_of_performance_cores", "number_of_efficient_cores", "total_threads", "max_turbo_frequency",
+// 	"cache", "processor_base_power", "launch_date", "memory_types", "graphics_output", "max_resolution_hdmi", "max_resolution_dp",
+// 	"number_of_displays_supported", 
 
-	// Intel Ultra
-	"xe_cores", "ray_tracing", "recommended_customer_price",
-]
+// 	// Intel Ultra
+// 	"xe_cores", "ray_tracing", "recommended_customer_price",
+// ]

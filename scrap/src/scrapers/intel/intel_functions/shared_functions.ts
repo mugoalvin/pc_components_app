@@ -1,10 +1,10 @@
 import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
-import { throwError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
+import { handleError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../packages/interfaces'
 import { IntelUltraSeries } from '../../../../../packages/types'
-import { intelsKeysToKeep } from './intel_functions'
+// import { intelsKeysToKeep } from './intel_functions'
 
 dotenv.config()
 const { intel_website_domain } = process.env
@@ -60,10 +60,11 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 		const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
 		for (const product of products) {
 			const rawData = await getMoreInfoPerProduct(page, product)
-			const cleanedRawData = keepOnlyKeys(rawData, intelsKeysToKeep)
+			// const cleanedRawData = keepOnlyKeys(rawData, intelsKeysToKeep)
 
 			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk 
-			detailedInfo = series ? { ...cleanedRawData as IntelCoreUltra, series } : cleanedRawData as IntelCore | IntelArk
+			// detailedInfo = series ? { ...cleanedRawData as IntelCoreUltra, series } : cleanedRawData as IntelCore | IntelArk
+			detailedInfo = series ? { ...rawData as IntelCoreUltra, series } : rawData as IntelCore | IntelArk
 
 			const index = products.indexOf(product) + 1
 			const length = products.length
@@ -76,7 +77,7 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
 	}
 	catch (err) {
-		throwError(err, "Failed to fetch detailed information")
+		throw handleError(err, "Failed to fetch detailed information")
 	}
 }
 
@@ -106,6 +107,6 @@ export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {
 		})
 	}
 	catch (err) {
-		throwError(err, "Unable to read Intel data table.")
+		throw handleError(err, "Unable to read Intel data table.")
 	}
 }
