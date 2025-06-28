@@ -8,44 +8,59 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { ThemeContext } from '../context/ThemeContext';
 import '../global.css';
+import * as Updates from 'expo-updates'
+import { useEffect } from 'react';
 
 export default function App() {
-  const colorScheme = useColorScheme()
-  const { theme, resetTheme, updateTheme } = useMaterial3Theme({ sourceColor: "#ab8191", fallbackSourceColor: "#088204" })
+	async function onFetchUpdateAsync() {
+		try {
+			const update = await Updates.checkForUpdateAsync()
+			if (update.isAvailable) {
+				await Updates.fetchUpdateAsync()
+				await Updates.reloadAsync()
+			}
+		} catch (error) {
+			alert(`Error fetching latest expo update: ${error}`)
+		}
+	}
 
 
-  const finalTheme = {
-    ...(colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme),
-    colors: {
-      ...(colorScheme === 'dark' ? theme.dark : theme.light)
-    }
-  };
+	const colorScheme = useColorScheme()
+	const { theme, resetTheme, updateTheme } = useMaterial3Theme({ sourceColor: "#ab8191", fallbackSourceColor: "#088204" })
 
-  const [fontLoaded] = useFonts({
-    JosefinSans_400Regular, JosefinSans_700Bold, Zain_400Regular, Zain_800ExtraBold
-  })
 
-  if (!fontLoaded) {
-    return (
-      <View className='flex-1 items-center justify-center'>
-        <ActivityIndicator theme={finalTheme} />
-      </View>
-    )
-  }
+	const finalTheme = {
+		...(colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme),
+		colors: {
+			...(colorScheme === 'dark' ? theme.dark : theme.light)
+		}
+	};
 
-  return (
-    <ThemeContext.Provider value={{ resetTheme, updateTheme }}>
-      <PaperProvider theme={finalTheme}>
-        <GestureHandlerRootView>
-          <Stack screenOptions={getScreenOptions(finalTheme)}>
-            <Stack.Screen name='index'/>
-          </Stack>
-        </GestureHandlerRootView>
-      </PaperProvider>
-    </ThemeContext.Provider>
-  );
-}
+	const [fontLoaded] = useFonts({
+		JosefinSans_400Regular, JosefinSans_700Bold, Zain_400Regular, Zain_800ExtraBold
+	})
 
-export function updateMaretialTheme() {
+	// useEffect(() => {
+	// 	onFetchUpdateAsync()
+	// }, [])
 
+	if (!fontLoaded) {
+		return (
+			<View className='flex-1 items-center justify-center'>
+				<ActivityIndicator theme={finalTheme} />
+			</View>
+		)
+	}
+
+	return (
+		<ThemeContext.Provider value={{ resetTheme, updateTheme }}>
+			<PaperProvider theme={finalTheme}>
+				<GestureHandlerRootView>
+					<Stack screenOptions={getScreenOptions(finalTheme)}>
+						<Stack.Screen name='index'/>
+					</Stack>
+				</GestureHandlerRootView>
+			</PaperProvider>
+		</ThemeContext.Provider>
+	);
 }

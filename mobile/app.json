@@ -8,7 +8,9 @@
     "scheme": "mobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "jsEngine": "hermes",
     "ios": {
+      "jsEngine": "jsc",
       "supportsTablet": true,
       "bundleIdentifier": "com.mugoalvin.pccomponents"
     },
@@ -26,6 +28,12 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -35,13 +43,28 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-updates",
+        {
+          "username": "mugoalvin"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
-      "API_DOMAIN": "http://192.168.100.193:3000"
+      "API_DOMAIN": "http://192.168.100.193:3000",
+      "router": {},
+      "eas": {
+        "projectId": "08c0424d-7446-46df-8dc0-be2c10db4d50"
+      }
+    },
+    "owner": "mugoalvin",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/08c0424d-7446-46df-8dc0-be2c10db4d50"
     }
   }
 }

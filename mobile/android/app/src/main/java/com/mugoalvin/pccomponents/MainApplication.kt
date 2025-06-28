@@ -2,15 +2,17 @@ package com.mugoalvin.pccomponents
 
 import android.app.Application
 import android.content.res.Configuration
+
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
-import com.facebook.react.ReactHost
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.ReactPackage
+import com.facebook.react.ReactHost
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
+
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ReactNativeHostWrapper
 
@@ -23,19 +25,6 @@ class MainApplication : Application(), ReactApplication {
             val packages = PackageList(this).packages
             // Packages that cannot be autolinked yet can be added manually here, for example:
             // packages.add(MyReactNativePackage())
-            packages.add(object : ReactPackage() {
-              @Override
-              fun createNativeModules(reactContext: ReactApplicationContext?): List<NativeModule> {
-                val modules: List<NativeModule> = ArrayList()
-                modules.add(DynamicColorModule(reactContext))
-                return modules
-              }
-
-              @Override
-              fun createViewManagers(reactContext: ReactApplicationContext?): List<ViewManager> {
-                return Collections.emptyList()
-              }
-            })
             return packages
           }
 
