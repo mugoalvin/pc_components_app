@@ -16,7 +16,7 @@ const Dashboard = () => {
 	const theme = useTheme()
 	const navigator = useNavigation()
 	const [ searchValue, setSearchValue ] = useState<string>("")
-	const [isSearchBarLoading, setIsSearchBarLoading] = useState<boolean>(false)
+	const [ isSearchBarLoading, setIsSearchBarLoading] = useState<boolean>(false)
 	const [ isSearchBtnPressed, setIsSearchBtnPressed ] = useState<boolean>(false)
 
 	const changeButtonLoading = () => {

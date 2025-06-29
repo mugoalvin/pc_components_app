@@ -8,21 +8,21 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { ThemeContext } from '../context/ThemeContext';
 import '../global.css';
-import * as Updates from 'expo-updates'
-import { useEffect } from 'react';
+// import * as Updates from 'expo-updates'
+// import { useEffect } from 'react';
 
 export default function App() {
-	async function onFetchUpdateAsync() {
-		try {
-			const update = await Updates.checkForUpdateAsync()
-			if (update.isAvailable) {
-				await Updates.fetchUpdateAsync()
-				await Updates.reloadAsync()
-			}
-		} catch (error) {
-			alert(`Error fetching latest expo update: ${error}`)
-		}
-	}
+	// async function onFetchUpdateAsync() {
+	// 	try {
+	// 		const update = await Updates.checkForUpdateAsync()
+	// 		if (update.isAvailable) {
+	// 			await Updates.fetchUpdateAsync()
+	// 			await Updates.reloadAsync()
+	// 		}
+	// 	} catch (error) {
+	// 		alert(`Error fetching latest expo update: ${error}`)
+	// 	}
+	// }
 
 
 	const colorScheme = useColorScheme()

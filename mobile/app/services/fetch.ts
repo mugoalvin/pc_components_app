@@ -23,7 +23,7 @@ export async function getTableData(table: DatabaseTables) {
 		return res.data
 	}
 	catch (error: any) {
-		Alert.alert("Error getting table data", error.errorMsg || error.message)
+		Alert.alert(`Error getting ${table} table data`, error.errorMsg || error.message)
 	}
 }
 
