@@ -4,7 +4,7 @@ import { ProductBrandFilter, RyzenDeviceChipsOptions, RyzenTierChipsOptions } fr
 import useRyzenStore from "@/zustand/amd/ryzen";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { ActivityIndicator, Divider, Menu, useTheme } from "react-native-paper";
@@ -19,7 +19,6 @@ import SearchBarCustom from "../../components/ui/searchBarCustom";
 import { syncRyzenInventory } from "../../index";
 import { scrapeRyzen } from "../../services/scrape";
 
-import { openPage } from "@/utils/stackOptions";
 import Animated, { LinearTransition } from "react-native-reanimated";
 
 export default function RyzenProducts() {
@@ -195,24 +194,9 @@ export default function RyzenProducts() {
 						secondaryDescription={`${item.max_boost_clock} boost frequency`}
 						extraInfo={item.launch_date}
 						onPress={() =>
-							openPage({
-								selectedComponent: Number(selectedComponent),
-								brand: Number(brand),
-								amdSeries: Number(amdSeries)
-
-								// ...(line
-								// 	? {
-								// 		line: Number(line),
-								// 		...(
-								// 			amdSeries && { ultraSeries: Number(amdSeries) }
-								// 			||
-								// 			generation && { ultraSeries: Number(generation) }
-								// 		)
-								// 	}
-								// 	: {
-								// 		ultraSeries: Number(amdSeries)
-								// 	}
-								// )
+							router.push({
+								pathname: './product_details',
+								params: { processor: JSON.stringify(item) }
 							})
 						}
 					/>

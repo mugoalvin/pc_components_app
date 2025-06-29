@@ -9,7 +9,7 @@ import Body from '../components/ui/body'
 import Brand from './brand'
 import IntelLines from './intelLines'
 import ProductDetails from './product_details'
-import ProductsNavigator from './products'
+import ProductsNavigator from './productsNavigator'
 
 
 export default function CategoryNavigator() {

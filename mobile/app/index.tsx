@@ -3,6 +3,7 @@ import useRyzenStore from "@/zustand/amd/ryzen";
 import useIntelArkStore from "@/zustand/intel/ark";
 import useIntelCoreStore from "@/zustand/intel/core";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
+
 import { useEffect } from "react";
 import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../packages/interfaces";
 import Dashboard from "./pages/dashboard";
