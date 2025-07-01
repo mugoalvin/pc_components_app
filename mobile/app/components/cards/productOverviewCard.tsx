@@ -1,5 +1,6 @@
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { View } from 'react-native'
+import { Pressable } from 'react-native-gesture-handler'
 import { Divider, useTheme } from 'react-native-paper'
 import AppText from '../texts/appText'
 
@@ -17,14 +18,23 @@ export default function ProductOverviewCard({ index, title, series, productCount
 
 	return (
 		<>
-			{index !== 0 && <Divider className='my-2' style={{ backgroundColor: theme.colors.outline }} />}
-			<TouchableOpacity activeOpacity={0.4} className='pb-1 justify-center w-full' onPress={onPress}>
-				<View className='flex-row justify-between w-full mb-1'>
-					<AppText className='text-xl' bold>{title}</AppText>
+			{index !== 0 && <Divider style={{ backgroundColor: theme.colors.outline }} />}
+			<Pressable
+				onPress={onPress}
+				android_ripple={{
+					borderless: false,
+					color: theme.colors.primary,
+					radius: 200,
+				}}
+			>
+				<View className='my-2'>
+					<View className='mt-2 flex-row justify-between w-full'>
+						<AppText className='text-xl' bold>{title}</AppText>
+					</View>
+					<AppText bold color={theme.colors.onSurfaceDisabled}>{productCount || "7 Processors"}</AppText>
+					<AppText color={theme.colors.onSurfaceDisabled}>Last Updated: {lastUpdated || "6 days ago"}</AppText>
 				</View>
-				<AppText bold color={theme.colors.onSurfaceDisabled}>{productCount || "7 Processors"}</AppText>
-				<AppText color={theme.colors.onSurfaceDisabled}>Last Updated: {lastUpdated || "6 days ago"}</AppText>
-			</TouchableOpacity>
+			</Pressable>
 		</>
 	)
 }

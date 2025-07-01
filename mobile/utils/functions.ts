@@ -1,7 +1,8 @@
 import { getTableRowCount } from "@/app/services/fetch"
-import { Ryzen } from "../../packages/interfaces"
+import { Ryzen, IntelCoreUltra } from "../../packages/interfaces"
 import { DatabaseTables } from "../../packages/types"
 import { RyzenTierChipsOptions } from "./types"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export function makeKeyUserFriendly(text: string): string {
 	return text
@@ -38,6 +39,13 @@ export function filterRyzenWithPerformanceTier(processors: Ryzen[], tier: RyzenT
 
 export const isSet = (v: any) => v !== null && v !== undefined;
 
+export const setAsyncData = async (key: string, value: string) => {
+	await AsyncStorage.setItem(key, value)
+}
+
+export const getAsyncData = async (key: string): Promise<string> => {
+	return await AsyncStorage.getItem(key) || ''
+}
 
 export function getSectionedRyzenData(ryzenProcessors: Ryzen[]) {
 	function getCountPerSeries(series: string) {
@@ -66,6 +74,41 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[]) {
 			data: [
 				{ name: "Ryzen Ai Max", amdSeries: "RyzenAiMax", tableColumnData: "Ryzen AI Max", lastUpdated: "", count: `${getCountPerSeries("Ryzen AI Max 300 Series")} Processors` },
 				{ name: "Ryzen Ai 300", amdSeries: "RyzenAi300", tableColumnData: "Ryzen AI 300 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen AI 300 Series")} Processors` }
+			]
+		}
+	]
+}
+
+
+
+export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]) {
+	function getCountPerSeries(line: string) {
+		return ultraProcessors.filter(ultra => ultra.name?.includes(line) ).length
+	}
+
+	return [
+		{
+			title: "High-End",
+			data: [
+				{ name: "Ultra 9", lastUpdated: '', count: `${getCountPerSeries('Ultra 9')} Processors` },
+			]
+		},
+		{
+			title: "Upper Mid-Range",
+			data: [
+				{ name: "Ultra 7", lastUpdated: '', count: `${getCountPerSeries('Ultra 7')} Processors` },
+			]
+		},
+		{
+			title: "Entry/Mid-Range",
+			data: [
+				{ name: "Ultra 5", lastUpdated: '', count: `${getCountPerSeries('Ultra 5')} Processors` },
+			]
+		},
+		{
+			title: "Low-End",
+			data: [
+				{ name: "Ultra 3", lastUpdated: '', count: `${getCountPerSeries('Ultra 3')} Processors` },
 			]
 		}
 	]

@@ -3,10 +3,10 @@ import { ProductBrandFilter } from "@/utils/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import { IntelProcessorLine } from "../../../packages/types";
-import CategoryListing from "../components/cards/categoryListing";
-import HeaderBackArrow from "../components/headerBackArrow";
-import Body from "../components/ui/body";
+import { IntelProcessorLine } from "../../../../packages/types";
+import CategoryListing from "../../components/cards/categoryListing";
+import HeaderBackArrow from "../../components/headerBackArrow";
+import Body from "../../components/ui/body";
 
 export default function IntelLines() {
 	const navigation = useNavigation()

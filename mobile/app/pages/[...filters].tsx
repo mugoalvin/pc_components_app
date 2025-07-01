@@ -6,10 +6,10 @@ import { useLocalSearchParams } from 'expo-router'
 import React from 'react'
 import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
-import Brand from './brand'
-import IntelLines from './intelLines'
+import IntelLines from './intel/intelLines'
 import ProductDetails from './product_details'
 import ProductsNavigator from './productsNavigator'
+import RyzenBrand from './ryzen/ryzen_brand'
 
 
 export default function CategoryNavigator() {
@@ -21,13 +21,13 @@ export default function CategoryNavigator() {
 
 	if (!isSet(selectedComponent)) return <Index />
 
-	if (isSet(selectedComponent) && !isSet(brand)) return <ProductsBrands />
+	if (!isSet(brand)) return <ProductsBrands />
 
-	if (isSet(selectedComponent) && String(selectedComponent) === "0" && isSet(brand) && String(brand) === "1") return <IntelLines />
+	if (String(selectedComponent) === "0" && String(brand) === '0' && !isSet(amdSeries)) return <RyzenBrand />
 
-	if (isSet(selectedComponent) && isSet(brand) && (!isSet(amdSeries) && !isSet(ultraSeries))) return <Brand />
+	if (String(selectedComponent) === "0" && String(brand) === "1" && !isSet(line)) return <IntelLines />
 
-	if (isSet(selectedComponent) && isSet(brand) && (isSet(amdSeries) || isSet(ultraSeries)) && (!isSet(generation) || !isSet(line))) return <ProductsNavigator />
+	if (isSet(amdSeries) || isSet(ultraSeries) || isSet(line)) return <ProductsNavigator />
 
 	if (isSet(selectedComponent) && isSet(brand) && (isSet(amdSeries) || isSet(ultraSeries)) && (isSet(generation) || isSet(line))) return <ProductDetails />
 

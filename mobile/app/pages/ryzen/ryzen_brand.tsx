@@ -1,22 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { getSectionedRyzenData } from '@/utils/functions'
+import { getSectionedRyzenData, setAsyncData } from '@/utils/functions'
 import { openPage } from '@/utils/stackOptions'
-import { ProductBrandFilter, RyzenDeviceChipsOptions, SectionedRyzenDataItem } from '@/utils/types'
+import { ProductBrandFilter, RyzenDeviceChipsOptions, SectionedDataItem } from '@/utils/types'
 import useRyzenStore from '@/zustand/amd/ryzen'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { SectionList, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
-import { GraphicsBrandArray, IntelProcessorLine, ProcessorsArray, RyzenSeriesEnum } from '../../../packages/types'
-import ChipCustom from '../components/buttons/chips'
-import ProductOverviewCard from '../components/cards/productOverviewCard'
-import HeaderBackArrow from '../components/headerBackArrow'
-import AppText from '../components/texts/appText'
-import Body from '../components/ui/body'
+import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../packages/types'
+import ChipCustom from '../../components/buttons/chips'
+import ProductOverviewCard from '../../components/cards/productOverviewCard'
+import HeaderBackArrow from '../../components/headerBackArrow'
+import AppText from '../../components/texts/appText'
+import Body from '../../components/ui/body'
+import ChipView from '../../components/ui/chipView'
 
 
-export default function Brand() {
+export default function RyzenBrand() {
 	const theme = useTheme()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	const navigator = useNavigation()
@@ -27,19 +27,15 @@ export default function Brand() {
 	const [isDesktopSelected, setIsDesktopChipSelected] = useState<boolean>(false)
 	const [isLaptopSelected, setIsLaptopChipSelected] = useState<boolean>(false)
 
-
-	const ryzenInventory = useRyzenStore(state => state.ryzen_inventory)
-	const [sectionedRyzenData, setSectionedRyzenData] = useState<SectionedRyzenDataItem[]>([])
-
 	const falsifyAllChips = () => {
 		setIsAllChipSelected(false)
 		setIsDesktopChipSelected(false)
 		setIsLaptopChipSelected(false)
 	}
 
-	const setAsyncData = async (key: string, value: string) => {
-		await AsyncStorage.setItem(key, value)
-	}
+	const ryzenInventory = useRyzenStore(state => state.ryzen_inventory)
+	const [sectionedRyzenData, setSectionedRyzenData] = useState<SectionedDataItem[]>([])
+
 
 	const ProductsArray: string[] =
 		String(selectedComponent) === "0" ? ProcessorsArray :
@@ -71,7 +67,7 @@ export default function Brand() {
 
 	return (
 		<Body>
-			<View className='flex-row gap-2 flex-wrap'>
+			<ChipView>
 				<ChipCustom
 					chipText='All'
 					selected={isAllSelected}
@@ -83,7 +79,6 @@ export default function Brand() {
 				/>
 				<ChipCustom
 					chipText='Desktop'
-					// icon="monitor"
 					selected={isDesktopSelected}
 					onPress={() => {
 						falsifyAllChips()
@@ -93,7 +88,6 @@ export default function Brand() {
 				/>
 				<ChipCustom
 					chipText='Laptop'
-					// icon="laptop"
 					selected={isLaptopSelected}
 					onPress={async () => {
 						falsifyAllChips()
@@ -101,7 +95,7 @@ export default function Brand() {
 						setChipPressed('laptop')
 					}}
 				/>
-			</View>
+			</ChipView>
 
 			<SectionList
 				sections={sectionedRyzenData}
@@ -120,7 +114,7 @@ export default function Brand() {
 				renderItem={() => null}
 
 				renderSectionFooter={({ section }) => (
-					<View className='p-2 rounded-xl'
+					<View className='px-2 rounded-xl'
 						style={{ backgroundColor: theme.colors.elevation.level1 }}
 					>
 						{
@@ -135,11 +129,8 @@ export default function Brand() {
 									onPress={() => openPage({
 										selectedComponent: Number(selectedComponent),
 										brand: Number(brand),
-										...(
-											// @ts-ignore
-											Number(brand) === 0 && { amdSeries: Number(RyzenSeriesEnum[item.amdSeries]) || 0 } ||
-											Number(brand) === 1 && { line: Number(IntelProcessorLine.Ultra) }
-										)
+										// @ts-expect-error
+										amdSeries: Number(RyzenSeriesEnum[item.amdSeries] || 0),
 									})}
 								/>
 							)
