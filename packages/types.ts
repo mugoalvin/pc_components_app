@@ -38,6 +38,9 @@ export type IntelUltraSeries = "Series 1" | "Series 2"
 export enum IntelUltraSeriesEnum { Serie1 = "Series 1", Serie2 = "Series 2" }
 export const IntelUltraSeriesValues = ["Series 1", "Series 2"] as const;
 
+export enum IntelUltraTierEnum { Ultra9, Ultra7, Ultra5, Ultra3 }
+export const IntelUltraTierArray = [ 'Ultra9', 'Ultra7', 'Ultra5', 'Ultra3' ]
+
 // Core Processors
 export type IntelTier = "i9" | "i7" | "i5" | "i3"
 export enum IntelTierEnum { "i9" = "i9", "i7" = "i7", "i5" = "i5", "i3" = "i3" }

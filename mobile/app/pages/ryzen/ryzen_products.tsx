@@ -20,12 +20,13 @@ import { syncRyzenInventory } from "../../index";
 import { scrapeRyzen } from "../../services/scrape";
 
 import Animated, { LinearTransition } from "react-native-reanimated";
+import ChipView from "@/app/components/ui/chipView";
 
 export default function RyzenProducts() {
 	const theme = useTheme()
 	const navigation = useNavigation()
 	// @ts-expect-error
-	const { selectedComponent, brand, amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
 
 	const [isSearchBtnPressed, setIsSearchBtnPressed] = useState<boolean>(false)
 	const [isScrapingInProgress, setIsScrapingInProgress] = useState<boolean>(false)
@@ -148,7 +149,7 @@ export default function RyzenProducts() {
 		<Body>
 			{isSearchBtnPressed && <SearchBarCustom focused />}
 
-			<View className="flex-row gap-3 flex-wrap">
+			<ChipView>
 				<ChipCustom chipText="All" selected={isAllChipClicked} onPress={() => {
 					falsifyAllChips()
 					setIsAllChipClicked(prev => !prev)
@@ -178,14 +179,14 @@ export default function RyzenProducts() {
 					setChipPressed('3')
 				}}
 				/>
-			</View>
+			</ChipView>
 
 
 			<Animated.FlatList
 				itemLayoutAnimation={LinearTransition}
 				className="flex-1"
 				data={ryzenToDisplay}
-				keyExtractor={item => item.name} // Use a unique, stable key!
+				keyExtractor={item => item.name}
 				renderItem={({ item }) => (
 					<ProductCard
 						key={item.name}

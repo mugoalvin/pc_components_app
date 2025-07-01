@@ -20,8 +20,18 @@ const ChipCustom = ({chipText, selected, icon, onPress} : ChipsProps) => {
 			onPress={onPress}
 			selected={selected}
 			closeIcon="cancel"
+			showSelectedOverlay={true}
+			background={{
+				color: theme.colors.secondary,
+				borderless: false,
+				radius: 50,
+				foreground: true
+			}}
+			// style={{
+			// 	backgroundColor: selected ? theme.colors.secondaryContainer : theme.colors.elevation.level5
+			// }}
 		>
-			<AppText color={theme.colors.secondary} >{chipText}</AppText>
+			<AppText color={theme.colors.secondary}>{chipText}</AppText>
 		</Chip>
 	)
 }
