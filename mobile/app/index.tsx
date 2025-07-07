@@ -4,10 +4,13 @@ import useIntelArkStore from "@/zustand/intel/ark";
 import useIntelCoreStore from "@/zustand/intel/core";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../packages/interfaces";
 import Dashboard from "./pages/dashboard";
 import { getTableData } from "./services/fetch";
+import { FlatESLint } from "eslint/use-at-your-own-risk";
+import { SplashScreen } from "expo-router";
+import CustomSplashScreen from "./components/ui/customSplashScreen";
 
 
 // ===================== Exported Sync Functions =====================
@@ -71,5 +74,7 @@ export default function Index() {
 		syncIntelArkInventory();
 	}, []);
 
-	return <Dashboard />;
+	// if (!isAllLoaded) return <CustomSplashScreen />
+	// return <CustomSplashScreen />
+	return <Dashboard />
 }

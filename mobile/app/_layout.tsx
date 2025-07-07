@@ -3,54 +3,62 @@ import { JosefinSans_400Regular, JosefinSans_700Bold, useFonts } from '@expo-goo
 import { Zain_400Regular, Zain_800ExtraBold } from "@expo-google-fonts/zain";
 import { useMaterial3Theme } from '@pchmn/expo-material3-theme';
 import { Stack } from 'expo-router';
-import { View, useColorScheme } from 'react-native';
+import { useEffect, useState } from 'react';
+import { NativeModules, View, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { ThemeContext } from '../context/ThemeContext';
 import '../global.css';
-// import * as Updates from 'expo-updates'
-// import { useEffect } from 'react';
 
 export default function App() {
-	// async function onFetchUpdateAsync() {
-	// 	try {
-	// 		const update = await Updates.checkForUpdateAsync()
-	// 		if (update.isAvailable) {
-	// 			await Updates.fetchUpdateAsync()
-	// 			await Updates.reloadAsync()
-	// 		}
-	// 	} catch (error) {
-	// 		alert(`Error fetching latest expo update: ${error}`)
-	// 	}
-	// }
+    const { MaterialTheme } = NativeModules;
+    const [primaryColor, setPrimaryColor] = useState<string | null>(null);
 
+    useEffect(() => {
+        const loadPrimaryColor = async () => {
+            if (MaterialTheme && typeof MaterialTheme.getPrimaryColor === 'function') {
+                try {
+                    const color = await MaterialTheme.getPrimaryColor();
+                    console.log("Primary Color: ", color);
+                    setPrimaryColor(color);
+                } catch (e: any) {
+                    console.warn("Failed to load primary color:", e.message);
+                    setPrimaryColor("#ab8191"); // fallback
+                }
+            } else {
+                console.warn("MaterialTheme native module not available, using fallback color.");
+                setPrimaryColor("#ab8191"); // fallback
+            }
+        };
+        loadPrimaryColor();
+    }, []);
 
-	const colorScheme = useColorScheme()
-	const { theme, resetTheme, updateTheme } = useMaterial3Theme({ sourceColor: "#ab8191", fallbackSourceColor: "#088204" })
+    const colorScheme = useColorScheme();
 
+    // Only call useMaterial3Theme when primaryColor is available
+    const { theme, resetTheme, updateTheme } = useMaterial3Theme({
+        sourceColor: primaryColor ?? "#ab8191", // fallback until loaded
+        fallbackSourceColor: "#088204"
+    });
 
-	const finalTheme = {
-		...(colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme),
-		colors: {
-			...(colorScheme === 'dark' ? theme.dark : theme.light)
-		}
-	};
+    const finalTheme = {
+        ...(colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme),
+        colors: {
+            ...(colorScheme === 'dark' ? theme.dark : theme.light)
+        }
+    };
 
-	const [fontLoaded] = useFonts({
-		JosefinSans_400Regular, JosefinSans_700Bold, Zain_400Regular, Zain_800ExtraBold
-	})
+    const [fontLoaded] = useFonts({
+        JosefinSans_400Regular, JosefinSans_700Bold, Zain_400Regular, Zain_800ExtraBold
+    });
 
-	// useEffect(() => {
-	// 	onFetchUpdateAsync()
-	// }, [])
-
-	if (!fontLoaded) {
-		return (
-			<View className='flex-1 items-center justify-center'>
-				<ActivityIndicator theme={finalTheme} />
-			</View>
-		)
-	}
+    if (!fontLoaded || !primaryColor) {
+        return (
+            <View className='flex-1 items-center justify-center'>
+                <ActivityIndicator theme={finalTheme} />
+            </View>
+        );
+    }
 
 	return (
 		<ThemeContext.Provider value={{ resetTheme, updateTheme }}>

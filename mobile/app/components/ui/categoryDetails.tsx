@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import AppText from '../texts/appText';
 
@@ -18,7 +18,7 @@ export default function CategoryDetails({ categoryName, description, icon, onCli
 	const theme = useTheme()
 
 	return (
-		<TouchableOpacity
+		<Pressable
 			id={categoryName}
 			style={{
 				backgroundColor: theme.colors.elevation.level1,
@@ -26,8 +26,11 @@ export default function CategoryDetails({ categoryName, description, icon, onCli
 				aspectRatio: 1
 			}}
 			className='items-center justify-center rounded-xl'
-			activeOpacity={3}
 			onPress={onClick}
+			android_ripple={{
+				color: theme.colors.primaryContainer,
+				foreground: false,
+			}}
 		>
 			<>
 				{temporary && <AppText className='text-xl' color={theme.colors.error}>Temporary Card</AppText>}
@@ -43,6 +46,6 @@ export default function CategoryDetails({ categoryName, description, icon, onCli
 				<AppText bold className='text-xl'>{categoryName}</AppText>
 				<AppText color={theme.colors.onSurfaceDisabled} className='text-center'>{description}</AppText>
 			</>
-		</TouchableOpacity>
+		</Pressable>
 	)
 }
