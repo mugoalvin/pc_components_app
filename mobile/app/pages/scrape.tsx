@@ -1,11 +1,11 @@
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { AmdDevice, ArkSeries, IntelGenerationEnum, IntelGraphics, IntelTierEnum, IntelUltraSeriesEnum, RadeonSeriesEnum, RyzenLaptopSeries } from "../../../packages/types";
+import { AmdDevice, DataCenterSeries, IntelGenerationEnum, IntelGraphics, IntelTierEnum, IntelUltraSeriesEnum, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenLaptopSeries } from "../../../packages/types";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
 import SubTitle from "../components/texts/subTitle";
 import Body from "../components/ui/body";
-import { connectDatabase, scrapeArk, scrapeCore, scrapeRadeon, scrapeRyzen, scrapeUltra } from "../services/scrape";
+import { connectDatabase, scrapeArk, scrapeCore, scrapeGeForce, scrapeRadeon, scrapeRyzen, scrapeUltra } from "../services/scrape";
 
 export default function ScrapeData() {
 	const navigation = useNavigation()
@@ -49,6 +49,7 @@ export default function ScrapeData() {
 			
 
 			<SubTitle>Intel</SubTitle>
+
 			<ButtonCustom
 				btnText="Scrape Intel Ultra"
 				onPress={() => scrapeUltra({
@@ -67,8 +68,18 @@ export default function ScrapeData() {
 			<ButtonCustom
 				btnText="Scrape Intel Arc"
 				onPress={() => scrapeArk({
-					family: IntelGraphics.Ark,
-					series: ArkSeries.B_Series
+					family: IntelGraphics.DataCenter,
+					series: DataCenterSeries.Max_Series
+				})}
+			/>
+
+
+			<SubTitle>Intel</SubTitle>
+
+			<ButtonCustom
+				btnText="Scrape Nvidia"
+				onPress={() => scrapeGeForce({
+					series: NvidiaGeforceSeries.Series50
 				})}
 			/>
 		</Body>
