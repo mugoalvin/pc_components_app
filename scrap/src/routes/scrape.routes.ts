@@ -28,7 +28,7 @@ scrapeRouter.post('/intel_ark', async (req, res) => {
 		res.json({ success: `Successfully saved ${productCount} Intel Ark Graphics Cards.` })
 	}
 	catch (error: any) {
-		res.json({
+		res.status(500).json({
 			errorMsg: error.message
 		})
 	}
@@ -49,7 +49,7 @@ scrapeRouter.post('/intel_ultra', async (req, res) => {
 		res.json({ success: `Successfully saved Intel Ultra ${series} Processors.` })
 	}
 	catch (error: any) {
-		res.json({
+		res.status(500).json({
 			errorMsg: error.message
 		})
 	}
@@ -72,7 +72,7 @@ scrapeRouter.post('/intel_core', async (req, res): Promise<any> => {
 		res.json({ success: `Successfully saved ${generation}th gen Intel Core ${tier} Processors.` })
 	}
 	catch (error: any) {
-		res.json({
+		res.status(500).json({
 			errorMsg: error.message
 		})
 	}
@@ -88,7 +88,7 @@ scrapeRouter.post('/amd_ryzen', async function (req, res) {
 		res.json({ success: 'Successfully saved Ryzen processors' })
 	}
 	catch (error: any) {
-		res.json({
+		res.status(500).json({
 			errorMsg: error.message
 		})
 	}
@@ -103,7 +103,7 @@ scrapeRouter.post('/amd_radeon', async function (req, res) {
 		res.json({ success: 'Successfully saved all Radeon Cards.' })
 	}
 	catch (error: any) {
-		res.json({
+		res.status(500).json({
 			errorMsg: error.message
 		})
 	}
@@ -113,11 +113,11 @@ scrapeRouter.post('/amd_radeon', async function (req, res) {
 scrapeRouter.post('/geforce', async function (req, res) {
 	const { series } = req.body
 	try {
-		await runNvidiaGeforce(series)
-		res.json({ success: "Successfully scraped all Nvidia Cards." })
+		const length = await runNvidiaGeforce(series)
+		res.json({ success: `Successfully scraped ${length} Nvidia Cards.` })
 	}
 	catch (error: any) {
-		res.json({
+		res.status(500).json({
 			errorMsg: error.message
 		})
 	}

@@ -20,7 +20,7 @@ export async function saveRyzenProcessors(ryzenProcessors: any[]) {
 		console.log("\nSuccessfully saved all Ryzen Processors")
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		throw handleError(error, "Error saving Ryzen cards");
+		handleError(error, "Error saving Ryzen cards");
 	} finally {
 		await queryRunner.release();
 	}

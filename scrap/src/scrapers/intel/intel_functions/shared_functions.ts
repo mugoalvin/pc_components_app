@@ -77,7 +77,7 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
 	}
 	catch (err) {
-		throw handleError(err, "Failed to fetch detailed information")
+		handleError(err, "Failed to fetch detailed information")
 	}
 }
 
@@ -107,6 +107,6 @@ export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {
 		})
 	}
 	catch (err) {
-		throw handleError(err, "Unable to read Intel data table.")
+		handleError(err, "Unable to read Intel data table.")
 	}
 }

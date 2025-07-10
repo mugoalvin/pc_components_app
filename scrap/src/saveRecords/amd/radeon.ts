@@ -19,7 +19,7 @@ export async function saveRadeonCards(radeonCards: any[]) {
         await queryRunner.commitTransaction();
     } catch (error) {
         await queryRunner.rollbackTransaction();
-        throw handleError(error, "Error saving Radeon cards");
+        handleError(error, "Error saving Radeon cards");
     } finally {
         await queryRunner.release();
     }

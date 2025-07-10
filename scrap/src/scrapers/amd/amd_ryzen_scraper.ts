@@ -35,7 +35,7 @@ async function runRyzenScraper(isLaptopProcessors: number, serie?: RyzenDesktopS
 		await saveRyzenProcessors(validatedRyzenprocessors)
 	}
 	catch (error: any) {
-		throw handleError(error)
+		handleError(error)
 	}
 }
 
