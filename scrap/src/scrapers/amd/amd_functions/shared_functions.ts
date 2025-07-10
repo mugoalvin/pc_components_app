@@ -142,7 +142,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
             detailedSpecs.push(specs)
         } catch (error) {
-            throw handleError(error, `Failed to fetch info for ${product.name}`)
+            handleError(error, `Failed to fetch info for ${product.name}`)
         }
     }
     return detailedSpecs
@@ -179,7 +179,7 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | Ryze
         
         return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
     } catch (error) {
-        throw handleError(error, "Failed to fetch AMD products")
+        handleError(error, "Failed to fetch AMD products")
     } finally {
         await browser.close()
     }

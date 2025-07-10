@@ -18,7 +18,7 @@ export async function saveIntelUltraProcessors(ultraProcessors: any[]) {
 		await queryRunner.commitTransaction();
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		throw handleError(error, "Error saving Ultra Processors");
+		handleError(error, "Error saving Ultra Processors");
 	} finally {
 		await queryRunner.release();
 	}

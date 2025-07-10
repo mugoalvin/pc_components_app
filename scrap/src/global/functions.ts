@@ -2,7 +2,7 @@ import { LaunchOptions } from "puppeteer";
 import fs from "fs";
 import path from "path";
 
-import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../../packages/interfaces";
+import { IntelArk, IntelCore, IntelCoreUltra, NvidiaGeForce, Radeon, Ryzen } from "../../../packages/interfaces";
 
 export function normalizeKey(str: string) {
 	return str
@@ -64,7 +64,7 @@ export function convertArrayToString(inputValue: number | string | string[]): st
 }
 
 
-export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | Ryzen[] | Radeon[] | IntelArk[]) {
+export function normalizeData(arrayOfObjects: IntelCore[] | IntelCoreUltra[] | Ryzen[] | Radeon[] | IntelArk[] | NvidiaGeForce[]) {
 	return arrayOfObjects.map(obj => {
 		return Object.keys(obj).reduce((acc, key) => {
 			const value = obj[key as keyof typeof obj]
@@ -101,7 +101,7 @@ export async function writeJsonToFile(fileName: string, data: any) {
 		fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 		console.log(`✅ Successfully wrote data to ${filePath}`);
 	} catch (error) {
-		throw handleError(error, `❌ Error writing to file ${fileName}`);
+		handleError(error, `❌ Error writing to file ${fileName}`);
 	}
 }
 
@@ -118,6 +118,6 @@ export async function readJsonFromFile(fileName: string): Promise<any[]> {
 		const fileContent = fs.readFileSync(filePath, 'utf-8');
 		return JSON.parse(fileContent);
 	} catch (error) {
-		throw handleError(error, `❌ Error reading from file ${fileName}`);
+		handleError(error, `❌ Error reading from file ${fileName}`);
 	}
 }

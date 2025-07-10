@@ -385,3 +385,55 @@ export interface IntelArk {
     intel_deep_link_hyper_encode?: boolean;
     intel_deep_link_stream_assist?: boolean;
 }
+
+
+// =============================================> Nvidia GeForce <=============================================
+export interface NvidiaGeForce {
+    name?: string
+    nvidia_cuda_cores?: number
+    shader_cores?: string
+    tensor_cores_ai?: string
+    ray_tracing_cores?: string
+    boost_clock_ghz?: number
+    base_clock_ghz?: number
+    standard_memory_config?: string
+    memory_interface_width?: string
+    maximum_digital_resolution_1?: string
+    standard_display_connectors?: string
+    multi_monitor?: string
+    hdcp?: number
+    nvidia_architecture?: string
+    ray_tracing?: boolean
+    nvidia_dlss?: string
+    nvidia_reflex?: string
+    nvidia_broadcast?: boolean
+    pci_express_gen_5?: boolean
+    resizable_bar?: boolean
+    nvidia_app?: boolean
+    nvidia_freestyle?: boolean
+    nvidia_shadowplay?: boolean
+    nvidia_highlights?: boolean
+    nvidia_g_sync?: boolean
+    game_ready_drivers?: boolean
+    nvidia_studio_drivers?: boolean
+    nvidia_omniverse?: boolean
+    rtx_remix?: boolean
+    microsoft_directx_12_ultimate?: boolean
+    nvidia_gpu_boost?: boolean
+    nvidia_nvlink_sli_ready?: boolean
+    vulkan_1_4_opengl_4_6?: boolean
+    nvidia_encoder_nvenc?: string
+    nvidia_decoder_nvdec?: string
+    av1_encode?: boolean
+    av1_decode?: boolean
+    cuda_capability?: number
+    vr_ready?: boolean
+    length?: string
+    width?: string
+    slot?: string
+    sff_ready_enthusiast_geforce_card?: string
+    maximum_gpu_temperature_in_c?: number,
+    total_graphics_power_w?: number,
+    required_system_power_w_5?: number
+    required_power_connectors?: string
+}

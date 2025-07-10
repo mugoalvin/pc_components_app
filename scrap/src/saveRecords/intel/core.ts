@@ -19,7 +19,7 @@ export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
 		await queryRunner.commitTransaction();
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		throw handleError(error, "Error saving Core Ix processors")
+		handleError(error, "Error saving Core Ix processors")
 	} finally {
 		await queryRunner.release();
 	}

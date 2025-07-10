@@ -18,7 +18,7 @@ export async function saveIntelArkGraphics(arkGraphicsCards: any[]) {
 		await queryRunner.commitTransaction();
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		throw handleError(error, "Error saving Intel Ark Graphics Cards");
+		handleError(error, "Error saving Intel Ark Graphics Cards");
 	} finally {
 		await queryRunner.release();
 	}

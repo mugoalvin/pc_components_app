@@ -7,6 +7,7 @@ import { RyzenEntity } from "./entities/amd/ryzen"
 import { CoreEntity } from "./entities/intel/core"
 import { UltraEntity } from "./entities/intel/ultra"
 import { ArkEntity } from './entities/intel/ark'
+import { GeForce } from './entities/nvidia/geforce'
 
 
 dotenv.config()
@@ -20,14 +21,14 @@ export const AppDataSource = new DataSource({
 	username: USERNAME,
 	password: PASSWORD || '',
 	database: DATABASE_NAME,
-	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity],
+	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity, GeForce],
 	synchronize: isDevelopment
 })
 
 export async function initDatabase() {
 	await AppDataSource.initialize()
 		.catch(error => {
-			throw handleError(error)
+			handleError(error)
 		})
 }	
 
@@ -35,6 +36,6 @@ export async function initDatabase() {
 export async function disConnectDatabase() {
 	await AppDataSource.destroy()
 		.catch(err => {
-			throw handleError(err)
+			handleError(err)
 		})
 }

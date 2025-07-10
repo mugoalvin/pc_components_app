@@ -16,6 +16,6 @@ export function findTierAndGenMatch(processorCells: { text: string | null; link:
 		})
 	}
 	catch (err) {
-		throw handleError(err, "Unable to find processors tier and generation match.")
+		handleError(err, "Unable to find processors tier and generation match.")
 	}
 }

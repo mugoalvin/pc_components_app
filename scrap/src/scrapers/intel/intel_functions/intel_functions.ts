@@ -29,7 +29,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 		return await fetchDetailedSpecifications(page, initialProcessorValues) as IntelCore[]
 	}
 	catch (error) {
-		throw handleError(error, `Failed to scrape ${scrapeOptions.generation}th gen Intel Core ${scrapeOptions.tier} processors.`)
+		handleError(error, `Failed to scrape ${scrapeOptions.generation}th gen Intel Core ${scrapeOptions.tier} processors.`)
 	}
 	finally {
 		await browser.close()
@@ -45,7 +45,7 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 		return await fetchDetailedSpecifications(page, initialProcessorValues, series) as IntelCoreUltra[]
 	}
 	catch (error) {
-		throw handleError(error, `Failed to scrape Intel Ultra ${series} Processors`)
+		handleError(error, `Failed to scrape Intel Ultra ${series} Processors`)
 	}
 	finally {
 		await browser.close()
