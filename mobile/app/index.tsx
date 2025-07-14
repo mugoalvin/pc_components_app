@@ -3,14 +3,12 @@ import useRyzenStore from "@/zustand/amd/ryzen";
 import useIntelArkStore from "@/zustand/intel/ark";
 import useIntelCoreStore from "@/zustand/intel/core";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
+import useNvidiaGeforceStore from "@/zustand/nvidia/geforce";
 
-import { useEffect, useState } from "react";
-import { IntelArk, IntelCore, IntelCoreUltra, Radeon, Ryzen } from "../../packages/interfaces";
-import Dashboard from "./pages/dashboard";
+import { useEffect, } from "react";
+import { IntelArk, IntelCore, IntelCoreUltra, NvidiaGeForce, Radeon, Ryzen } from "../../packages/interfaces";
 import { getTableData } from "./services/fetch";
-import { FlatESLint } from "eslint/use-at-your-own-risk";
-import { SplashScreen } from "expo-router";
-import CustomSplashScreen from "./components/ui/customSplashScreen";
+import Dashboard from "./pages/dashboard";
 
 
 // ===================== Exported Sync Functions =====================
@@ -65,6 +63,21 @@ export async function syncIntelArkInventory() {
 	updateIntelArkInventoryCount(intelArk.length);
 }
 
+
+// Nvidia Geforce
+export async function syncNvidiaGeforceInventory() {
+	try {
+		const updateGeforceInventory = useNvidiaGeforceStore.getState().update_geforce_inventory
+		const updateGeforceInventoryCount = useNvidiaGeforceStore.getState().update_geforce_inventory_count
+		const geforceGraphics = await getTableData("geforce") as NvidiaGeForce[];
+		updateGeforceInventory(geforceGraphics);
+		updateGeforceInventoryCount(geforceGraphics.length);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
+
 export default function Index() {
 	useEffect(() => {
 		syncRyzenInventory();
@@ -72,6 +85,7 @@ export default function Index() {
 		syncIntelCoreInventory();
 		syncIntelUltraInventory();
 		syncIntelArkInventory();
+		syncNvidiaGeforceInventory();
 	}, []);
 
 	// if (!isAllLoaded) return <CustomSplashScreen />

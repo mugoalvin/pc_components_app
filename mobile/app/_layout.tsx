@@ -12,22 +12,24 @@ import '../global.css';
 
 export default function App() {
     const { MaterialTheme } = NativeModules;
-    const [primaryColor, setPrimaryColor] = useState<string | null>(null);
+    const [primaryColor, setPrimaryColor] = useState<string>();
 
     useEffect(() => {
         const loadPrimaryColor = async () => {
             if (MaterialTheme && typeof MaterialTheme.getPrimaryColor === 'function') {
                 try {
                     const color = await MaterialTheme.getPrimaryColor();
-                    console.log("Primary Color: ", color);
-                    setPrimaryColor(color);
+                    const hexColor = '#' + (color >>> 0).toString(16).padStart(8, "0").slice(2)
+                    console.log("Primary Color Type: ", hexColor);
+                    setPrimaryColor(hexColor);
+                    updateTheme(hexColor)
                 } catch (e: any) {
                     console.warn("Failed to load primary color:", e.message);
                     setPrimaryColor("#ab8191"); // fallback
                 }
             } else {
                 console.warn("MaterialTheme native module not available, using fallback color.");
-                setPrimaryColor("#ab8191"); // fallback
+                setPrimaryColor("#088204"); // fallback
             }
         };
         loadPrimaryColor();
@@ -37,7 +39,7 @@ export default function App() {
 
     // Only call useMaterial3Theme when primaryColor is available
     const { theme, resetTheme, updateTheme } = useMaterial3Theme({
-        sourceColor: primaryColor ?? "#ab8191", // fallback until loaded
+        sourceColor: primaryColor,
         fallbackSourceColor: "#088204"
     });
 

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import ChipView from "@/app/components/ui/chipView";
 import { filterRyzenWithPerformanceTier } from "@/utils/functions";
 import { ProductBrandFilter, RyzenDeviceChipsOptions, RyzenTierChipsOptions } from "@/utils/types";
 import useRyzenStore from "@/zustand/amd/ryzen";
@@ -8,7 +9,9 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { ActivityIndicator, Divider, Menu, useTheme } from "react-native-paper";
+import Animated, { LinearTransition } from "react-native-reanimated";
 import { AmdDevice, RyzenDesktopSeries, RyzenLaptopSeries, RyzenSeriesArray, RyzenSeriesNameArray, RyzenSeriesNameEnum } from "../../../../packages/types";
+
 import ChipCustom from "../../components/buttons/chips";
 import ProductCard from "../../components/cards/productCard";
 import HeaderBackArrow from "../../components/headerBackArrow";
@@ -19,8 +22,6 @@ import SearchBarCustom from "../../components/ui/searchBarCustom";
 import { syncRyzenInventory } from "../../index";
 import { scrapeRyzen } from "../../services/scrape";
 
-import Animated, { LinearTransition } from "react-native-reanimated";
-import ChipView from "@/app/components/ui/chipView";
 
 export default function RyzenProducts() {
 	const theme = useTheme()
