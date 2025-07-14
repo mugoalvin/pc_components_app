@@ -38,7 +38,6 @@ export default function ProductDetails() {
 						color={theme.colors.background}
 					>
 						<Image
-							// source="https://www.amd.com/content/dam/amd/en/images/products/processors/ryzen/2613900-ryzen-9-9950x.jpg"
 							source={product.image}
 							style={{ flex: 1 }}
 						/>

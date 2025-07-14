@@ -6,11 +6,17 @@ import TextInputLabel from '../texts/inputTextLabel'
 interface TextInputCustomProps {
 	label: string
 	className?:string
+	onValueChange?: (newValue: string) => void
 }
 
 
-function TextInputCustom({ className, label }: TextInputCustomProps) {
+function TextInputCustom({ className, label, onValueChange }: TextInputCustomProps) {
 	const [value, setValue] = useState<string>("")
+
+	const handleTextChange = (newText: string) => {
+		setValue(newText)
+		onValueChange && onValueChange(newText)
+	}
 
 	return (
 		<TextInput
@@ -18,7 +24,7 @@ function TextInputCustom({ className, label }: TextInputCustomProps) {
 			className={`${className}`}
 			label={<TextInputLabel>{label}</TextInputLabel>}
 			value={value}
-			onChangeText={(newText) => setValue(newText)}
+			onChangeText={handleTextChange}
 			contentStyle={{ fontFamily: "Zain_400Regular" }}
 		/>
 	)

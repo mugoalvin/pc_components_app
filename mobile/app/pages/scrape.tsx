@@ -1,11 +1,11 @@
 import { useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { AmdDevice, DataCenterSeries, IntelGenerationEnum, IntelGraphics, IntelTierEnum, IntelUltraSeriesEnum, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenLaptopSeries } from "../../../packages/types";
+import { connectDatabase, scrapeArk, scrapeCore, scrapeGeForce, scrapeRadeon, scrapeRyzen, scrapeUltra } from "../services/scrape";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
 import SubTitle from "../components/texts/subTitle";
 import Body from "../components/ui/body";
-import { connectDatabase, scrapeArk, scrapeCore, scrapeGeForce, scrapeRadeon, scrapeRyzen, scrapeUltra } from "../services/scrape";
 
 export default function ScrapeData() {
 	const navigation = useNavigation()

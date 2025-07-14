@@ -9,14 +9,14 @@ export const graphicsBrandsArray = [
 	},
 	{
 		name: "Nvidia",
-		tableNames: ["core", "ultra", "ark"] as DatabaseTables[],
-		logoImage: require("../../assets/images/radeon_logo.png"),
+		tableNames: "geforce" as DatabaseTables,
+		logoImage: require("../../assets/images/nvidia_logo.png"),
 		enumName: "Nvidia"
 	},
 	{
 		name: "AMD Radeon",
 		tableNames: 'radeon' as DatabaseTables,
-		logoImage: require("../../assets/images/nvidia_logo.png"),
+		logoImage: require("../../assets/images/radeon_logo.png"),
 		enumName: "Radeon"
 	}
 ]

@@ -5,7 +5,7 @@ export interface MyUrl {
 }
 
 
-export type DatabaseTables = "ark" | "core" | "radeon" | "ryzen" | "ultra"
+export type DatabaseTables = "ark" | "core" | "radeon" | "ryzen" | "ultra" | "geforce"
 
 
 // ==================================================> AMD <==================================================
