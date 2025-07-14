@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, useColorScheme, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import AppText from '../texts/appText';
 
@@ -16,19 +16,21 @@ interface CategoryDetailsProps {
 
 export default function CategoryDetails({ categoryName, description, icon, onClick, temporary }: CategoryDetailsProps) {
 	const theme = useTheme()
+	const colorScheme = useColorScheme()
 
 	return (
 		<Pressable
 			id={categoryName}
 			style={{
-				backgroundColor: theme.colors.elevation.level1,
+				backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.elevation.level1,
 				width: "48%",
 				aspectRatio: 1
 			}}
 			className='items-center justify-center rounded-xl'
 			onPress={onClick}
 			android_ripple={{
-				color: theme.colors.primaryContainer,
+				// color: theme.colors.primaryContainer,
+				color: theme.colors.elevation.level1,
 				foreground: false,
 			}}
 		>

@@ -5,7 +5,7 @@ import { ProductBrandFilter, RyzenDeviceChipsOptions, SectionedDataItem } from '
 import useRyzenStore from '@/zustand/amd/ryzen'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { SectionList, View } from 'react-native'
+import { SectionList, useColorScheme, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../packages/types'
 import ChipCustom from '../../components/buttons/chips'
@@ -18,8 +18,9 @@ import ChipView from '../../components/ui/chipView'
 
 export default function RyzenBrand() {
 	const theme = useTheme()
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	const navigator = useNavigation()
+	const colorScheme = useColorScheme()
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	const { selectedComponent, brand } = params
 
 	const [chipPressed, setChipPressed] = useState<RyzenDeviceChipsOptions>('all')
@@ -103,7 +104,7 @@ export default function RyzenBrand() {
 				renderSectionHeader={({ section: { title } }) => (
 					<AppText
 						key={title}
-						bg_color={theme.colors.surface}
+						bg_color={colorScheme === 'light' ? theme.colors.elevation.level0 : theme.colors.surface}
 						bold
 						className='text-2xl pt-4 mb-2'
 						color={theme.colors.onBackground}
@@ -115,7 +116,7 @@ export default function RyzenBrand() {
 
 				renderSectionFooter={({ section }) => (
 					<View className='px-2 rounded-xl'
-						style={{ backgroundColor: theme.colors.elevation.level1 }}
+						style={{ backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.elevation.level1 }}
 					>
 						{
 							(section.data).map((item, index) =>

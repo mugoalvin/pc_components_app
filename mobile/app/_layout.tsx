@@ -22,14 +22,13 @@ export default function App() {
                     const hexColor = '#' + (color >>> 0).toString(16).padStart(8, "0").slice(2)
                     console.log("Primary Color Type: ", hexColor);
                     setPrimaryColor(hexColor);
-                    updateTheme(hexColor)
                 } catch (e: any) {
                     console.warn("Failed to load primary color:", e.message);
                     setPrimaryColor("#ab8191"); // fallback
                 }
             } else {
                 console.warn("MaterialTheme native module not available, using fallback color.");
-                setPrimaryColor("#088204"); // fallback
+                setPrimaryColor("#22191e"); // fallback
             }
         };
         loadPrimaryColor();
@@ -66,7 +65,7 @@ export default function App() {
 		<ThemeContext.Provider value={{ resetTheme, updateTheme }}>
 			<PaperProvider theme={finalTheme}>
 				<GestureHandlerRootView>
-					<Stack screenOptions={getScreenOptions(finalTheme)}>
+					<Stack screenOptions={getScreenOptions(finalTheme, colorScheme)}>
 						<Stack.Screen name='index'/>
 					</Stack>
 				</GestureHandlerRootView>

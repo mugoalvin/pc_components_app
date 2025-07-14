@@ -1,13 +1,14 @@
-import { ProductBrandFilter } from "./types"
 import { router } from "expo-router"
+import { ColorSchemeName } from "react-native"
+import { ProductBrandFilter } from "./types"
 
-export function getScreenOptions(theme: any) {
+export function getScreenOptions(theme: any, colorScheme: ColorSchemeName) {
 	return {
 		headerShown: true,
 		headerShadowVisible: false,
 		headerStyle: {
 			// backgroundColor: colorScheme === 'dark' ? finalTheme.colors.surface : finalTheme.colors.onSecondaryContainer
-			backgroundColor: theme.colors.background
+			backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background
 		},
 		headerTitleStyle: {
 			fontSize: theme.fonts.displaySmall.fontSize,

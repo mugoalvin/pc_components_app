@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import AppText from "../texts/appText";
 
@@ -15,7 +15,15 @@ export default function ProductCard({ title, mainDescription, secondaryDescripti
 	const theme = useTheme()
 
 	return (
-		<TouchableOpacity className="my-3 rounded-lg" onPress={onPress}>
+		<Pressable
+			onPress={onPress}
+			className="py-3"
+			android_ripple={{
+				borderless: false,
+				color: theme.colors.inversePrimary,
+				radius: 200,
+			}}
+		>
 			<View>
 				<AppText bold className="text-xl mb-2">{title}</AppText>
 			</View>
@@ -29,6 +37,6 @@ export default function ProductCard({ title, mainDescription, secondaryDescripti
 					<AppText>{extraInfo}</AppText>
 				</View>
 			</View>
-		</TouchableOpacity>
+		</Pressable>
 	)
 }
