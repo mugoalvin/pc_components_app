@@ -23,7 +23,7 @@ export default function ProductOverviewCard({ index, title, series, productCount
 				onPress={onPress}
 				android_ripple={{
 					borderless: false,
-					color: theme.colors.primary,
+					color: theme.colors.inversePrimary,
 					radius: 200,
 				}}
 			>
