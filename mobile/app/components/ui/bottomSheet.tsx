@@ -8,24 +8,34 @@ interface PageWithBottomSheetProps {
 	children?: React.ReactNode
 	sheetContent?: React.ReactNode
 	ref?: React.Ref<BottomSheetMethods>
-	onChange?: (index: number) => void
 	initialSnapIndex?: number
+	snapPoints?: (number | string)[]
+	onChange?: (index: number) => void
 }
 
-export default function PageWithBottomSheet({ children, sheetContent, initialSnapIndex, ref, onChange } : PageWithBottomSheetProps) {
+export default function PageWithBottomSheet({ children, sheetContent, snapPoints, initialSnapIndex, ref, onChange }: PageWithBottomSheetProps) {
 	const theme = useTheme()
 
 	return (
 		<GestureHandlerRootView>
 			{children}
-			<BottomSheet ref={ref} onChange={onChange} index={initialSnapIndex}
+			<BottomSheet
+				ref={ref}
+				onChange={onChange}
+				index={initialSnapIndex}
+				snapPoints={snapPoints}
+				enablePanDownToClose={true}
+
 				handleIndicatorStyle={{
 					backgroundColor: theme.colors.secondary
 				}}
 				backgroundStyle={{
 					backgroundColor: theme.colors.secondaryContainer,
 					borderTopLeftRadius: 30,
-					borderTopRightRadius: 30
+					borderTopRightRadius: 30,
+					borderBottomLeftRadius: 30,
+					borderBottomRightRadius: 30
+
 				}}>
 				
 				<BottomSheetView style={{ marginHorizontal: 10 }} className=''>
