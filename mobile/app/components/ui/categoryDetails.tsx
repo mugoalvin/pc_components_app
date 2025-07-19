@@ -24,18 +24,17 @@ export default function CategoryDetails({ categoryName, description, icon, onCli
 			style={{
 				backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.elevation.level1,
 				width: "48%",
-				aspectRatio: 1
+				aspectRatio: 1,
+				elevation: 3
 			}}
 			className='items-center justify-center rounded-xl'
 			onPress={onClick}
 			android_ripple={{
-				// color: theme.colors.primaryContainer,
-				color: theme.colors.elevation.level1,
+				color: theme.colors.secondaryContainer,
 				foreground: false,
 			}}
 		>
 			<>
-				{temporary && <AppText className='text-xl' color={theme.colors.error}>Temporary Card</AppText>}
 				<View className='items-center justify-center rounded-xl' style={{ width: 80, aspectRatio: 1 }}>
 					<MaterialIcons
 						// @ts-expect-error

@@ -55,7 +55,8 @@
       "typedRoutes": true
     },
     "extra": {
-      "API_DOMAIN": "http://192.168.100.193:3000",
+      "API_DOMAIN": "http://192.168.100.206:3000",
+      // "API_DOMAIN": "http://localhost:3000",
       "router": {},
       "eas": {
         "projectId": "08c0424d-7446-46df-8dc0-be2c10db4d50"

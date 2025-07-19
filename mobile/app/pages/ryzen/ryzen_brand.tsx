@@ -115,8 +115,12 @@ export default function RyzenBrand() {
 				renderItem={() => null}
 
 				renderSectionFooter={({ section }) => (
-					<View className='px-2 rounded-xl'
-						style={{ backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.elevation.level1 }}
+					<View
+						className='px-2 rounded-xl'
+						style={{
+							backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.elevation.level1,
+							elevation: 5
+						}}
 					>
 						{
 							(section.data).map((item, index) =>

@@ -20,7 +20,6 @@ export default function App() {
                 try {
                     const color = await MaterialTheme.getPrimaryColor();
                     const hexColor = '#' + (color >>> 0).toString(16).padStart(8, "0").slice(2)
-                    console.log("Primary Color Type: ", hexColor);
                     setPrimaryColor(hexColor);
                 } catch (e: any) {
                     console.warn("Failed to load primary color:", e.message);

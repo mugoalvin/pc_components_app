@@ -94,7 +94,6 @@ export default function RyzenProducts() {
 									closeEllipsisMenu()
 									setIsScrapingInProgress(true)
 									await scrapeRyzen({
-
 										isLaptop: AmdDevice.Desktop,
 										series: RyzenDesktopSeries[RyzenSeriesArray[Number(amdSeries)] as keyof typeof RyzenDesktopSeries]
 									})
