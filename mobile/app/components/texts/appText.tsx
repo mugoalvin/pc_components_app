@@ -8,13 +8,17 @@ export interface AppTextProps {
 	color?: string
 	className?: string
 	bg_color?: string
+	numberOfLines?: number
+	ellipsizeMode?: "head" | "middle" | "tail" | "clip"
 }
 
-export default function AppText({bold, bg_color, children, color, className }: AppTextProps) {
+export default function AppText({bold, bg_color, children, color, className, ellipsizeMode, numberOfLines }: AppTextProps) {
 	const theme = useTheme()
 
 	return (
 		<Text
+			numberOfLines={numberOfLines}
+			ellipsizeMode={ellipsizeMode}
 			className={`
 			 	${bold ? "font-zain_bold" : "font-zain"}
 				${className}

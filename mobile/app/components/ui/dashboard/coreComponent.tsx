@@ -1,10 +1,13 @@
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Pressable, useColorScheme, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
 import AppText from "../../texts/appText";
 
+type library = "MaterialIcons" | "FontAwesome6"
+
 interface CoreComponentsProps {
+	iconLib: library
 	icon?: string
 	title?: string
 	extra?: string
@@ -12,7 +15,7 @@ interface CoreComponentsProps {
 	onPress?: () => void
 }
 
-export default function CoreComponents( {icon, title, extra, full, onPress}: CoreComponentsProps ) {
+export default function CoreComponents({ iconLib, icon, title, extra, full, onPress }: CoreComponentsProps) {
 	const theme = useTheme()
 	const colorScheme = useColorScheme()
 
@@ -27,16 +30,31 @@ export default function CoreComponents( {icon, title, extra, full, onPress}: Cor
 			onPress={onPress}
 			>
 			<View className='h-full aspect-[2/3] items-center justify-center'>
-				<MaterialIcons
-					// @ts-expect-error
-					name={icon}
-					size={50}
-					color={theme.colors.onSecondaryContainer}
-				/>
+				{
+					iconLib == "MaterialIcons" &&
+					<MaterialIcons
+						// @ts-expect-error
+						name={icon}
+						size={50}
+						color={theme.colors.onSecondaryContainer}
+					/>
+				}
+				{
+					iconLib == "FontAwesome6" &&
+					<FontAwesome
+						// @ts-expect-error
+						name={icon}
+						size={40}
+						color={theme.colors.onSecondaryContainer}
+					/>
+				}
 			</View>
-			<View className="justify-center">
+			<View className="justify-center flex-1 pr-3">
 				<AppText bold className="text-2xl">{title}</AppText>
-				<AppText className="text-lg" color={theme.colors.onSurfaceDisabled}>{extra}</AppText>
+				{
+					extra &&
+					<AppText className="text-lg" color={theme.colors.onSurfaceDisabled} numberOfLines={1} ellipsizeMode="tail">{extra}</AppText>
+				}
 			</View>
 		</Pressable>
 	)	
