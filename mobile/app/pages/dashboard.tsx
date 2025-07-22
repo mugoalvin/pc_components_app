@@ -1,18 +1,21 @@
-import { openPage } from "@/utils/stackOptions";
-import { ComponentTypeEnum } from '@/utils/types';
 import { Ionicons } from "@expo/vector-icons";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { router, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Menu, useTheme } from "react-native-paper";
 
-import Row from '../components/row';
+import { openPage } from "@/utils/stackOptions";
+import { ComponentTypeEnum } from "@/utils/types";
 import AppText from "../components/texts/appText";
 import Body from "../components/ui/body";
 import PageWithBottomSheet from "../components/ui/bottomSheet";
-import CategoryDetails from '../components/ui/categoryDetails';
+import CoreComponents from "../components/ui/dashboard/coreComponent";
+import DashboardSection from "../components/ui/dashboard/section";
+import NewParts from "../components/ui/newParts";
+import RecommendedForYou from "../components/ui/recommendedForYou";
 import SearchBarCustom from "../components/ui/searchBarCustom";
 import ThemeChooser from "../components/ui/themeChooser";
 
@@ -41,10 +44,6 @@ const Dashboard = () => {
 
 	const openSheet = () => {
 		bottomSheetRef.current?.snapToIndex(0)
-	}
-
-	const closeSheet = () => {
-		bottomSheetRef.current?.close()
 	}
 
 	useEffect(() => {
@@ -105,19 +104,66 @@ const Dashboard = () => {
 					/>
 				}
 
-				<ScrollView className='flex-col' style={{ rowGap: 10 }}>
-					<Row>
-						<CategoryDetails categoryName='Processor' description='CPU cores and performance' icon='memory' onClick={() => openPage({ selectedComponent: ComponentTypeEnum.Processors })} />
-						<CategoryDetails categoryName='Graphics Cards' description="GPU's for gaming and workstations" icon='monitor' onClick={() => openPage({ selectedComponent: ComponentTypeEnum.Graphics })} />
-					</Row>
-					<Row>
-						<CategoryDetails categoryName='Memory' description='RAM modules and storage' icon='storage' />
-						<CategoryDetails categoryName='Motherboards' description='System boards and chipsets' icon='all-out' />
-					</Row>
-					<Row>
-						<CategoryDetails categoryName='Storage' description="SSD's, HDD's and NVME drives" icon='storage' />
-						<CategoryDetails categoryName='Scrape' description="Source Data from the internet" icon='download' onClick={() => router.push({ pathname: "/pages/scrape" })} />
-					</Row>
+				<ScrollView showsVerticalScrollIndicator={false} className='flex-col'>
+
+					<DashboardSection
+						HeaderComponent={
+							<View className="flex-row gap-2 items-start">
+								<FontAwesome6 name="gripfire" color={theme.colors.primary} size={20} />
+								<AppText bold className="text-2xl">Recommended For You</AppText>
+							</View>
+						}
+						BodyComponent={<RecommendedForYou />}
+					/>
+
+					<DashboardSection
+						HeaderComponent={
+							<View className="flex-row gap-2 items-baseline">
+								<AppText bold className="text-3xl" color={theme.colors.primary}>NEW</AppText>
+								<AppText bold className="text-2xl">Components</AppText>
+							</View>
+						}
+						BodyComponent={
+							<ScrollView horizontal showsHorizontalScrollIndicator={false} className="w-full">
+								{
+									[1, 2, 3, 4].map((component, index) =>
+										<NewParts
+											key={index}
+											index={index}
+											image="https://static.gigabyte.com/StaticFile/Image/Global/8672dbdf9d50a340b83d98d5399729ca/Product/32032/webp/1000"
+											title="Ryzen 9 9950X"
+											description="16-Core - 5.7GHz"
+										/>
+									)
+								}
+							</ScrollView>
+						}
+					/>
+
+					<DashboardSection
+						HeaderComponent={
+							<AppText bold className="text-2xl">Core Components</AppText>
+						}
+						BodyComponent={
+							<View className="flex-row justify-between">
+								<CoreComponents key="processor" title="Processors" extra="AMD & Intel" iconLib="MaterialIcons" icon="memory" onPress={() => openPage({ selectedComponent: ComponentTypeEnum.Processors })} />
+								<CoreComponents key="gpu" title='Graphics Cards' extra="Nvidia, Radeon" iconLib="MaterialIcons" icon='monitor' onPress={() => openPage({ selectedComponent: ComponentTypeEnum.Graphics })} />
+							</View>
+						}
+					/>
+
+					<DashboardSection
+						HeaderComponent={
+							<AppText bold className="text-2xl">Tools & Utilities</AppText>
+						}
+						BodyComponent={
+							<View className="flex-col gap-2 justify-between">
+								<CoreComponents key="scrape" title='Scraper' extra="Source Parts From The Web" iconLib="MaterialIcons" icon='download' full onPress={() => router.push({ pathname: "/pages/scrape" })} />
+								<CoreComponents key="settings" title='Settings' iconLib="FontAwesome6" icon='gear' full onPress={openSheet} />
+							</View>
+						}
+					/>
+
 				</ScrollView>
 			</Body>
 		</PageWithBottomSheet>

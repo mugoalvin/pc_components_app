@@ -24,7 +24,7 @@ export default function ThemeChooser() {
 
 	return (
 		<>
-			<AppText className="text-5xl mb-3" bold>App Appearance</AppText>
+			<AppText className="text-4xl mb-3" bold>App Appearance</AppText>
 
 			<AppText bold className="text-2xl mt-3">Theme</AppText>
 			<View className="flex-row h-52 items-center justify-evenly rounded-xl"  style={{ backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.onSecondary }}>

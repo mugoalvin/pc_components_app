@@ -35,10 +35,9 @@ export default function PageWithBottomSheet({ children, sheetContent, snapPoints
 					borderTopRightRadius: 30,
 					borderBottomLeftRadius: 30,
 					borderBottomRightRadius: 30
-
-				}}>
-				
-				<BottomSheetView style={{ marginHorizontal: 10 }} className=''>
+				}}
+			>	
+				<BottomSheetView style={{ marginHorizontal: 10 }}>
 					{sheetContent}
 				</BottomSheetView>
 			</BottomSheet>
