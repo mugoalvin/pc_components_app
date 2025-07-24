@@ -40,7 +40,7 @@ const Dashboard = () => {
 	}
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
-	const snapPoints = useMemo(() => ['33%', '75%', '95%'], [])
+	const snapPoints = useMemo(() => ['50%', '75%'], [])
 
 	const openSheet = () => {
 		bottomSheetRef.current?.snapToIndex(0)

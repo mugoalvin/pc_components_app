@@ -7,7 +7,8 @@ export function getScreenOptions(theme: any, colorScheme: ColorSchemeName) {
 		headerShown: true,
 		headerShadowVisible: false,
 		headerStyle: {
-			// backgroundColor: colorScheme === 'dark' ? finalTheme.colors.surface : finalTheme.colors.onSecondaryContainer
+			// backgroundColor: colorScheme === 'dark' ? theme.colors.surface : theme.colors.onSecondaryContainer
+			// backgroundColor: theme.colors.secondaryContainer
 			backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background
 		},
 		headerTitleStyle: {
@@ -16,8 +17,6 @@ export function getScreenOptions(theme: any, colorScheme: ColorSchemeName) {
 			color: theme.colors.onBackground
 		},
 		headerTitleAlign: 'left' as const,
-		// headerTintColor: colorScheme === 'dark' ? theme.colors.onSurface : theme.colors.secondaryContainer,
-		// headerTintColor: theme.colors.secondaryContainer,
 
 		gestureEnabled: true,
 		// animation: "slide_from_right" as const,
