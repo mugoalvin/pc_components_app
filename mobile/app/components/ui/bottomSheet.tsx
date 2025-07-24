@@ -25,7 +25,6 @@ export default function PageWithBottomSheet({ children, sheetContent, snapPoints
 				index={initialSnapIndex}
 				snapPoints={snapPoints}
 				enablePanDownToClose={true}
-
 				handleIndicatorStyle={{
 					backgroundColor: theme.colors.secondary
 				}}

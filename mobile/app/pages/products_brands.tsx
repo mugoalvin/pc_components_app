@@ -5,6 +5,7 @@ import { DashboardCategoryTypeArray, ProductBrandFilter } from '@/utils/types'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
 import { ScrollView } from 'react-native'
+
 import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
 import CategoryListing from '../components/cards/categoryListing'
 import HeaderBackArrow from "../components/headerBackArrow"
@@ -16,7 +17,6 @@ export default function ProductsBrands() {
 	const { selectedComponent } = params
 	const capitalizeFirstCharacter = (text: string) => (text.slice(0, 1) as string).toUpperCase().concat((text as string).slice(1))
 
-
 	useEffect(() => {
 		navigator.setOptions({
 			title: capitalizeFirstCharacter(DashboardCategoryTypeArray[selectedComponent || 0]),
@@ -25,8 +25,6 @@ export default function ProductsBrands() {
 			)
 		})
 	})
-
-
 
 	return (
 		<Body>
