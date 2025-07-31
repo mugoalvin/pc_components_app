@@ -22,9 +22,7 @@ export default function ProductOverviewCard({ index, title, series, productCount
 			<Pressable
 				onPress={onPress}
 				android_ripple={{
-					borderless: false,
-					color: theme.colors.inversePrimary,
-					radius: 200,
+					color: theme.colors.secondaryContainer,
 				}}
 			>
 				<View className='my-2'>

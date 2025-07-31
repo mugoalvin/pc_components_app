@@ -3,14 +3,14 @@ import useRyzenStore from '@/zustand/amd/ryzen'
 import useIntelArkStore from '@/zustand/intel/ark'
 import useIntelCoreStore from '@/zustand/intel/core'
 import useIntelCoreUltraStore from '@/zustand/intel/ultra'
+import useNvidiaGeforceStore from '@/zustand/nvidia/geforce'
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Pressable, useColorScheme, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { DatabaseTables } from '../../../../packages/types'
 import ImageCust from '../images/imageCust'
 import AppText from '../texts/appText'
-import useNvidiaGeforceStore from '@/zustand/nvidia/geforce'
 
 interface CategoryListingProps {
 	label?: string
@@ -23,6 +23,7 @@ interface CategoryListingProps {
 
 export default function CategoryListing({ label, tables, image, onClick }: CategoryListingProps) {
 	const theme = useTheme()
+	const colorScheme = useColorScheme()
 	
 	const ryzenCount = useRyzenStore(state => state.ryzen_inventory_count)
 	const radeonCount = useRadeonStore(state => state.radeon_inventory_count)
@@ -73,8 +74,19 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 	}
 
 	return (
-		<TouchableOpacity className='w-full h-24 px-1 rounded-xl flex-row justify-between' onPress={onClick} >
-			<View className='h-full flex-row items-center gap-5' >
+		<Pressable
+			className='w-full h-24 px-3 mb-3 rounded-xl flex-row justify-between'
+			onPress={onClick}
+			android_ripple={{
+				color: theme.colors.secondaryContainer
+			}}
+			style={{
+				backgroundColor: colorScheme === 'light'
+					? theme.colors.elevation.level5
+					: theme.colors.elevation.level2
+			}}
+		>
+			<View className='flex-row items-center gap-5' >
 				<View className={`items-center justify-center w-14 rounded-md aspect-square`}>
 					<ImageCust source={image} width={56} height={56} />
 				</View>
@@ -86,6 +98,6 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 			<View className='justify-center'>
 				<MaterialIcons name='chevron-right' color={theme.colors.onSecondaryContainer} size={20} />
 			</View>
-		</TouchableOpacity>
+		</Pressable>
 	)
 }

@@ -10,6 +10,7 @@ import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
 import CategoryListing from '../components/cards/categoryListing'
 import HeaderBackArrow from "../components/headerBackArrow"
 import Body from '../components/ui/body'
+import AppText from "../components/texts/appText"
 
 export default function ProductsBrands() {
 	const navigator = useNavigation()
@@ -28,7 +29,7 @@ export default function ProductsBrands() {
 
 	return (
 		<Body>
-			<ScrollView className='gap-3'>
+			<ScrollView>
 				{
 					String(selectedComponent) === "0" && (
 						processorsBrandsArray.map(brand => {
