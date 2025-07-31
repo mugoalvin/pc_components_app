@@ -19,9 +19,7 @@ export default function ProductCard({ title, mainDescription, secondaryDescripti
 			onPress={onPress}
 			className="py-3"
 			android_ripple={{
-				borderless: false,
-				color: theme.colors.inversePrimary,
-				radius: 200,
+				color: theme.colors.secondaryContainer,
 			}}
 		>
 			<View>
