@@ -6,7 +6,7 @@ import ChipView from "@/app/components/ui/chipView";
 import { getAsyncData } from "@/utils/functions";
 import { ProductBrandFilter, UltraDeviceChipsOptions, UltraSeriesChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import Animated, { LinearTransition } from "react-native-reanimated";
@@ -104,6 +104,12 @@ export default function UltraProducts(){
 						mainDescription={`${ item.number_of_performance_cores } cores ${ item.total_threads } threads`}
 						secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
 						extraInfo={item.recommended_customer_price || item.launch_date}
+						onPress={() =>
+							router.push({
+								pathname: './product_details',
+								params: { processor: JSON.stringify(item) }
+							})
+						}
 					/>
 				)}
 				ItemSeparatorComponent={() => <Divider bold/>}

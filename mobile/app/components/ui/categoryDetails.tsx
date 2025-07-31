@@ -31,7 +31,6 @@ export default function CategoryDetails({ categoryName, description, icon, onCli
 			onPress={onClick}
 			android_ripple={{
 				color: theme.colors.secondaryContainer,
-				foreground: false,
 			}}
 		>
 			<>

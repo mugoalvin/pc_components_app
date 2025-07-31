@@ -1,12 +1,12 @@
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { Pressable, useColorScheme, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import AppText from "../../texts/appText";
 
-type library = "MaterialIcons" | "FontAwesome6"
+type library = "MaterialIcons" | "FontAwesome6" | "MaterialCommunityIcons"
 
-interface CoreComponentsProps {
+interface CoreComponentProps {
 	iconLib: library
 	icon?: string
 	title?: string
@@ -15,7 +15,7 @@ interface CoreComponentsProps {
 	onPress?: () => void
 }
 
-export default function CoreComponents({ iconLib, icon, title, extra, full, onPress }: CoreComponentsProps) {
+export default function CoreComponent({ iconLib, icon, title, extra, full, onPress }: CoreComponentProps) {
 	const theme = useTheme()
 	const colorScheme = useColorScheme()
 
@@ -25,7 +25,6 @@ export default function CoreComponents({ iconLib, icon, title, extra, full, onPr
 			style={{ backgroundColor: colorScheme === 'light'? theme.colors.elevation.level5 : theme.colors.elevation.level2 }}
 			android_ripple={{
 				color: theme.colors.secondaryContainer,
-				foreground: false,
 			}}
 			onPress={onPress}
 			>
@@ -42,6 +41,15 @@ export default function CoreComponents({ iconLib, icon, title, extra, full, onPr
 				{
 					iconLib == "FontAwesome6" &&
 					<FontAwesome
+						// @ts-expect-error
+						name={icon}
+						size={40}
+						color={theme.colors.onSecondaryContainer}
+					/>
+				}
+				{
+					iconLib === "MaterialCommunityIcons" &&
+					<MaterialCommunityIcons
 						// @ts-expect-error
 						name={icon}
 						size={40}
