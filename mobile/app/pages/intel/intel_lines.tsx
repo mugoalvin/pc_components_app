@@ -1,8 +1,9 @@
+import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount } from "@/app/index";
 import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter } from "@/utils/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { ScrollView } from "react-native-gesture-handler";
+import { useEffect, useState } from "react";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import { IntelProcessorLine } from "../../../../packages/types";
 import CategoryListing from "../../components/cards/categoryListing";
 import HeaderBackArrow from "../../components/headerBackArrow";
@@ -11,6 +12,7 @@ import Body from "../../components/ui/body";
 export default function IntelLines() {
 	const navigation = useNavigation()
 	const { selectedComponent, brand } = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const [ isPageRefreshing, setIsPageRefreshing ] = useState<boolean>(false)
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -21,10 +23,23 @@ export default function IntelLines() {
 		})
 	})
 
-
 	return (
 		<Body>
-			<ScrollView className='gap-3' showsVerticalScrollIndicator={false}>
+			<ScrollView
+				className='gap-3'
+				showsVerticalScrollIndicator={false}
+				refreshControl={
+					<RefreshControl
+						refreshing={isPageRefreshing}
+						onRefresh={async () => {
+							setIsPageRefreshing(true)
+							await syncIntelCoreInventoryCount()
+							await syncIntelUltraInventoryCount()
+							setIsPageRefreshing(false)
+						}}
+					/>
+				}
+			>
 				<CategoryListing
 					label="Ultra"
 					tables="ultra"

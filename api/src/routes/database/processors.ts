@@ -6,8 +6,7 @@ processorRouter.use(express.json())
 
 
 processorRouter.post('/getCount', async function (req, res) {
-	// const table =  req.body.table
-	const table = "ark"
+	const table = req.body.table
 	!ApiDataSource.isInitialized && await initApiDatabase()
 	const result = await ApiDataSource.query(`SELECT COUNT(*) AS count FROM ${ table }`)
 	res.send(result[0].count)

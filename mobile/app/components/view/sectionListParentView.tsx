@@ -11,7 +11,7 @@ export default function SectionListParentView({ children } : SectionListParentVi
 
 	return (
 		<View
-			className='px-2 rounded-xl'
+			className='px-3 rounded-xl mb-5'
 			style={{
 				backgroundColor: colorScheme === 'light'
 					? theme.colors.elevation.level5

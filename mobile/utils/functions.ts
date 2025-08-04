@@ -135,57 +135,68 @@ export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]): Sectio
 			: []
 	})).filter(section => section.data.length > 0)
 
-
 	return filteredSections.length > 0
 		? filteredSections
 		: []
 }
 
 
-export function isIntelGenMatching(processor_number: string, gen: IntelGeneration) {
-	const match = processor_number.match(/i\d-(\d{4,5})/);
+export function isIntelGenMatching(processor_number: string, gen: number): boolean {
+	const match = processor_number.match(/-(\d+)/);
 	if (!match) return false;
-	const modelNum = match[1];
-	const detectedGen = modelNum.length === 5 ? Number(modelNum.slice(0, 2)) : Number(modelNum[0]);
-	return detectedGen === gen;
+
+	const modelNumber = match[1];
+	if (modelNumber.length < 2) return false;
+
+	const first = Number(modelNumber[0]);
+	const second = Number(modelNumber[1]);
+	const genDigits = first < 4 ? Number(`${first}${second}`) : first;
+
+	return genDigits === gen;
 }
 
+
 export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: CoreDeviceChipsOptions): SectionedDataItem[] {
-
-
-	function getCountPerGeneration(generation: IntelGeneration) {
-		return coreProcessors.filter(core => isIntelGenMatching(core.processor_number || "", generation)).length
+	
+	function getCountPerGeneration(generation: IntelGeneration, chipPressed: CoreDeviceChipsOptions) {
+		return coreProcessors
+			.filter(core =>
+				isIntelGenMatching(core.processor_number || "", generation) && (
+					chipPressed === 'all' ? core :
+					core.vertical_segment?.toLowerCase() === chipPressed
+				)
+			).length
 	}
 	const allSections = [
 		{
 			title: "Hybrid Era",
 			data: [
-				{ name: "Gen 14", generation: 'gen14', lastUpdated: '', count: `${getCountPerGeneration(14)} Processors` },
-				{ name: "Gen 13", generation: 'gen13', lastUpdated: '', count: `${getCountPerGeneration(13)} Processors` },
-				{ name: "Gen 12", generation: 'gen12', lastUpdated: '', count: `${getCountPerGeneration(12)} Processors` },
+				{ name: "Gen 14", generation: 'gen14', lastUpdated: '', count: `${getCountPerGeneration(14, chipPressed)} Processors`, },
+				{ name: "Gen 13", generation: 'gen13', lastUpdated: '', count: `${getCountPerGeneration(13, chipPressed)} Processors`, },
+				{ name: "Gen 12", generation: 'gen12', lastUpdated: '', count: `${getCountPerGeneration(12, chipPressed)} Processors`, },
 			]
 		},
 		{
 			title: "Final Monolithic",
 			data: [
-				{ name: "Gen 11", generation: 'gen11', lastUpdated: '', count: `${getCountPerGeneration(11)} Processors` },
-				{ name: "Gen 10", generation: 'gen10', lastUpdated: '', count: `${getCountPerGeneration(10)} Processors` },
+				{ name: "Gen 11", generation: 'gen11', lastUpdated: '', count: `${getCountPerGeneration(11, chipPressed)} Processors`, },
+				{ name: "Gen 10", generation: 'gen10', lastUpdated: '', count: `${getCountPerGeneration(10, chipPressed)} Processors`, },
 			]
 		},
 		{
 			title: "Transition Era",
 			data: [
-				{ name: "Gen 9", generation: 'gen9', lastUpdated: '', count: `${getCountPerGeneration(9)} Processors` },
-				{ name: "Gen 8", generation: 'gen8', lastUpdated: '', count: `${getCountPerGeneration(8)} Processors` }
+				{ name: "Gen 9", generation: 'gen9', lastUpdated: '', count: `${getCountPerGeneration(9, chipPressed)} Processors`, },
+				{ name: "Gen 8", generation: 'gen8', lastUpdated: '', count: `${getCountPerGeneration(8, chipPressed)} Processors`, }
 			]
 		},
 		{
 			title: "Legacy Era",
 			data: [
-				{ name: "Gen 7", generation: 'gen8', lastUpdated: '', count: `${getCountPerGeneration(8)} Processors` },
-				{ name: "Gen 6", generation: 'gen6', lastUpdated: '', count: `${getCountPerGeneration(6)} Processors` },
-				{ name: "Gen 5", generation: 'gen5', lastUpdated: '', count: `${getCountPerGeneration(5)} Processors` },
-				{ name: "Gen 4", generation: 'gen4', lastUpdated: '', count: `${getCountPerGeneration(4)} Processors` }
+				{ name: "Gen 7", generation: 'gen8', lastUpdated: '', count: `${getCountPerGeneration(8, chipPressed)} Processors`, },
+				{ name: "Gen 6", generation: 'gen6', lastUpdated: '', count: `${getCountPerGeneration(6, chipPressed)} Processors`, },
+				{ name: "Gen 5", generation: 'gen5', lastUpdated: '', count: `${getCountPerGeneration(5, chipPressed)} Processors`, },
+				{ name: "Gen 4", generation: 'gen4', lastUpdated: '', count: `${getCountPerGeneration(4, chipPressed)} Processors`, }
 			]
 		}
 	]
@@ -195,10 +206,10 @@ export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: C
 		/* TODO */
 		// Don't forget to handle the below login to dynamically display or remove sections in the section list.
 
-		// data: section.data.filter(item => {
-		// 	const count = parseInt(item.count)
-		// 	return !isNaN(count) && count > 0
-		// })
+		data: section.data.filter(item => {
+			const count = parseInt(item.count)
+			return !isNaN(count) && count > 0
+		})
 	})).filter(section => section.data.length > 0)
 
 	return filteredSections.length > 0

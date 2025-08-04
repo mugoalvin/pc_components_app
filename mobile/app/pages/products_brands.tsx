@@ -3,20 +3,23 @@ import { processorsBrandsArray } from "@/utils/brands/processorsBrands"
 import { openPage } from '@/utils/stackOptions'
 import { DashboardCategoryTypeArray, ProductBrandFilter } from '@/utils/types'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
-import React, { useEffect } from 'react'
-import { ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { RefreshControl, ScrollView } from 'react-native'
 
+import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncRyzenInventoryCount } from "@/app/index"
 import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
 import CategoryListing from '../components/cards/categoryListing'
 import HeaderBackArrow from "../components/headerBackArrow"
 import Body from '../components/ui/body'
-import AppText from "../components/texts/appText"
 
 export default function ProductsBrands() {
 	const navigator = useNavigation()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	const { selectedComponent } = params
 	const capitalizeFirstCharacter = (text: string) => (text.slice(0, 1) as string).toUpperCase().concat((text as string).slice(1))
+
+	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
+
 
 	useEffect(() => {
 		navigator.setOptions({
@@ -25,11 +28,28 @@ export default function ProductsBrands() {
 				<HeaderBackArrow />
 			)
 		})
+		
+		syncRyzenInventoryCount()
+		syncIntelCoreInventoryCount()
+		syncIntelUltraInventoryCount()
 	})
 
 	return (
 		<Body>
-			<ScrollView>
+			<ScrollView
+				refreshControl={
+					<RefreshControl
+						refreshing={isPageRefreshing}
+						onRefresh={async () => {
+							setIsPageRefreshing(true)
+							await syncRyzenInventoryCount()
+							await syncIntelCoreInventoryCount()
+							await syncIntelUltraInventoryCount()
+							setIsPageRefreshing(false)
+						}}
+					/>
+				}
+			>
 				{
 					String(selectedComponent) === "0" && (
 						processorsBrandsArray.map(brand => {

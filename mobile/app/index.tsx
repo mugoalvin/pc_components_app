@@ -5,15 +5,24 @@ import useIntelCoreStore from "@/zustand/intel/core";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import useNvidiaGeforceStore from "@/zustand/nvidia/geforce";
 
-import { useEffect, } from "react";
 import { IntelArk, IntelCore, IntelCoreUltra, NvidiaGeForce, Radeon, Ryzen } from "../../packages/interfaces";
 import Dashboard from "./pages/dashboard";
-import { getTableData } from "./services/fetch";
+import { getTableData, getTableRowCount } from "./services/fetch";
 
 
 // ===================== Exported Sync Functions =====================
 
 // Ryzen
+export async function syncRyzenInventoryCount() {
+	try {
+		const updateRyzenInventoryCount = useRyzenStore.getState().update_ryzen_inventory_count;
+		const ryzenCount = await getTableRowCount("ryzen");
+		updateRyzenInventoryCount(ryzenCount);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
 export async function syncRyzenInventory() {
 	try {
 		const updateRyzenInventory = useRyzenStore.getState().update_ryzen_inventory;
@@ -28,6 +37,16 @@ export async function syncRyzenInventory() {
 }
 
 // Radeon
+export async function syncRadeonInventoryCount() {
+	try {
+		const updateRadeonInventoryCount = useRadeonStore.getState().update_radeon_inventory_count;
+		const radeonCount = await getTableRowCount("radeon")
+		updateRadeonInventoryCount(radeonCount);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
 export async function syncRadeonInventory() {
 	try {
 		const updateRadeonInventory = useRadeonStore.getState().update_radeon_inventory;
@@ -42,6 +61,16 @@ export async function syncRadeonInventory() {
 }
 
 // Intel Core
+export async function syncIntelCoreInventoryCount() {
+	try {
+		const updateIntelCoreInventoryCount = useIntelCoreStore.getState().update_intel_core_inventory_count;
+		const intelCoreCount = await getTableRowCount('core') ;
+		updateIntelCoreInventoryCount(intelCoreCount);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
 export async function syncIntelCoreInventory() {
 	try {
 		const updateIntelCoreInventory = useIntelCoreStore.getState().update_intel_core_inventory;
@@ -56,6 +85,16 @@ export async function syncIntelCoreInventory() {
 }
 
 // Intel Ultra
+export async function syncIntelUltraInventoryCount() {
+	try {
+		const updateIntelUltraInventoryCount = useIntelCoreUltraStore.getState().update_intel_ultra_inventory_count;
+		const intelUltraCount = await getTableRowCount('ultra');
+		updateIntelUltraInventoryCount(intelUltraCount);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
 export async function syncIntelUltraInventory() {
 	try {
 		const updateIntelUltraInventory = useIntelCoreUltraStore.getState().update_intel_ultra_inventory;
@@ -70,6 +109,16 @@ export async function syncIntelUltraInventory() {
 }
 
 // Intel Ark
+export async function syncIntelArkInventoryCount() {
+	try {
+		const updateIntelArkInventoryCount = useIntelArkStore.getState().update_ark_inventory_count;
+		const intelArkCount = await getTableRowCount('ark');
+		updateIntelArkInventoryCount(intelArkCount);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
 export async function syncIntelArkInventory() {
 	try {
 		const updateIntelArkInventory = useIntelArkStore.getState().update_ark_inventory;
@@ -85,6 +134,16 @@ export async function syncIntelArkInventory() {
 
 
 // Nvidia Geforce
+export async function syncNvidiaGeforceInventoryCount() {
+	try {
+		const updateGeforceInventoryCount = useNvidiaGeforceStore.getState().update_geforce_inventory_count
+		const geforceGraphicsCount = await getTableRowCount("geforce");
+		updateGeforceInventoryCount(geforceGraphicsCount);
+	}
+	catch (err: any) {
+		console.log(err)
+	}
+}
 export async function syncNvidiaGeforceInventory() {
 	try {
 		const updateGeforceInventory = useNvidiaGeforceStore.getState().update_geforce_inventory
