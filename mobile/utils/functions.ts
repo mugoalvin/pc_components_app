@@ -1,8 +1,8 @@
 import { getTableRowCount } from "@/app/services/fetch"
-import { Ryzen, IntelCoreUltra } from "../../packages/interfaces"
-import { DatabaseTables } from "../../packages/types"
-import { RyzenTierChipsOptions } from "./types"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { IntelCore, IntelCoreUltra, Ryzen } from "../../packages/interfaces"
+import { DatabaseTables, IntelGeneration } from "../../packages/types"
+import { CoreDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem } from "./types"
 
 export function makeKeyUserFriendly(text: string): string {
 	return text
@@ -47,12 +47,12 @@ export const getAsyncData = async (key: string): Promise<string> => {
 	return await AsyncStorage.getItem(key) || ''
 }
 
-export function getSectionedRyzenData(ryzenProcessors: Ryzen[]) {
+export function getSectionedRyzenData(ryzenProcessors: Ryzen[]): SectionedDataItem[] {
 	function getCountPerSeries(series: string) {
 		return ryzenProcessors.filter(ryzen => ryzen.series === series).length
 	}
 
-	return [
+	const allSections = [
 		{
 			title: "High End",
 			data: [
@@ -77,16 +77,28 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[]) {
 			]
 		}
 	]
+
+	const filteredSections = allSections.map(section => ({
+		...section,
+		data: section.data.filter(item => {
+			const count = parseInt(item.count)
+			return !isNaN(count) && count > 0
+		})
+	})).filter(section => section.data.length > 0)
+
+	return filteredSections.length > 0
+		? filteredSections
+		: []
 }
 
 
 
-export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]) {
+export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]): SectionedDataItem[] {
 	function getCountPerSeries(line: string) {
 		return ultraProcessors.filter(ultra => ultra.name?.includes(line) ).length
 	}
 
-	return [
+	const allSections = [
 		{
 			title: "High-End",
 			data: [
@@ -112,4 +124,84 @@ export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]) {
 			]
 		}
 	]
+
+	const filteredSections = allSections.map(section => ({
+		...section,
+		data: Array.isArray(section.data)
+			? section.data.filter(item => {
+				const count = parseInt(item.count)
+				return !isNaN(count) && count > 0
+			})
+			: []
+	})).filter(section => section.data.length > 0)
+
+
+	return filteredSections.length > 0
+		? filteredSections
+		: []
+}
+
+
+export function isIntelGenMatching(processor_number: string, gen: IntelGeneration) {
+	const match = processor_number.match(/i\d-(\d{4,5})/);
+	if (!match) return false;
+	const modelNum = match[1];
+	const detectedGen = modelNum.length === 5 ? Number(modelNum.slice(0, 2)) : Number(modelNum[0]);
+	return detectedGen === gen;
+}
+
+export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: CoreDeviceChipsOptions): SectionedDataItem[] {
+
+
+	function getCountPerGeneration(generation: IntelGeneration) {
+		return coreProcessors.filter(core => isIntelGenMatching(core.processor_number || "", generation)).length
+	}
+	const allSections = [
+		{
+			title: "Hybrid Era",
+			data: [
+				{ name: "Gen 14", generation: 'gen14', lastUpdated: '', count: `${getCountPerGeneration(14)} Processors` },
+				{ name: "Gen 13", generation: 'gen13', lastUpdated: '', count: `${getCountPerGeneration(13)} Processors` },
+				{ name: "Gen 12", generation: 'gen12', lastUpdated: '', count: `${getCountPerGeneration(12)} Processors` },
+			]
+		},
+		{
+			title: "Final Monolithic",
+			data: [
+				{ name: "Gen 11", generation: 'gen11', lastUpdated: '', count: `${getCountPerGeneration(11)} Processors` },
+				{ name: "Gen 10", generation: 'gen10', lastUpdated: '', count: `${getCountPerGeneration(10)} Processors` },
+			]
+		},
+		{
+			title: "Transition Era",
+			data: [
+				{ name: "Gen 9", generation: 'gen9', lastUpdated: '', count: `${getCountPerGeneration(9)} Processors` },
+				{ name: "Gen 8", generation: 'gen8', lastUpdated: '', count: `${getCountPerGeneration(8)} Processors` }
+			]
+		},
+		{
+			title: "Legacy Era",
+			data: [
+				{ name: "Gen 7", generation: 'gen8', lastUpdated: '', count: `${getCountPerGeneration(8)} Processors` },
+				{ name: "Gen 6", generation: 'gen6', lastUpdated: '', count: `${getCountPerGeneration(6)} Processors` },
+				{ name: "Gen 5", generation: 'gen5', lastUpdated: '', count: `${getCountPerGeneration(5)} Processors` },
+				{ name: "Gen 4", generation: 'gen4', lastUpdated: '', count: `${getCountPerGeneration(4)} Processors` }
+			]
+		}
+	]
+
+	const filteredSections = allSections.map(section => ({
+		...section,
+		/* TODO */
+		// Don't forget to handle the below login to dynamically display or remove sections in the section list.
+
+		// data: section.data.filter(item => {
+		// 	const count = parseInt(item.count)
+		// 	return !isNaN(count) && count > 0
+		// })
+	})).filter(section => section.data.length > 0)
+
+	return filteredSections.length > 0
+		? filteredSections
+		: []
 }

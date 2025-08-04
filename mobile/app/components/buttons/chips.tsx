@@ -15,8 +15,7 @@ const ChipCustom = ({chipText, selected, icon, onPress} : ChipsProps) => {
 
 	return (
 		<Chip
-			mode={selected ? "flat" : "outlined"}
-			// mode="flat"
+			mode="flat"
 			icon={icon}
 			onPress={onPress}
 			selected={selected}
@@ -27,13 +26,13 @@ const ChipCustom = ({chipText, selected, icon, onPress} : ChipsProps) => {
 				color: theme.colors.secondaryContainer,
 			}}
 			style={{
-				// backgroundColor: selected ? theme.colors.onSecondaryContainer : theme.colors.secondary,
-				backgroundColor: selected ? theme.colors.onSecondaryContainer : theme.colors.elevation.level1,
-				borderColor: theme.colors.secondary
+				// backgroundColor: selected ? theme.colors.secondary : theme.colors.elevation.level1,
+				backgroundColor: selected ? theme.colors.secondary : theme.colors.secondaryContainer,
+				borderColor: selected ? theme.colors.outline : theme.colors.outlineVariant
 			}}
 		>
 			<AppText color={selected ? theme.colors.onSecondary : theme.colors.onSurface}>{chipText}</AppText>
-			{/* <AppText color={theme.colors.onSecondary}>{chipText}</AppText> */}
+			{/* <AppText>{chipText}</AppText> */}
 		</Chip>
 	)
 }

@@ -184,6 +184,7 @@ export default function RyzenProducts() {
 
 			<Animated.FlatList
 				itemLayoutAnimation={LinearTransition}
+				showsVerticalScrollIndicator={false}
 				className="flex-1"
 				data={ryzenToDisplay}
 				keyExtractor={item => item.name}

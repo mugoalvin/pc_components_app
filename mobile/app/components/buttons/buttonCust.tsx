@@ -9,17 +9,21 @@ interface ButtonCustomProps {
 	center?: boolean
 	className?: string
 	color?: string
+	disabled?: boolean
 	rippleColor?: string
 	onPress?: () => void
 }
 
-const ButtonCustom = ({ backgroundColor, btnText, center = true, className, color, rippleColor, onPress }: ButtonCustomProps) => {
+const ButtonCustom = ({ backgroundColor, btnText, center = true, className, color, disabled, rippleColor, onPress }: ButtonCustomProps) => {
 	const theme = useTheme()
 
 	return (
 		<Pressable
+			disabled={disabled}
 			className={`px-2 h-10 justify-center rounded-md ${center && "items-center"} ${className}`}
-			style={{ backgroundColor: backgroundColor || theme.colors.primary }}
+			style={{
+				backgroundColor: backgroundColor || disabled ? theme.colors.onSurfaceDisabled : theme.colors.primary
+			}}
 			onPress={onPress}
 			android_ripple={{
 				color: rippleColor || theme.colors.secondaryContainer,

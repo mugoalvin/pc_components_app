@@ -11,6 +11,7 @@ export type SectionedDataItem = {
 		name: string;
 		amdSeries?: string;
 		line?: string
+		generation?: string
 		tableColumnData?: string;
 		lastUpdated?: string;
 		count?: string;
@@ -37,3 +38,5 @@ export type RyzenTierChipsOptions = 'all' | '9' | '7' | '5' | '3'
 export type RyzenDeviceChipsOptions = 'all' | 'desktop' | 'laptop'
 export type UltraDeviceChipsOptions = 'all' | 'desktop' | 'mobile' | 'embedded'
 export type UltraSeriesChipsOptions = 'all' | 'series 2' | 'series 1'
+export type CoreDeviceChipsOptions = UltraDeviceChipsOptions
+export type CoreTierChipOptions = 'all' | 'i9' | 'i7' | 'i5' | 'i3'

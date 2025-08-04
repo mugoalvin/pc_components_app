@@ -1,17 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import ProductOverviewCard from '@/app/components/cards/productOverviewCard'
+import AppText from '@/app/components/texts/appText'
+import EmptySectionList from '@/app/components/view/emptySectionList'
+import SectionListParentView from '@/app/components/view/sectionListParentView'
+import { syncRyzenInventory } from '@/app/index'
 import { getSectionedRyzenData, setAsyncData } from '@/utils/functions'
 import { openPage } from '@/utils/stackOptions'
-import { ProductBrandFilter, RyzenDeviceChipsOptions, SectionedDataItem } from '@/utils/types'
+import { ProductBrandFilter, RyzenDeviceChipsOptions } from '@/utils/types'
 import useRyzenStore from '@/zustand/amd/ryzen'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { SectionList, useColorScheme, View } from 'react-native'
+import { RefreshControl, SectionList, useColorScheme } from 'react-native'
 import { useTheme } from 'react-native-paper'
+import { Ryzen } from '../../../../packages/interfaces'
 import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../packages/types'
 import ChipCustom from '../../components/buttons/chips'
-import ProductOverviewCard from '../../components/cards/productOverviewCard'
 import HeaderBackArrow from '../../components/headerBackArrow'
-import AppText from '../../components/texts/appText'
 import Body from '../../components/ui/body'
 import ChipView from '../../components/ui/chipView'
 
@@ -22,6 +26,8 @@ export default function RyzenBrand() {
 	const colorScheme = useColorScheme()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	const { selectedComponent, brand } = params
+
+	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
 
 	const [chipPressed, setChipPressed] = useState<RyzenDeviceChipsOptions>('all')
 	const [isAllSelected, setIsAllChipSelected] = useState<boolean>(true)
@@ -34,9 +40,7 @@ export default function RyzenBrand() {
 		setIsLaptopChipSelected(false)
 	}
 
-	const ryzenInventory = useRyzenStore(state => state.ryzen_inventory)
-	const [sectionedRyzenData, setSectionedRyzenData] = useState<SectionedDataItem[]>([])
-
+	const ryzenInventory: Ryzen[] = useRyzenStore(state => state.ryzen_inventory) || []
 
 	const ProductsArray: string[] =
 		String(selectedComponent) === "0" ? ProcessorsArray :
@@ -45,15 +49,7 @@ export default function RyzenBrand() {
 
 	useEffect(() => {
 		setAsyncData('chipPressed', chipPressed)
-
-		setSectionedRyzenData(
-			getSectionedRyzenData(
-				chipPressed === 'all' ?
-					ryzenInventory :
-					ryzenInventory.filter(ryzen => (ryzen.device)?.toLowerCase() === chipPressed)
-			)
-		)
-	}, [chipPressed, ryzenInventory])
+	}, [chipPressed])
 
 	useEffect(() => {
 		navigator.setOptions({
@@ -99,8 +95,28 @@ export default function RyzenBrand() {
 			</ChipView>
 
 			<SectionList
-				sections={sectionedRyzenData}
+				stickySectionHeadersEnabled
+				showsVerticalScrollIndicator={false}
+				sections={
+					getSectionedRyzenData(
+						chipPressed === 'all' ?
+							ryzenInventory :
+							ryzenInventory.filter(ryzen => (ryzen.device)?.toLowerCase() === chipPressed)
+					)
+				}
 				keyExtractor={(item, index) => item.name + index}
+				refreshControl={
+					<RefreshControl
+						colors={[theme.colors.inversePrimary, theme.colors.errorContainer]}
+						progressBackgroundColor={theme.colors.inverseSurface}
+						refreshing={isPageRefreshing}
+						onRefresh={async () => {
+							setIsPageRefreshing(true)
+							await syncRyzenInventory()
+							setIsPageRefreshing(false)
+						}}
+					/>
+				}
 				renderSectionHeader={({ section: { title } }) => (
 					<AppText
 						key={title}
@@ -115,13 +131,7 @@ export default function RyzenBrand() {
 				renderItem={() => null}
 
 				renderSectionFooter={({ section }) => (
-					<View
-						className='px-2 rounded-xl'
-						style={{
-							backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.elevation.level1,
-							elevation: 5
-						}}
-					>
+					<SectionListParentView>
 						{
 							(section.data).map((item, index) =>
 								<ProductOverviewCard
@@ -134,15 +144,15 @@ export default function RyzenBrand() {
 									onPress={() => openPage({
 										selectedComponent: Number(selectedComponent),
 										brand: Number(brand),
-										// @ts-expect-error
-										amdSeries: Number(RyzenSeriesEnum[item.amdSeries] || 0),
+										amdSeries: Number(RyzenSeriesEnum[item.amdSeries as keyof typeof RyzenSeriesEnum]),
 									})}
 								/>
 							)
 						}
-					</View>
+					</SectionListParentView>
 				)}
-				stickySectionHeadersEnabled
+
+				ListEmptyComponent={<EmptySectionList />}
 			/>
 		</Body>
 	)

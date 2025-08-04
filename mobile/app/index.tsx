@@ -99,14 +99,14 @@ export async function syncNvidiaGeforceInventory() {
 }
 
 export default function Index() {
-	useEffect(() => {
-		syncRyzenInventory();
-		syncRadeonInventory();
-		syncIntelCoreInventory();
-		syncIntelUltraInventory();
-		syncIntelArkInventory();
-		syncNvidiaGeforceInventory();
-	}, []);
+	// useEffect(() => {
+	// 	syncRyzenInventory();
+	// 	syncRadeonInventory();
+	// 	syncIntelCoreInventory();
+	// 	syncIntelUltraInventory();
+	// 	syncIntelArkInventory();
+	// 	syncNvidiaGeforceInventory();
+	// }, []);
 
 	// if (!isAllLoaded) return <CustomSplashScreen />
 	// return <CustomSplashScreen />

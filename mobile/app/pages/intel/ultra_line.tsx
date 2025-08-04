@@ -3,13 +3,16 @@ import ProductOverviewCard from "@/app/components/cards/productOverviewCard";
 import HeaderBackArrow from "@/app/components/headerBackArrow";
 import AppText from "@/app/components/texts/appText";
 import ChipView from "@/app/components/ui/chipView";
+import EmptySectionList from "@/app/components/view/emptySectionList";
+import SectionListParentView from "@/app/components/view/sectionListParentView";
+import { syncIntelUltraInventory } from "@/app/index";
 import { getSectionedUltraData, setAsyncData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
-import { ProductBrandFilter, SectionedDataItem, UltraDeviceChipsOptions } from "@/utils/types";
+import { ProductBrandFilter, UltraDeviceChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { SectionList, View } from "react-native";
+import { RefreshControl, SectionList, useColorScheme } from "react-native";
 import { useTheme } from "react-native-paper";
 import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../packages/types";
 import Body from "../../components/ui/body";
@@ -17,9 +20,12 @@ import Body from "../../components/ui/body";
 export default function UltraLine() {
 	const theme = useTheme()
 	const navigation = useNavigation()
+	const colorScheme = useColorScheme()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	// @ts-expect-error
 	const { selectedComponent, brand, line } = params
+
+	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
 
 	const [chipPressed, setChipPressed] = useState<UltraDeviceChipsOptions>('all')
 	const [isAllSelected, setIsAllChipSelected] = useState<boolean>(true)
@@ -34,19 +40,11 @@ export default function UltraLine() {
 		setIsEmbeddedChipSelected(false)
 	}
 
-	const ultraInventory = useIntelCoreUltraStore(state => state.intel_ultra_inventory)
-	const [sectionedUltraData, setSectionedUltraData] = useState<SectionedDataItem[]>([])
+	const ultraInventory = useIntelCoreUltraStore(state => state.intel_ultra_inventory) || []
 
 	useEffect(() => {
 		setAsyncData('chipPressed', chipPressed)
-		setSectionedUltraData(
-			getSectionedUltraData(
-				chipPressed === 'all' ?
-					ultraInventory :
-					ultraInventory.filter(ultra => (ultra.vertical_segment)?.toLowerCase() === chipPressed)
-			)
-		)
-	}, [chipPressed, ultraInventory])
+	}, [chipPressed])
 	
 	useEffect(() => {
 		navigation.setOptions({
@@ -55,7 +53,7 @@ export default function UltraLine() {
 				<HeaderBackArrow />
 			)
 		})
-	})
+	}, [navigation])
 
 	return (
 		<Body>
@@ -100,12 +98,32 @@ export default function UltraLine() {
 
 
 			<SectionList
-				sections={sectionedUltraData}
+				stickySectionHeadersEnabled
+				showsVerticalScrollIndicator={false}
+				sections={
+					getSectionedUltraData(
+						chipPressed === 'all' ?
+							ultraInventory :
+							ultraInventory.filter(ultra => (ultra.vertical_segment)?.toLowerCase() === chipPressed)
+					)
+				}
 				keyExtractor={( item, index ) => item.name + index}
+				refreshControl={
+					<RefreshControl
+						colors={[theme.colors.inversePrimary, theme.colors.errorContainer]}
+						progressBackgroundColor={theme.colors.inverseSurface}
+						refreshing={isPageRefreshing}
+						onRefresh={async () => {
+							setIsPageRefreshing(true)
+							await syncIntelUltraInventory()
+							setIsPageRefreshing(false)
+						}}
+					/>
+				}
 				renderSectionHeader={({ section: { title } }) => (
 					<AppText
 						key={title}
-						bg_color={theme.colors.surface}
+						bg_color={colorScheme === 'light' ? theme.colors.elevation.level0 : theme.colors.surface}
 						bold
 						className='text-2xl pt-4 mb-2'
 						color={theme.colors.onBackground}
@@ -113,13 +131,11 @@ export default function UltraLine() {
 						{ title }
 					</AppText>
 				)}
+
 				renderItem={() => null}
 
 				renderSectionFooter={({ section }) => (
-					<View
-						className="p-2 rounded-xl"
-						style={{ backgroundColor: theme.colors.elevation.level2 }}
-					>
+					<SectionListParentView>
 						{
 							(section.data).map((item, index) =>
 								<ProductOverviewCard
@@ -138,8 +154,10 @@ export default function UltraLine() {
 								/>
 							)
 						}
-					</View>
+					</SectionListParentView>
 				)}
+
+				ListEmptyComponent={<EmptySectionList />}
 			/>
 		</Body>
 	)
