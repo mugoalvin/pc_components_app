@@ -24,7 +24,7 @@ export default function IntelLines() {
 
 	return (
 		<Body>
-			<ScrollView className='gap-3'>
+			<ScrollView className='gap-3' showsVerticalScrollIndicator={false}>
 				<CategoryListing
 					label="Ultra"
 					tables="ultra"

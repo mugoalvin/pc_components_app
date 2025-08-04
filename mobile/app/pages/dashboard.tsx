@@ -2,10 +2,11 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "react-native-paper";
 
+import ThemeChooser from "../components/buttomSheet/themeChooser";
 import AppText from "../components/texts/appText";
 import Body from "../components/ui/body";
 import PageWithBottomSheet from "../components/ui/bottomSheet";
@@ -14,7 +15,6 @@ import NewComponents from "../components/ui/dashboard/newComponents";
 import RecommendedForYou from "../components/ui/dashboard/recommendedForYou";
 import DashboardSection from "../components/ui/dashboard/section";
 import ToolsAndUtils from "../components/ui/dashboard/tools&Utils";
-import ThemeChooser from "../components/ui/themeChooser";
 
 
 const Dashboard = () => {

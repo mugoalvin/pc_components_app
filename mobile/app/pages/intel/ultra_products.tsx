@@ -94,6 +94,7 @@ export default function UltraProducts(){
 			</ChipView>
 
 			<Animated.FlatList
+				showsVerticalScrollIndicator={false}
 				itemLayoutAnimation={LinearTransition}
 				data={ultraToDisplay}
 				keyExtractor={(_, index) => index.toString()}
@@ -114,7 +115,6 @@ export default function UltraProducts(){
 				)}
 				ItemSeparatorComponent={() => <Divider bold/>}
 			/>
-
 
 		</Body>
 	)

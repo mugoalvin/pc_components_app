@@ -18,10 +18,15 @@ export default function Body({ children, className }: BodyProps) {
 			className={`flex-1 ${className}`}
 			style={{
 				backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background,
+				// backgroundColor: theme.colors.background,
 				padding: 10,
-				marginTop: statusBarHeight && statusBarHeight * -1,
+				// marginTop: statusBarHeight && statusBarHeight * -1,
 				gap: 20
 			}}>
+			<StatusBar
+				barStyle={colorScheme === 'light' ? 'dark-content' : 'light-content'}
+				backgroundColor={colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background}
+			/>
 			{children}
 		</SafeAreaView>
 	)
