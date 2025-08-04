@@ -7,7 +7,7 @@ import React from 'react'
 
 import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
-import IntelLines from './intel/intelLines'
+import IntelLines from './intel/intel_lines'
 import IntelNavigator from './intelNavigator'
 import ProductDetails from './product_details'
 import RyzenBrand from './ryzen/ryzen_brand'

@@ -1,10 +1,7 @@
 import ChipCustom from "@/app/components/buttons/chips";
-import ProductOverviewCard from "@/app/components/cards/productOverviewCard";
 import HeaderBackArrow from "@/app/components/headerBackArrow";
-import AppText from "@/app/components/texts/appText";
 import ChipView from "@/app/components/ui/chipView";
-import EmptySectionList from "@/app/components/view/emptySectionList";
-import SectionListParentView from "@/app/components/view/sectionListParentView";
+import CustomSectionList from "@/app/components/view/sectionList";
 import { syncIntelUltraInventory } from "@/app/index";
 import { getSectionedUltraData, setAsyncData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
@@ -12,7 +9,7 @@ import { ProductBrandFilter, UltraDeviceChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { RefreshControl, SectionList, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import { useTheme } from "react-native-paper";
 import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../packages/types";
 import Body from "../../components/ui/body";
@@ -45,7 +42,7 @@ export default function UltraLine() {
 	useEffect(() => {
 		setAsyncData('chipPressed', chipPressed)
 	}, [chipPressed])
-	
+
 	useEffect(() => {
 		navigation.setOptions({
 			title: "Ultra",
@@ -54,6 +51,10 @@ export default function UltraLine() {
 			)
 		})
 	}, [navigation])
+
+	useEffect(() => {
+		syncIntelUltraInventory()
+	})
 
 	return (
 		<Body>
@@ -97,9 +98,7 @@ export default function UltraLine() {
 			</ChipView>
 
 
-			<SectionList
-				stickySectionHeadersEnabled
-				showsVerticalScrollIndicator={false}
+			<CustomSectionList
 				sections={
 					getSectionedUltraData(
 						chipPressed === 'all' ?
@@ -107,58 +106,21 @@ export default function UltraLine() {
 							ultraInventory.filter(ultra => (ultra.vertical_segment)?.toLowerCase() === chipPressed)
 					)
 				}
-				keyExtractor={( item, index ) => item.name + index}
-				refreshControl={
-					<RefreshControl
-						colors={[theme.colors.inversePrimary, theme.colors.errorContainer]}
-						progressBackgroundColor={theme.colors.inverseSurface}
-						refreshing={isPageRefreshing}
-						onRefresh={async () => {
-							setIsPageRefreshing(true)
-							await syncIntelUltraInventory()
-							setIsPageRefreshing(false)
-						}}
-					/>
-				}
-				renderSectionHeader={({ section: { title } }) => (
-					<AppText
-						key={title}
-						bg_color={colorScheme === 'light' ? theme.colors.elevation.level0 : theme.colors.surface}
-						bold
-						className='text-2xl pt-4 mb-2'
-						color={theme.colors.onBackground}
-					>
-						{ title }
-					</AppText>
-				)}
-
-				renderItem={() => null}
-
-				renderSectionFooter={({ section }) => (
-					<SectionListParentView>
-						{
-							(section.data).map((item, index) =>
-								<ProductOverviewCard
-									key={index}
-									title={item.name}
-									index={index}
-									productCount={item.count}
-									// @ts-expect-error
-									onPress={() => openPage({
-										selectedComponent: Number(selectedComponent),
-										brand: Number(brand),
-										line: Number(line),
-										ultraSeries: item.name,
-										ultraTier: Number(IntelUltraTierEnum[IntelUltraTierArray[index] as keyof typeof IntelUltraTierEnum])
-									})}
-								/>
-							)
-						}
-					</SectionListParentView>
-				)}
-
-				ListEmptyComponent={<EmptySectionList />}
+				isPageRefreshing={isPageRefreshing}
+				onrefresh={async () => {
+					setIsPageRefreshing(true)
+					await syncIntelUltraInventory()
+					setIsPageRefreshing(false)
+				}}
+				onItemPress={(item, index) => openPage({
+					selectedComponent: Number(selectedComponent),
+					brand: Number(brand),
+					line: Number(line),
+					ultraSeries: item.name,
+					ultraTier: Number(IntelUltraTierEnum[IntelUltraTierArray[index] as keyof typeof IntelUltraTierEnum])
+				})}
 			/>
+
 		</Body>
 	)
 }
