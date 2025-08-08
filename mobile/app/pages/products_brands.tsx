@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { RefreshControl, ScrollView } from 'react-native'
 
 import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncRyzenInventoryCount } from "@/app/index"
+import useSnackbarContext from "@/context/SnackbarContext"
 import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
 import CategoryListing from '../components/cards/categoryListing'
 import HeaderBackArrow from "../components/headerBackArrow"
@@ -14,12 +15,26 @@ import Body from '../components/ui/body'
 
 export default function ProductsBrands() {
 	const navigator = useNavigation()
+	const { showSnackbar } = useSnackbarContext()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	const { selectedComponent } = params
 	const capitalizeFirstCharacter = (text: string) => (text.slice(0, 1) as string).toUpperCase().concat((text as string).slice(1))
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
 
+	const runSync = async () => {
+		try {
+			await syncRyzenInventoryCount()
+			await syncIntelCoreInventoryCount()
+			await syncIntelUltraInventoryCount()
+		}
+		catch (error: any) {
+			showSnackbar({
+				message: error.message,
+				isError: true
+			})
+		}
+	}
 
 	useEffect(() => {
 		navigator.setOptions({
@@ -29,10 +44,9 @@ export default function ProductsBrands() {
 			)
 		})
 		
-		syncRyzenInventoryCount()
-		syncIntelCoreInventoryCount()
-		syncIntelUltraInventoryCount()
-	})
+
+		runSync()
+	}, [])
 
 	return (
 		<Body>
@@ -42,9 +56,7 @@ export default function ProductsBrands() {
 						refreshing={isPageRefreshing}
 						onRefresh={async () => {
 							setIsPageRefreshing(true)
-							await syncRyzenInventoryCount()
-							await syncIntelCoreInventoryCount()
-							await syncIntelUltraInventoryCount()
+							runSync()
 							setIsPageRefreshing(false)
 						}}
 					/>

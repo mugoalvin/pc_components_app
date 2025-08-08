@@ -1,10 +1,10 @@
+import { SnackbarParams } from "@/context/SnackbarContext";
 import useRadeonStore from "@/zustand/amd/radeon";
 import useRyzenStore from "@/zustand/amd/ryzen";
 import useIntelArkStore from "@/zustand/intel/ark";
 import useIntelCoreStore from "@/zustand/intel/core";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import useNvidiaGeforceStore from "@/zustand/nvidia/geforce";
-
 import { IntelArk, IntelCore, IntelCoreUltra, NvidiaGeForce, Radeon, Ryzen } from "../../packages/interfaces";
 import Dashboard from "./pages/dashboard";
 import { getTableData, getTableRowCount } from "./services/fetch";
@@ -20,7 +20,7 @@ export async function syncRyzenInventoryCount() {
 		updateRyzenInventoryCount(ryzenCount);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 export async function syncRyzenInventory() {
@@ -32,7 +32,7 @@ export async function syncRyzenInventory() {
 		updateRyzenInventoryCount(ryzen.length);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 
@@ -44,7 +44,7 @@ export async function syncRadeonInventoryCount() {
 		updateRadeonInventoryCount(radeonCount);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 export async function syncRadeonInventory() {
@@ -56,7 +56,7 @@ export async function syncRadeonInventory() {
 		updateRadeonInventoryCount(radeon.length);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 
@@ -64,11 +64,11 @@ export async function syncRadeonInventory() {
 export async function syncIntelCoreInventoryCount() {
 	try {
 		const updateIntelCoreInventoryCount = useIntelCoreStore.getState().update_intel_core_inventory_count;
-		const intelCoreCount = await getTableRowCount('core') ;
+		const intelCoreCount = await getTableRowCount('core');
 		updateIntelCoreInventoryCount(intelCoreCount);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 export async function syncIntelCoreInventory() {
@@ -80,7 +80,7 @@ export async function syncIntelCoreInventory() {
 		updateIntelCoreInventoryCount(intelCore.length);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 
@@ -92,7 +92,7 @@ export async function syncIntelUltraInventoryCount() {
 		updateIntelUltraInventoryCount(intelUltraCount);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 export async function syncIntelUltraInventory() {
@@ -104,7 +104,7 @@ export async function syncIntelUltraInventory() {
 		updateIntelUltraInventoryCount(intelUltra.length);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 
@@ -116,7 +116,7 @@ export async function syncIntelArkInventoryCount() {
 		updateIntelArkInventoryCount(intelArkCount);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 export async function syncIntelArkInventory() {
@@ -128,7 +128,7 @@ export async function syncIntelArkInventory() {
 		updateIntelArkInventoryCount(intelArk.length);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 
@@ -141,7 +141,7 @@ export async function syncNvidiaGeforceInventoryCount() {
 		updateGeforceInventoryCount(geforceGraphicsCount);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 export async function syncNvidiaGeforceInventory() {
@@ -153,21 +153,11 @@ export async function syncNvidiaGeforceInventory() {
 		updateGeforceInventoryCount(geforceGraphics.length);
 	}
 	catch (err: any) {
-		console.log(err)
+		throw err
 	}
 }
 
 export default function Index() {
-	// useEffect(() => {
-	// 	syncRyzenInventory();
-	// 	syncRadeonInventory();
-	// 	syncIntelCoreInventory();
-	// 	syncIntelUltraInventory();
-	// 	syncIntelArkInventory();
-	// 	syncNvidiaGeforceInventory();
-	// }, []);
-
 	// if (!isAllLoaded) return <CustomSplashScreen />
-	// return <CustomSplashScreen />
 	return <Dashboard />
 }

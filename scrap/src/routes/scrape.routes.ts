@@ -84,8 +84,8 @@ scrapeRouter.post('/amd_ryzen', async function (req, res) {
 	const { isLaptop, series } = req.body
 	try {
 		const isLaptopProcessors = isLaptop
-		await runRyzenScraper(isLaptopProcessors, series)
-		res.json({ success: 'Successfully saved Ryzen processors' })
+		const processorCount = await runRyzenScraper(isLaptopProcessors, series)
+		res.json({ success: `Successfully saved ${processorCount} Ryzen processors` })
 	}
 	catch (error: any) {
 		res.status(500).json({

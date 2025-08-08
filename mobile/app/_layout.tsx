@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { ThemeContext } from '../context/ThemeContext';
 import '../global.css';
+import { SnackbarProvider } from '@/context/SnackbarContext';
 
 export default function App() {
     const { MaterialTheme } = NativeModules;
@@ -35,7 +36,6 @@ export default function App() {
 
     const colorScheme = useColorScheme();
 
-    // Only call useMaterial3Theme when primaryColor is available
     const { theme, resetTheme, updateTheme } = useMaterial3Theme({
         sourceColor: primaryColor,
         fallbackSourceColor: "#088204"
@@ -60,15 +60,17 @@ export default function App() {
         );
     }
 
-	return (
-		<ThemeContext.Provider value={{ resetTheme, updateTheme }}>
-			<PaperProvider theme={finalTheme}>
-				<GestureHandlerRootView>
-					<Stack screenOptions={getScreenOptions(finalTheme, colorScheme)}>
-						<Stack.Screen name='index'/>
-					</Stack>
-				</GestureHandlerRootView>
-			</PaperProvider>
-		</ThemeContext.Provider>
-	);
+    return (
+        <ThemeContext.Provider value={{ resetTheme, updateTheme }}>
+            <PaperProvider theme={finalTheme}>
+                <SnackbarProvider>
+                    <GestureHandlerRootView>
+                        <Stack screenOptions={getScreenOptions(finalTheme, colorScheme)}>
+                            <Stack.Screen name='index' />
+                        </Stack>
+                    </GestureHandlerRootView>
+                </SnackbarProvider>
+            </PaperProvider>
+        </ThemeContext.Provider>
+    );
 }

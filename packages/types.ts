@@ -12,8 +12,9 @@ export type DatabaseTables = "ark" | "core" | "radeon" | "ryzen" | "ultra" | "ge
 export enum AmdScrape { Ryzen = 1, Radeon }
 export enum AmdDevice { Desktop, Laptop }
 export enum RyzenDesktopSeries { Series9000, Series8000, Series7000, Series5000, Series4000 }
+export const RyzenDesktopSeriesArray = ["Series9000", "Series8000", "Series7000", "Series5000", "Series4000"]
 export enum RyzenLaptopSeries { RyzenAiMax, RyzenAi300, Ryzen200, Ryzen9000, Ryzen8000, Ryzen7000, Ryzen6000 }
-export const RyzenLaptopArray = ["RyzenAiMax", "RyzenAi300", "Ryzen200", "Ryzen9000", "Ryzen8000", "Ryzen7000", "Ryzen6000"]
+export const RyzenLaptopSeriesArray = ["RyzenAiMax", "RyzenAi300", "Ryzen200", "Ryzen9000", "Ryzen8000", "Ryzen7000", "Ryzen6000"]
 
 export enum RyzenSeriesEnum { Series9000, Series8000, Series7000, Series5000, Series4000, RyzenAiMax, RyzenAi300, Ryzen200, Ryzen9000, Ryzen8000, Ryzen7000, Ryzen6000 }
 

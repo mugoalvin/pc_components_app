@@ -58,7 +58,8 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[]): SectionedDataIt
 			data: [
 				{ name: "Ryzen 9000 Series", amdSeries: "Series9000", tableColumnData: "Ryzen 9000 Series", lastUpdated: "3 hrs ago", count: `${getCountPerSeries("Ryzen 9000 Series")} Processors` },
 				{ name: "Ryzen 8000 Series", amdSeries: "Series8000", tableColumnData: "Ryzen 8000 Series", lastUpdated: "3 hrs ago", count: `${getCountPerSeries("Ryzen 8000 Series")} Processors` },
-				{ name: "Ryzen 7000 Series", amdSeries: "Series7000", tableColumnData: "Ryzen 7000 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 7000 Series")} Processors` }
+				{ name: "Ryzen 7000 Series", amdSeries: "Series7000", tableColumnData: "Ryzen 7000 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 7000 Series")} Processors` },
+				{ name: "Ryzen 200", amdSeries: "Ryzen200", tableColumnData: "Ryzen 200 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 200 Series")} Processors` }
 			]
 		},
 		{
@@ -78,17 +79,19 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[]): SectionedDataIt
 		}
 	]
 
-	const filteredSections = allSections.map(section => ({
-		...section,
-		data: section.data.filter(item => {
-			const count = parseInt(item.count)
-			return !isNaN(count) && count > 0
-		})
-	})).filter(section => section.data.length > 0)
+	return allSections
 
-	return filteredSections.length > 0
-		? filteredSections
-		: []
+	// const filteredSections = allSections.map(section => ({
+	// 	...section,
+	// 	data: section.data.filter(item => {
+	// 		const count = parseInt(item.count)
+	// 		return !isNaN(count) && count > 0
+	// 	})
+	// })).filter(section => section.data.length > 0)
+
+	// return filteredSections.length > 0
+	// 	? filteredSections
+	// 	: []
 }
 
 
@@ -124,6 +127,8 @@ export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]): Sectio
 			]
 		}
 	]
+
+	return allSections
 
 	const filteredSections = allSections.map(section => ({
 		...section,
@@ -200,6 +205,8 @@ export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: C
 			]
 		}
 	]
+
+	return allSections
 
 	const filteredSections = allSections.map(section => ({
 		...section,

@@ -12,6 +12,7 @@ import { ActivityIndicator, Divider, Menu, useTheme } from "react-native-paper";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { AmdDevice, RyzenDesktopSeries, RyzenLaptopSeries, RyzenSeriesArray, RyzenSeriesNameArray, RyzenSeriesNameEnum } from "../../../../packages/types";
 
+import useSnackbarContext from "@/context/SnackbarContext";
 import ChipCustom from "../../components/buttons/chips";
 import ProductCard from "../../components/cards/productCard";
 import HeaderBackArrow from "../../components/headerBackArrow";
@@ -26,6 +27,8 @@ import { scrapeRyzen } from "../../services/scrape";
 export default function RyzenProducts() {
 	const theme = useTheme()
 	const navigation = useNavigation()
+	const { showSnackbar } = useSnackbarContext()
+
 	// @ts-expect-error
 	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
 
