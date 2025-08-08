@@ -1,3 +1,4 @@
+import { SnackbarParams } from "@/context/SnackbarContext";
 import axios from "axios";
 import Constants from 'expo-constants';
 import { Alert } from "react-native";
@@ -34,13 +35,15 @@ export async function scrapeRyzen(requestParams: RyzenScrapeRequestType) {
 
 	try {
 		const res = await axios.post(`${apiDomain}/scrape/ryzen`, requestParams)
-		Alert.alert("Successful Ryzen Scrape", res.data.success)
+		return res.data.success
 	}
 	catch (err: any) {
 		const error: string = err.response?.data?.errorMsg
 		const [title, ...rest] = error.split(":")
-
-		Alert.alert(title.trim(), rest.join(':').trim() || err.message)
+		throw {
+			errTitle: title,
+			errMsg: rest
+		}
 	}
 }
 
@@ -126,7 +129,7 @@ export async function scrapeCore(requestParams: CoreScrapeRequestParams) {
 
 
 
-export async function connectDatabase() {
+export async function connectDatabase(showSnackbar: (params: SnackbarParams) => void) {
 
 	try {
 		const res = await axios.post(`${apiDomain}/connect`)

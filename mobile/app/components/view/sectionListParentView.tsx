@@ -13,7 +13,8 @@ export default function SectionListParentView({ children } : SectionListParentVi
 		<View
 			className='px-3 rounded-xl mb-5'
 			style={{
-				backgroundColor: colorScheme === 'light'
+				backgroundColor: 
+					colorScheme === 'light'
 					? theme.colors.elevation.level5
 					: theme.colors.elevation.level2,
 			}}

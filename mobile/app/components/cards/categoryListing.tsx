@@ -92,7 +92,7 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 				</View>
 				<View className='flex-col'>
 					<AppText className='text-xl' bold>{label}</AppText>
-					<AppText>{noRows} Products</AppText>
+					<AppText>{noRows || 0} Products</AppText>
 				</View>
 			</View>
 			<View className='justify-center'>

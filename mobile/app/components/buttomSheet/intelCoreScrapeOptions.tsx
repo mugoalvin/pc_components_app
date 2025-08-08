@@ -2,6 +2,7 @@ import ButtonCustom from "@/app/components/buttons/buttonCust";
 import AppText from "@/app/components/texts/appText";
 import { syncIntelCoreInventory } from "@/app/index";
 import { scrapeCore } from "@/app/services/scrape";
+import useSnackbarContext from "@/context/SnackbarContext";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { RefObject, useState } from "react";
 import { useColorScheme, View } from "react-native";
@@ -16,6 +17,7 @@ interface IntelCoreScrapeOptionsProps {
 export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelCoreScrapeOptionsProps) {
 	const theme = useTheme();
 	const colorScheme = useColorScheme();
+	const { showSnackbar } = useSnackbarContext()
 
 	const [ isi9Checked, setI9Checked ] = useState<boolean>(false);
 	const [ isi7Checked, setI7Checked ] = useState<boolean>(false);
@@ -82,14 +84,20 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 				onPress={async () => {
 					try {
 						sheetRef?.current?.close();
-						await scrapeCore({
+						const res = await scrapeCore({
 							generation: Number(generation),
 							tier: IntelTierEnum[selectedCheckBox as keyof typeof IntelTierEnum],
-						})
+						});
+						showSnackbar({
+							message: typeof res === "string" ? res : "Scrape completed.",
+						});
 						await syncIntelCoreInventory();
 					}
-					catch (e) {
-						console.error(e);
+					catch (e: any) {
+						showSnackbar({
+							message: e.errorMsg || e.message || "Unknown Error",
+							isError: true
+						});
 					}
 				}}
 			/>

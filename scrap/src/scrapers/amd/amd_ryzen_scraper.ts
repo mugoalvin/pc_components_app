@@ -11,7 +11,6 @@ const { amd_website_domain, amd_desktop_prosessors_route, amd_laptop_processors_
 
 async function runRyzenScraper(isLaptopProcessors: number, serie?: RyzenDesktopSeries | RyzenLaptopSeries) {
 	try {
-
 		AppDataSource.isInitialized || initDatabase()
 
 		const amd_ryzen_processors = await fetchAmdRyzenProcessors({
@@ -33,6 +32,7 @@ async function runRyzenScraper(isLaptopProcessors: number, serie?: RyzenDesktopS
 		const processedRyzenProcessors = normalizeData(amd_ryzen_processors_with_device)
 		const validatedRyzenprocessors = validateRyzenProcessors(processedRyzenProcessors)
 		await saveRyzenProcessors(validatedRyzenprocessors)
+		return validatedRyzenprocessors.length
 	}
 	catch (error: any) {
 		handleError(error)

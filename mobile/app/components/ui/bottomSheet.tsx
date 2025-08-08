@@ -1,6 +1,7 @@
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import React from 'react'
+import { useColorScheme } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useTheme } from 'react-native-paper'
 
@@ -15,6 +16,7 @@ interface PageWithBottomSheetProps {
 
 export default function PageWithBottomSheet({ children, sheetContent, snapPoints, initialSnapIndex, ref, onChange }: PageWithBottomSheetProps) {
 	const theme = useTheme()
+	const colorScheme = useColorScheme()
 
 	return (
 		<GestureHandlerRootView>
@@ -29,6 +31,7 @@ export default function PageWithBottomSheet({ children, sheetContent, snapPoints
 					backgroundColor: theme.colors.secondary
 				}}
 				backgroundStyle={{
+					// backgroundColor: colorScheme === 'light' ? theme.colors.inversePrimary : theme.colors.secondaryContainer,
 					backgroundColor: theme.colors.secondaryContainer,
 					borderTopLeftRadius: 30,
 					borderTopRightRadius: 30,

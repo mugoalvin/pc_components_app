@@ -1,14 +1,14 @@
+import useSnackbarContext from "@/context/SnackbarContext";
 import { useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { AmdDevice, DataCenterSeries, IntelGenerationEnum, IntelGraphics, IntelTierEnum, IntelUltraSeriesEnum, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenLaptopSeries } from "../../../packages/types";
-import { connectDatabase, scrapeArk, scrapeCore, scrapeGeForce, scrapeRadeon, scrapeRyzen, scrapeUltra } from "../services/scrape";
+import { useEffect, useState } from "react";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
-import SubTitle from "../components/texts/subTitle";
 import Body from "../components/ui/body";
 
 export default function ScrapeData() {
 	const navigation = useNavigation()
+	const { showSnackbar } = useSnackbarContext()
+	const [inputText, setInputText] = useState<string>()
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -21,67 +21,36 @@ export default function ScrapeData() {
 
 	return (
 		<Body>
-
-			<SubTitle>Database</SubTitle>
-
 			<ButtonCustom
-				btnText="Connect To The Database"
-				onPress={connectDatabase}
-			/>
-
-
-			<SubTitle>AMD</SubTitle>
-
-			<ButtonCustom
-				btnText="Scrape Ryzen"
-				onPress={() => scrapeRyzen({
-					isLaptop: AmdDevice.Laptop,
-					series: RyzenLaptopSeries.Ryzen200
-				})}
+				btnText="Show Success Message"
+				onPress={() => {
+					showSnackbar({
+						message: "This is a success message",
+					})
+				}}
 			/>
 
 			<ButtonCustom
-				btnText="Scrape Radeon"
-				onPress={() => scrapeRadeon({
-					series: RadeonSeriesEnum.Series9000
-				})}
+				btnText="Show Warning Message"
+				onPress={() => {
+					showSnackbar({
+						message: "This is a warning message",
+						isWarning: true
+					})
+				}}
 			/>
-			
 
-			<SubTitle>Intel</SubTitle>
 
 			<ButtonCustom
-				btnText="Scrape Intel Ultra"
-				onPress={() => scrapeUltra({
-					series: IntelUltraSeriesEnum.Serie2
-				})}
+				btnText="Show Error Message"
+				onPress={() => {
+					showSnackbar({
+						message: "This is an error message",
+						isError: true
+					})
+				}}
 			/>
 
-			<ButtonCustom
-				btnText="Scrape Intel Core"
-				onPress={() => scrapeCore({
-					generation: IntelGenerationEnum.gen14,
-					tier: IntelTierEnum.i9,
-				})}
-			/>
-
-			<ButtonCustom
-				btnText="Scrape Intel Arc"
-				onPress={() => scrapeArk({
-					family: IntelGraphics.DataCenter,
-					series: DataCenterSeries.Max_Series
-				})}
-			/>
-
-
-			<SubTitle>Intel</SubTitle>
-
-			<ButtonCustom
-				btnText="Scrape Nvidia"
-				onPress={() => scrapeGeForce({
-					series: NvidiaGeforceSeries.Series50
-				})}
-			/>
 		</Body>
 	)
 }
