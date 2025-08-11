@@ -17,6 +17,7 @@ export default function NewParts({ image, title, description, index }: NewPartsP
 	
 	return (
 		<View
+			// className={`w-36 rounded-xl p-3 ${index !== 0 && 'ml-2'}`}
 			className={`h-48 w-36 rounded-xl p-3 ${index !== 0 && 'ml-2'}`}
 			style={{
 				backgroundColor: colorScheme === 'light'
@@ -28,7 +29,7 @@ export default function NewParts({ image, title, description, index }: NewPartsP
 				source={image}
 				style={{ flex: 1, resizeMode: "cover", borderRadius: 10 }}
 			/>
-			<AppText bold className="text-xl">{title}</AppText>
+			<AppText bold className="text-xl mt-2">{title}</AppText>
 			<AppText color={theme.colors.onSurfaceDisabled}>{description}</AppText>
 		</View>
 	)

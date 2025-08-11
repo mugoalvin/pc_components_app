@@ -50,10 +50,11 @@ export default function CustomSectionList({ sections, isPageRefreshing = false, 
 					{
 						(section.data).map((item, index) =>
 							<ProductOverviewCard
+								index={index}
 								key={index}
 								title={item.name}
-								index={index}
 								productCount={item.count}
+								lastUpdated={item.lastUpdated}
 								onPress={() => onItemPress && onItemPress(item, index)}
 							/>
 						)

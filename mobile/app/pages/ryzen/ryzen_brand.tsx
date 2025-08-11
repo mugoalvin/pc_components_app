@@ -21,6 +21,8 @@ import HeaderBackArrow from '../../components/headerBackArrow'
 import Body from '../../components/ui/body'
 import ChipView from '../../components/ui/chipView'
 import AppText from '@/app/components/texts/appText'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 export default function RyzenBrand() {
@@ -78,7 +80,7 @@ export default function RyzenBrand() {
 			headerLeft: () => <HeaderBackArrow />,
 			headerRight: () => (
 				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={openSheet}>
-					<Ionicons name='ellipsis-vertical-sharp' size={20} color={theme.colors.onBackground} />
+					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
 				</TouchableOpacity>
 			)
 		})
@@ -133,15 +135,20 @@ export default function RyzenBrand() {
 						getSectionedRyzenData(
 							chipPressed === 'all' ?
 								ryzenInventory :
-								ryzenInventory.filter(ryzen => (ryzen.device)?.toLowerCase() === chipPressed)
+								ryzenInventory.filter(ryzen => (ryzen.device)?.toLowerCase() === chipPressed),
+							chipPressed
 						)
 					}
 					isPageRefreshing={isPageRefreshing}
-					onItemPress={(item) => openPage({
-						selectedComponent: Number(selectedComponent),
-						brand: Number(brand),
-						amdSeries: Number(RyzenSeriesEnum[item.amdSeries as keyof typeof RyzenSeriesEnum]),
-					})}
+					onItemPress={(item) => {
+						AsyncStorage.setItem("sectionDevice", item.device)
+						openPage({
+							selectedComponent: Number(selectedComponent),
+							brand: Number(brand),
+							amdSeries: Number(RyzenSeriesEnum[item.amdSeries as keyof typeof RyzenSeriesEnum]),
+						})
+					}
+					}
 					onrefresh={() => {
 						setIsPageRefreshing(true)
 						syncRyzen()

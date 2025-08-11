@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, Unique, CreateDateColumn, UpdateDateColumn } from "typeorm"
 import { getColumnOptions } from "../entityFunctions"
 
 
@@ -49,6 +49,12 @@ export class RyzenEntity {
 	
 	@Column(getColumnOptions())
 	link?: string
+
+	@CreateDateColumn(getColumnOptions("timestamp"))
+	created_at?: Date
+
+	@UpdateDateColumn(getColumnOptions("timestamp"))
+	updated_at?: Date
 	
 	
 	// @Column(getColumnOptions())

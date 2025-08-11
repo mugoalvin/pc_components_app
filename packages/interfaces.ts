@@ -99,6 +99,9 @@ export interface Ryzen {
 	max_operating_temperature_tjmax?: string
 	launch_date?: string
 	os_support?: string[]
+
+    created_at?: Date
+	updated_at?: Date
 }
 
 
