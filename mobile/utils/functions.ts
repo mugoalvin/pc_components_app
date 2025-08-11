@@ -2,7 +2,7 @@ import { getTableRowCount } from "@/app/services/fetch"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { IntelCore, IntelCoreUltra, Ryzen } from "../../packages/interfaces"
 import { DatabaseTables, IntelGeneration } from "../../packages/types"
-import { CoreDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem } from "./types"
+import { CoreDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem } from "./types"
 
 export function makeKeyUserFriendly(text: string): string {
 	return text
@@ -47,58 +47,69 @@ export const getAsyncData = async (key: string): Promise<string> => {
 	return await AsyncStorage.getItem(key) || ''
 }
 
-export function getSectionedRyzenData(ryzenProcessors: Ryzen[]): SectionedDataItem[] {
+export function getSectionedRyzenData(ryzenProcessors: Ryzen[], deviceOption: RyzenDeviceChipsOptions): SectionedDataItem[] {
 	function getCountPerSeries(series: string) {
 		return ryzenProcessors.filter(ryzen => ryzen.series === series).length
+	}
+
+	function getTimestamps(series: string) {
+		try {
+			const found = ryzenProcessors.find(ryzen => ryzen.series === series)
+			return found && found.updated_at
+				? new Date(found.updated_at).toLocaleDateString()
+				: "Not Found"
+		} catch (err) {
+			console.log(err)
+		}
+		return "Not Found"
 	}
 
 	const allSections = [
 		{
 			title: "High End",
 			data: [
-				{ name: "Ryzen 9000 Series", amdSeries: "Series9000", tableColumnData: "Ryzen 9000 Series", lastUpdated: "3 hrs ago", count: `${getCountPerSeries("Ryzen 9000 Series")} Processors` },
-				{ name: "Ryzen 8000 Series", amdSeries: "Series8000", tableColumnData: "Ryzen 8000 Series", lastUpdated: "3 hrs ago", count: `${getCountPerSeries("Ryzen 8000 Series")} Processors` },
-				{ name: "Ryzen 7000 Series", amdSeries: "Series7000", tableColumnData: "Ryzen 7000 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 7000 Series")} Processors` },
-				{ name: "Ryzen 200", amdSeries: "Ryzen200", tableColumnData: "Ryzen 200 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 200 Series")} Processors` }
+				{ name: "Ryzen 9000 Series", amdSeries: "Series9000", tableColumnData: "Ryzen 9000 Series", lastUpdated: `${getTimestamps("Ryzen 9000 Series")}`, count: `${getCountPerSeries("Ryzen 9000 Series")} Processors`, device: "all" },
+				{ name: "Ryzen 8000 Series", amdSeries: "Series8000", tableColumnData: "Ryzen 8000 Series", lastUpdated: `${getTimestamps("Ryzen 8000 Series")}`, count: `${getCountPerSeries("Ryzen 8000 Series")} Processors`, device: "all" },
+				{ name: "Ryzen 7000 Series", amdSeries: "Series7000", tableColumnData: "Ryzen 7000 Series", lastUpdated: `${getTimestamps("Ryzen 7000 Series")}`, count: `${getCountPerSeries("Ryzen 7000 Series")} Processors`, device: "all" },
+				{ name: "Ryzen 200", amdSeries: "Ryzen200", tableColumnData: "Ryzen 200 Series", lastUpdated: `${getTimestamps("Ryzen 200 Series")}`, count: `${getCountPerSeries("Ryzen 200 Series")} Processors`, device: "laptop" }
 			]
 		},
 		{
 			title: "Mid-Range",
 			data: [
-				{ name: "Ryzen 6000 Series", amdSeries: "Ryzen6000", tableColumnData: "Ryzen 6000 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 6000 Series")} Processors` },
-				{ name: "Ryzen 5000 Series", amdSeries: "Series5000", tableColumnData: "Ryzen 5000 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 5000 Series")} Processors` },
-				{ name: "Ryzen 4000 Series", amdSeries: "Series4000", tableColumnData: "Ryzen 4000 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen 4000 Series")} Processors` }
+				{ name: "Ryzen 6000 Series", amdSeries: "Ryzen6000", tableColumnData: "Ryzen 6000 Series", lastUpdated: `${getTimestamps("Ryzen 6000 Series")}`, count: `${getCountPerSeries("Ryzen 6000 Series")} Processors`, device: "all" },
+				{ name: "Ryzen 5000 Series", amdSeries: "Series5000", tableColumnData: "Ryzen 5000 Series", lastUpdated: `${getTimestamps("Ryzen 5000 Series")}`, count: `${getCountPerSeries("Ryzen 5000 Series")} Processors`, device: "desktop" },
+				{ name: "Ryzen 4000 Series", amdSeries: "Series4000", tableColumnData: "Ryzen 4000 Series", lastUpdated: `${getTimestamps("Ryzen 4000 Series")}`, count: `${getCountPerSeries("Ryzen 4000 Series")} Processors`, device: "desktop" }
 			]
 		},
 		{
 			title: "AI-Focused",
 			data: [
-				{ name: "Ryzen Ai Max", amdSeries: "RyzenAiMax", tableColumnData: "Ryzen AI Max", lastUpdated: "", count: `${getCountPerSeries("Ryzen AI Max 300 Series")} Processors` },
-				{ name: "Ryzen Ai 300", amdSeries: "RyzenAi300", tableColumnData: "Ryzen AI 300 Series", lastUpdated: "", count: `${getCountPerSeries("Ryzen AI 300 Series")} Processors` }
+				{ name: "Ryzen Ai Max", amdSeries: "RyzenAiMax", tableColumnData: "Ryzen AI Max", lastUpdated: `${getTimestamps("Ryzen AI Max 300 Series")}`, count: `${getCountPerSeries("Ryzen AI Max 300 Series")} Processors`, device: "laptop" },
+				{ name: "Ryzen Ai 300", amdSeries: "RyzenAi300", tableColumnData: "Ryzen AI 300 Series", lastUpdated: `${getTimestamps("Ryzen AI 300 Series")}`, count: `${getCountPerSeries("Ryzen AI 300 Series")} Processors`, device: "laptop" }
 			]
 		}
 	]
 
-	return allSections
+	const filteredSections = allSections.map(section => ({
+		...section,
+		data: section.data.filter(item =>
+			deviceOption === 'all'
+				? true
+				: item.device === deviceOption || item.device === 'all'
+		)
+	})).filter(section => section.data.length > 0)
 
-	// const filteredSections = allSections.map(section => ({
-	// 	...section,
-	// 	data: section.data.filter(item => {
-	// 		const count = parseInt(item.count)
-	// 		return !isNaN(count) && count > 0
-	// 	})
-	// })).filter(section => section.data.length > 0)
-
-	// return filteredSections.length > 0
-	// 	? filteredSections
-	// 	: []
+	return filteredSections.length > 0
+		? filteredSections
+		: []
 }
 
 
 
 export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]): SectionedDataItem[] {
 	function getCountPerSeries(line: string) {
-		return ultraProcessors.filter(ultra => ultra.name?.includes(line) ).length
+		return ultraProcessors.filter(ultra => ultra.name?.includes(line)).length
 	}
 
 	const allSections = [
@@ -162,13 +173,13 @@ export function isIntelGenMatching(processor_number: string, gen: number): boole
 
 
 export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: CoreDeviceChipsOptions): SectionedDataItem[] {
-	
+
 	function getCountPerGeneration(generation: IntelGeneration, chipPressed: CoreDeviceChipsOptions) {
 		return coreProcessors
 			.filter(core =>
 				isIntelGenMatching(core.processor_number || "", generation) && (
 					chipPressed === 'all' ? core :
-					core.vertical_segment?.toLowerCase() === chipPressed
+						core.vertical_segment?.toLowerCase() === chipPressed
 				)
 			).length
 	}

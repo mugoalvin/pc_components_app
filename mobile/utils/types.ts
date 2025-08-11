@@ -15,6 +15,7 @@ export type SectionedDataItem = {
 		tableColumnData?: string;
 		lastUpdated?: string;
 		count?: string;
+		device?: string
 	}[];
 };
 

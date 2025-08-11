@@ -8,6 +8,9 @@ import { RefObject, useState } from "react";
 import { FlatList, Pressable, useColorScheme, View } from "react-native";
 import { RadioButton, useTheme } from "react-native-paper";
 import { AmdDevice, RyzenSeriesNameArray } from "../../../../packages/types";
+import BottomSheetHeader from "../texts/bottomSheetHeader";
+import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
+import BottomSheetCard from "../ui/bottomSheet/bottomSheetCard";
 
 interface RyzenScrapeOptionsProps {
 	sheetRef?: RefObject<BottomSheetMethods | null>
@@ -29,38 +32,44 @@ export default function RyzenScrapeOptions({ sheetRef, setIsScrapingInProgress }
 
 	return (
 		<>
-			<AppText bold className="text-4xl mb-3">Scrape Options</AppText>
+			<BottomSheetHeader headerText="Scrape Options" />
 
-			<AppText bold className="text-2xl mt-3">Select Device</AppText>
-
-			<View className="p-3 rounded-xl" style={{ backgroundColor: colorScheme === 'light' ? theme.colors.inverseOnSurface : theme.colors.onSecondary }}>
-				<RadioButton.Group value={selectedDevice} onValueChange={newSelectedDevice => setSelectedDevice(newSelectedDevice as "laptop" | "desktop")}>
-					<Pressable className="flex-row items-center justify-between p-2" onPress={() => setSelectedDevice("desktop")} android_ripple={{ color: theme.colors.primary }}>
-						<AppText className="text-xl">Desktop</AppText>
-						<RadioButton.IOS value="desktop" />
-					</Pressable>
-					<Pressable className="flex-row items-center justify-between p-2" onPress={() => setSelectedDevice("laptop")} android_ripple={{ color: theme.colors.primary }}>
-						<AppText className="text-xl">Laptop</AppText>
-						<RadioButton.IOS value="laptop" />
-					</Pressable>
-				</RadioButton.Group>
-			</View>
-
-			<AppText bold className="text-2xl mt-3">Select Series</AppText>
-
-			<View className="p-3 rounded-xl" style={{ backgroundColor: colorScheme === 'light' ? theme.colors.inverseOnSurface : theme.colors.onSecondary }}>
-				<RadioButton.Group value={selectedSeries?.toString() || ''} onValueChange={serie => setSelectedSeries(serie)}>
-					<FlatList
-						data={selectedOptions}
-						renderItem={({ item }) => (
-							<Pressable className="flex-row items-center justify-between p-2" onPress={() => setSelectedSeries(item)} android_ripple={{ color: theme.colors.primary }}>
-								<AppText className="text-xl">{item}</AppText>
-								<RadioButton.IOS value={item} />
+			<BottomSheetSection
+				headerText="Select Device"
+				BodyComponent={
+					<BottomSheetCard className="p-3 rounded-xl">
+						<RadioButton.Group value={selectedDevice} onValueChange={newSelectedDevice => setSelectedDevice(newSelectedDevice as "laptop" | "desktop")}>
+							<Pressable className="flex-row items-center justify-between p-2" onPress={() => setSelectedDevice("desktop")} android_ripple={{ color: theme.colors.primary }}>
+								<AppText className="text-xl">Desktop</AppText>
+								<RadioButton.IOS value="desktop" />
 							</Pressable>
-						)}
-					/>
-				</RadioButton.Group>
-			</View>
+							<Pressable className="flex-row items-center justify-between p-2" onPress={() => setSelectedDevice("laptop")} android_ripple={{ color: theme.colors.primary }}>
+								<AppText className="text-xl">Laptop</AppText>
+								<RadioButton.IOS value="laptop" />
+							</Pressable>
+						</RadioButton.Group>
+					</BottomSheetCard>
+				}
+			/>
+
+			<BottomSheetSection
+				headerText="Select Series"
+				BodyComponent={
+					<BottomSheetCard className="p-3 rounded-xl">
+						<RadioButton.Group value={selectedSeries?.toString() || ''} onValueChange={serie => setSelectedSeries(serie)}>
+							<FlatList
+								data={selectedOptions}
+								renderItem={({ item }) => (
+									<Pressable className="flex-row items-center justify-between p-2" onPress={() => setSelectedSeries(item)} android_ripple={{ color: theme.colors.primary }}>
+										<AppText className="text-xl">{item}</AppText>
+										<RadioButton.IOS value={item} />
+									</Pressable>
+								)}
+							/>
+						</RadioButton.Group>
+					</BottomSheetCard>
+				}
+			/>
 
 			<ButtonCustom
 				btnText="Source From The Web Now"
