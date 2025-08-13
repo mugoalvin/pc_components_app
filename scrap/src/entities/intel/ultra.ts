@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm"
 import { getColumnOptions } from "../entityFunctions";
 import { IntelUltraSeries, IntelUltraSeriesValues } from "../../../../packages/types";
 
@@ -48,6 +48,12 @@ export class UltraEntity {
 
 	@Column(getColumnOptions("int"))
 	xe_cores?: number;
+
+	@CreateDateColumn(getColumnOptions("timestamp"))
+	created_at?: Date
+
+	@UpdateDateColumn(getColumnOptions("timestamp"))
+	updated_at?: Date
 }
 
 // @Unique(["name"])

@@ -248,6 +248,7 @@ export interface IntelCore {
 	recommended_customer_price?: string
 	number_of_performance_cores?: number
 	number_of_efficient_cores?: number
+    total_cores?: number
 	total_threads?: number
 	max_turbo_frequency?: string
 	intel_turbo_boost_max_technology_3_0_frequency?: string

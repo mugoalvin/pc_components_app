@@ -67,7 +67,7 @@ export default function CoreProducts() {
 			headerLeft: () => <HeaderBackArrow />,
 			headerRight: () => (
 				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={openSheet}>
-					<Ionicons name='ellipsis-vertical-sharp' size={20} color={theme.colors.onBackground} />
+					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
 				</TouchableOpacity>
 			)
 		})
@@ -141,7 +141,7 @@ export default function CoreProducts() {
 						<ProductCard
 							key={item.name}
 							title={item.name}
-							mainDescription={`${item.number_of_performance_cores} cores ${item.total_threads} threads`}
+							mainDescription={`${item.total_cores} cores ${item.total_threads} threads`}
 							secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
 							extraInfo={item.recommended_customer_price || item.launch_date}
 							onPress={() =>

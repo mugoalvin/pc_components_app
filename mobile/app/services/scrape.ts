@@ -41,8 +41,8 @@ export async function scrapeRyzen(requestParams: RyzenScrapeRequestType) {
 		const error: string = err.response?.data?.errorMsg
 		const [title, ...rest] = error.split(":")
 		throw {
-			errTitle: title,
-			errMsg: rest
+			errTitle: title.trim(),
+			errMsg: rest.join(':').trim()
 		}
 	}
 }
@@ -94,13 +94,16 @@ export async function scrapeUltra(requestParams: UltraScrapeRequestTypes) {
 
 	try {
 		const res = await axios.post(`${apiDomain}/scrape/ultra`, requestParams)
-		Alert.alert("Successful Ultra Scrape", res.data.success)
+		return res.data.success
 	}
 	catch (err: any) {
 		const error: string = err.response?.data?.errorMsg
 		const [title, ...rest] = error.split(":")
 
-		Alert.alert(title.trim(), rest.join(':').trim() || err.message)
+		throw {
+			errTitle: title.trim(),
+			errMsg: rest.join(':').trim()
+		}
 	}
 }
 
@@ -116,13 +119,16 @@ export async function scrapeCore(requestParams: CoreScrapeRequestParams) {
 
 	try {
 		const res = await axios.post(`${apiDomain}/scrape/core`, requestParams)
-		Alert.alert("Successful Core Scrape", res.data.success)
+		return res.data.success
 	}
 	catch (err: any) {
 		const error: string = err.response?.data?.errorMsg
 		const [title, ...rest] = error.split(":")
 
-		Alert.alert(title.trim(), rest.join(':').trim() || err.message)
+		throw {
+			errTitle: title.trim(),
+			errMsg: rest.join(':').trim()
+		}
 	}
 }
 

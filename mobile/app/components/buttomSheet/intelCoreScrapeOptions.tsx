@@ -5,9 +5,13 @@ import { scrapeCore } from "@/app/services/scrape";
 import useSnackbarContext from "@/context/SnackbarContext";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { RefObject, useState } from "react";
-import { useColorScheme, View } from "react-native";
+import { Pressable, useColorScheme, View } from "react-native";
 import { RadioButton, useTheme } from "react-native-paper";
 import { IntelGeneration, IntelTierEnum } from "../../../../packages/types";
+import BottomSheetHeader from "../texts/bottomSheetHeader";
+import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
+import BottomSheetCard from "../ui/bottomSheet/bottomSheetCard";
+import  ordinal from 'ordinal'
 
 interface IntelCoreScrapeOptionsProps {
 	generation: IntelGeneration
@@ -24,6 +28,24 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 	const [ isi5Checked, setI5Checked ] = useState<boolean>(false);
 	const [ isi3Checked, setI3Checked ] = useState<boolean>(false);
 
+	const radioBtnTierArray = [
+		{
+			tier: 'i9',
+			tierName: 'Intel i9'
+		},
+		{
+			tier: 'i7',
+			tierName: 'Intel i7'
+		},
+		{
+			tier: 'i5',
+			tierName: 'Intel i5'
+		},
+		{
+			tier: 'i3',
+			tierName: 'Intel i3'
+		}
+	]
 	const [ selectedCheckBox, setSelectedCheckBox ] = useState<'i9' | 'i7' | 'i5' | 'i3' | undefined>(undefined);
 
 	const falsifyAllCheckBoxes = () => {
@@ -36,50 +58,30 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 
 	return (
 		<>
-			<AppText bold className="text-4xl mb-3">Scrape Options</AppText>
+			<BottomSheetHeader headerText="Scrape Options" />
 
-			<AppText bold className="text-2xl mt-3">Select Tier</AppText>
-			<View className="justify-evenly p-3 gap-2 rounded-xl"  style={{ backgroundColor: colorScheme === 'light' ? theme.colors.background : theme.colors.onSecondary }}>
-				{
-					Number(generation) >= 8 &&
-					<View className="flex-row items-center gap-1">
-						<RadioButton value="i9" status={isi9Checked ? 'checked' : "unchecked"} onPress={() => {
-							falsifyAllCheckBoxes()
-							setI9Checked(prev => !prev)
-							setSelectedCheckBox('i9')
-						} } />
-						<AppText className="text-xl">Intel i9</AppText>
-					</View>
+			<BottomSheetSection
+				headerText={`Select ${ordinal(Number(generation))} generation tier`}
+				BodyComponent={
+					<BottomSheetCard  className="p-3 rounded-xl">
+						<RadioButton.Group value={selectedCheckBox!} onValueChange={newValue => setSelectedCheckBox(newValue as 'i9' | 'i7' | 'i5' | 'i3')}>
+							{
+								radioBtnTierArray.map(tier => (
+									<Pressable key={tier.tierName} className="flex-row items-center justify-between p-2" onPress={() => setSelectedCheckBox(tier.tier as 'i9' | 'i7' | 'i5' | 'i3')} android_ripple={{ color: theme.colors.primary }}>
+										<AppText className="text-xl">{tier.tierName}</AppText>
+										<RadioButton.IOS value={tier.tier} />
+									</Pressable>
+								))
+							}
+						</RadioButton.Group>
+
+					</BottomSheetCard>
 				}
-				<View className="flex-row items-center gap-1">
-					<RadioButton value="i7" status={isi7Checked ? 'checked' : "unchecked"} onPress={() => {
-						falsifyAllCheckBoxes()
-						setI7Checked(prev => !prev)
-						setSelectedCheckBox('i7')
-					} } />
-					<AppText className="text-xl">Intel i7</AppText>
-				</View>
-				<View className="flex-row items-center gap-1">
-					<RadioButton value="i5" status={isi5Checked ? 'checked' : "unchecked"} onPress={() => {
-						falsifyAllCheckBoxes()
-						setI5Checked(prev => !prev)
-						setSelectedCheckBox('i5')
-					} } />
-					<AppText className="text-xl">Intel i5</AppText>
-				</View>
-				<View className="flex-row items-center gap-1">
-					<RadioButton value="i3" status={isi3Checked ? 'checked' : "unchecked"} onPress={() => {
-						falsifyAllCheckBoxes()
-						setI3Checked(prev => !prev)
-						setSelectedCheckBox('i3')
-					} } />
-					<AppText className="text-xl">Intel i3</AppText>
-				</View>
-			</View>
+			/>
 
 			<ButtonCustom
-				btnText="Source From The Web Now"
-				className="my-10 h-14"
+				btnText="Source From The Web"
+				className="h-14 mb-10"
 				disabled={selectedCheckBox === undefined}
 				onPress={async () => {
 					try {
@@ -89,13 +91,13 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 							tier: IntelTierEnum[selectedCheckBox as keyof typeof IntelTierEnum],
 						});
 						showSnackbar({
-							message: typeof res === "string" ? res : "Scrape completed.",
+							message: res
 						});
 						await syncIntelCoreInventory();
 					}
 					catch (e: any) {
 						showSnackbar({
-							message: e.errorMsg || e.message || "Unknown Error",
+							message: e.errTitle || e.errMsg || e.message || "Unknown Error",
 							isError: true
 						});
 					}
