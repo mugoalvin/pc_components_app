@@ -3,7 +3,7 @@ import HeaderBackArrow from "@/app/components/headerBackArrow";
 import Body from "@/app/components/ui/body";
 import ChipView from "@/app/components/ui/chipView";
 import CustomSectionList from "@/app/components/view/sectionList";
-import { syncIntelCoreInventory } from "@/app/index";
+import { syncIntelCoreInventory, syncIntelCoreInventoryCount } from "@/app/index";
 import { getSectionedCoreData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
 import { CoreDeviceChipsOptions, ProductBrandFilter } from "@/utils/types";
@@ -44,10 +44,9 @@ export default function CoreLine() {
 			title: "Intel Core",
 			headerLeft: () => <HeaderBackArrow />,
 		})
-	})
 
-	useEffect(() => {
-	}, [chipPressed])
+		syncIntelCoreInventoryCount()
+	})
 
 	return (
 		<Body>
@@ -109,7 +108,7 @@ export default function CoreLine() {
 				})}
 				onrefresh={async () => {
 					setIsPageRefreshing(true)
-					await syncIntelCoreInventory()
+					await syncIntelCoreInventoryCount()
 					setIsPageRefreshing(false)
 				}}
 			/>

@@ -8,11 +8,15 @@ import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter, UltraDeviceChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect, useState } from "react";
-import { useColorScheme } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { TouchableOpacity, useColorScheme } from "react-native";
 import { useTheme } from "react-native-paper";
 import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../packages/types";
 import Body from "../../components/ui/body";
+import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import IntelUltraScrapeOptions from "@/app/components/buttomSheet/intelUltraScrapeOptions";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function UltraLine() {
 	const theme = useTheme()
@@ -29,6 +33,10 @@ export default function UltraLine() {
 	const [isDesktopChipSelected, setIsDesktopChipSelected] = useState<boolean>(false)
 	const [isMobileChipSelected, setIsMobileChipSelected] = useState<boolean>(false)
 	const [isEmbeddedChipSelected, setIsEmbeddedChipSelected] = useState<boolean>(false)
+
+	const bottomSheetRef = useRef<BottomSheetMethods>(null)
+	const snapPoints = useMemo(() => ['40%'], [])
+	const openSheet = () => bottomSheetRef.current?.snapToIndex(0)
 
 	const falsifyAllChips = () => {
 		setIsAllChipSelected(false)
@@ -48,79 +56,93 @@ export default function UltraLine() {
 			title: "Ultra",
 			headerLeft: () => (
 				<HeaderBackArrow />
+			),
+			headerRight: () => (
+				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={openSheet}>
+					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
+				</TouchableOpacity>
 			)
 		})
 	}, [navigation])
 
 	useEffect(() => {
+		console.log("Here")
 		syncIntelUltraInventory()
-	})
+	}, [])
 
 	return (
-		<Body>
-			<ChipView>
-				<ChipCustom
-					chipText="All"
-					selected={isAllSelected}
-					onPress={() => {
-						falsifyAllChips()
-						setIsAllChipSelected(prev => !prev)
-						setChipPressed('all')
-					}}
-				/>
-				<ChipCustom
-					chipText="Desktop"
-					selected={isDesktopChipSelected}
-					onPress={() => {
-						falsifyAllChips()
-						setIsDesktopChipSelected(prev => !prev)
-						setChipPressed('desktop')
-					}}
-				/>
-				<ChipCustom
-					chipText="Mobile"
-					selected={isMobileChipSelected}
-					onPress={() => {
-						falsifyAllChips()
-						setIsMobileChipSelected(prev => !prev)
-						setChipPressed('mobile')
-					}}
-				/>
-				<ChipCustom
-					chipText="Embedded"
-					selected={isEmbeddedChipSelected}
-					onPress={() => {
-						falsifyAllChips()
-						setIsEmbeddedChipSelected(prev => !prev)
-						setChipPressed('embedded')
-					}}
-				/>
-			</ChipView>
+		<PageWithBottomSheet
+			ref={bottomSheetRef}
+			snapPoints={snapPoints}
+			initialSnapIndex={-1}
+			sheetContent={<IntelUltraScrapeOptions sheetRef={bottomSheetRef} />}
+		>
+			<Body>
+				<ChipView>
+					<ChipCustom
+						chipText="All"
+						selected={isAllSelected}
+						onPress={() => {
+							falsifyAllChips()
+							setIsAllChipSelected(prev => !prev)
+							setChipPressed('all')
+						}}
+					/>
+					<ChipCustom
+						chipText="Desktop"
+						selected={isDesktopChipSelected}
+						onPress={() => {
+							falsifyAllChips()
+							setIsDesktopChipSelected(prev => !prev)
+							setChipPressed('desktop')
+						}}
+					/>
+					<ChipCustom
+						chipText="Mobile"
+						selected={isMobileChipSelected}
+						onPress={() => {
+							falsifyAllChips()
+							setIsMobileChipSelected(prev => !prev)
+							setChipPressed('mobile')
+						}}
+					/>
+					<ChipCustom
+						chipText="Embedded"
+						selected={isEmbeddedChipSelected}
+						onPress={() => {
+							falsifyAllChips()
+							setIsEmbeddedChipSelected(prev => !prev)
+							setChipPressed('embedded')
+						}}
+					/>
+				</ChipView>
 
 
-			<CustomSectionList
-				sections={
-					getSectionedUltraData(
-						chipPressed === 'all' ?
-							ultraInventory :
-							ultraInventory.filter(ultra => (ultra.vertical_segment)?.toLowerCase() === chipPressed)
-					)
-				}
-				isPageRefreshing={isPageRefreshing}
-				onrefresh={async () => {
-					setIsPageRefreshing(true)
-					await syncIntelUltraInventory()
-					setIsPageRefreshing(false)
-				}}
-				onItemPress={(item, index) => openPage({
-					selectedComponent: Number(selectedComponent),
-					brand: Number(brand),
-					line: Number(line),
-					ultraSeries: item.name,
-					ultraTier: Number(IntelUltraTierEnum[IntelUltraTierArray[index] as keyof typeof IntelUltraTierEnum])
-				})}
-			/>
+				<CustomSectionList
+					sections={
+						getSectionedUltraData(
+							chipPressed === 'all' ?
+								ultraInventory :
+								ultraInventory.filter(ultra => (ultra.vertical_segment)?.toLowerCase() === chipPressed),
+							chipPressed
+						)
+					}
+					isPageRefreshing={isPageRefreshing}
+					onrefresh={async () => {
+						setIsPageRefreshing(true)
+						await syncIntelUltraInventory()
+						setIsPageRefreshing(false)
+					}}
+					onItemPress={(item, index) => openPage({
+						selectedComponent: Number(selectedComponent),
+						brand: Number(brand),
+						line: Number(line),
+						ultraSeries: item.name,
+						ultraTier: Number(IntelUltraTierEnum[IntelUltraTierArray[index] as keyof typeof IntelUltraTierEnum])
+					})}
+				/>
 
-		</Body>
+			</Body>
+		</PageWithBottomSheet>
 	)
 }

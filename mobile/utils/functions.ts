@@ -2,7 +2,7 @@ import { getTableRowCount } from "@/app/services/fetch"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { IntelCore, IntelCoreUltra, Ryzen } from "../../packages/interfaces"
 import { DatabaseTables, IntelGeneration } from "../../packages/types"
-import { CoreDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem } from "./types"
+import { CoreDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem, UltraDeviceChipsOptions } from "./types"
 
 export function makeKeyUserFriendly(text: string): string {
 	return text
@@ -47,6 +47,10 @@ export const getAsyncData = async (key: string): Promise<string> => {
 	return await AsyncStorage.getItem(key) || ''
 }
 
+
+
+
+
 export function getSectionedRyzenData(ryzenProcessors: Ryzen[], deviceOption: RyzenDeviceChipsOptions): SectionedDataItem[] {
 	function getCountPerSeries(series: string) {
 		return ryzenProcessors.filter(ryzen => ryzen.series === series).length
@@ -60,8 +64,8 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[], deviceOption: Ry
 				: "Not Found"
 		} catch (err) {
 			console.log(err)
+			return "Not Found"
 		}
-		return "Not Found"
 	}
 
 	const allSections = [
@@ -107,7 +111,7 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[], deviceOption: Ry
 
 
 
-export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]): SectionedDataItem[] {
+export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[], deviceOptions: UltraDeviceChipsOptions): SectionedDataItem[] {
 	function getCountPerSeries(line: string) {
 		return ultraProcessors.filter(ultra => ultra.name?.includes(line)).length
 	}
@@ -117,38 +121,26 @@ export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[]): Sectio
 			title: "High-End",
 			data: [
 				{ name: "Ultra 9", lastUpdated: '', count: `${getCountPerSeries('Ultra 9')} Processors` },
-			]
-		},
-		{
-			title: "Upper Mid-Range",
-			data: [
 				{ name: "Ultra 7", lastUpdated: '', count: `${getCountPerSeries('Ultra 7')} Processors` },
 			]
 		},
 		{
-			title: "Entry/Mid-Range",
+			title: "Entry/Mid-Range/Low-End",
 			data: [
 				{ name: "Ultra 5", lastUpdated: '', count: `${getCountPerSeries('Ultra 5')} Processors` },
-			]
-		},
-		{
-			title: "Low-End",
-			data: [
 				{ name: "Ultra 3", lastUpdated: '', count: `${getCountPerSeries('Ultra 3')} Processors` },
 			]
 		}
 	]
 
-	return allSections
 
 	const filteredSections = allSections.map(section => ({
 		...section,
-		data: Array.isArray(section.data)
-			? section.data.filter(item => {
-				const count = parseInt(item.count)
-				return !isNaN(count) && count > 0
-			})
-			: []
+		data: section.data.filter(item =>
+			deviceOptions === 'all'
+				? true
+				: item.name !== 'Ultra 3'
+		)
 	})).filter(section => section.data.length > 0)
 
 	return filteredSections.length > 0
@@ -162,7 +154,7 @@ export function isIntelGenMatching(processor_number: string, gen: number): boole
 	if (!match) return false;
 
 	const modelNumber = match[1];
-	if (modelNumber.length < 2) return false;
+	if (modelNumber.length < 2) return false
 
 	const first = Number(modelNumber[0]);
 	const second = Number(modelNumber[1]);

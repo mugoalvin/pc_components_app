@@ -24,12 +24,12 @@ async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
 			return {
 				...rows.reduce((acc, row) => {
 					const label = row.querySelector(".tech-label span")?.textContent || ''
-					const data =
+					const value =
 						row.querySelector(".tech-data span")?.textContent ||
 						row.querySelector(".tech-data a")?.textContent
 					
-					return { ...acc, [label]: data }
-				})
+					return { ...acc, [label]: value }
+				}, {})
 			}
 		})
 	})

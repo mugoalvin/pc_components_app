@@ -32,6 +32,9 @@ export class CoreEntity {
     number_of_efficient_cores?: number;
 
     @Column(getColumnOptions("int"))
+    total_cores?: number;
+
+    @Column(getColumnOptions("int"))
     total_threads?: number;
 
     @Column(getColumnOptions())

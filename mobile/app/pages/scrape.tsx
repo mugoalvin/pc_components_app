@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
 import Body from "../components/ui/body";
+import { scrapeUltra } from "../services/scrape";
+import { IntelUltraSeriesEnum } from "../../../packages/types";
 
 export default function ScrapeData() {
 	const navigation = useNavigation()
@@ -21,7 +23,33 @@ export default function ScrapeData() {
 
 	return (
 		<Body>
+
 			<ButtonCustom
+				btnText="Scrape Intel Core Ultra Series 2"
+				onPress={async () => {
+					const successMsg = await scrapeUltra({
+						series: IntelUltraSeriesEnum.Serie2
+					})
+					showSnackbar({
+						message: successMsg
+					})
+				}}
+			/>
+
+			<ButtonCustom
+				btnText="Scrape Intel Core Ultra Series 1"
+				onPress={async () => {
+					const successMsg = await scrapeUltra({
+						series: IntelUltraSeriesEnum.Serie1
+					})
+					showSnackbar({
+						message: successMsg
+					})
+
+				}}
+			/>
+
+			{/* <ButtonCustom
 				btnText="Show Success Message"
 				onPress={() => {
 					showSnackbar({
@@ -49,7 +77,7 @@ export default function ScrapeData() {
 						isError: true
 					})
 				}}
-			/>
+			/> */}
 
 		</Body>
 	)

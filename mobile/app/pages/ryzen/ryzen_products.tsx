@@ -36,8 +36,6 @@ export default function RyzenProducts() {
 	// @ts-expect-error
 	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
 
-	const [isSearchBtnPressed, setIsSearchBtnPressed] = useState<boolean>(false)
-	const [isScrapingInProgress, setIsScrapingInProgress] = useState<boolean>(false)
 	const ryzenInventory = useRyzenStore(state => state.ryzen_inventory)
 	const [ryzenToDisplay, setRyzenToDisplay] = useState(ryzenInventory)
 
@@ -75,16 +73,30 @@ export default function RyzenProducts() {
 	}
 
 	const sourceData = async () => {
-		const successMsg = await scrapeRyzen({
-			isLaptop: deviceSelected === "all" ?
-				itemDevice === 'laptop' ? AmdDevice.Laptop : AmdDevice.Desktop :
-				deviceSelected === 'laptop' ? AmdDevice.Laptop : AmdDevice.Desktop,
-			series: amdSeries
-		})
-		await syncRyzenInventory()
-		showSnackbar({
-			message: successMsg
-		})
+		try {
+			if (deviceSelected === 'all' && itemDevice === "all") {
+				openSheet()
+			}
+			else {
+				console.log("amdSeries: ", amdSeries)
+				const successMsg = await scrapeRyzen({
+					isLaptop: deviceSelected === "all" ?
+						itemDevice === 'laptop' ? AmdDevice.Laptop : AmdDevice.Desktop :
+						deviceSelected === 'laptop' ? AmdDevice.Laptop : AmdDevice.Desktop,
+					series: amdSeries > 5 ? amdSeries - 5 : amdSeries
+				})
+				await syncRyzenInventory()
+				showSnackbar({
+					message: successMsg
+				})
+			}
+		}
+		catch (error: any) {
+			showSnackbar({
+				message: error.errMsg || error.errTitle || "Unknown Error!",
+				isError: true
+			})
+		}
 	}
 
 	useEffect(() => {
@@ -96,11 +108,10 @@ export default function RyzenProducts() {
 			title: RyzenSeriesNameEnum[amdSeries],
 			headerLeft: () => <HeaderBackArrow />,
 			headerRight: () => (
-				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={() => setIsSearchBtnPressed(prev => !prev)}>
-					<Ionicons name={isSearchBtnPressed ? 'close-outline' : 'search-outline'} size={20} color={theme.colors.onBackground} />
+				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={sourceData}>
+					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
 				</TouchableOpacity>
 			)
-
 		})
 
 		setRyzenToDisplay(
@@ -112,7 +123,7 @@ export default function RyzenProducts() {
 				chipPressed
 			)
 		)
-	}, [amdSeries, chipPressed, isSearchBtnPressed, ryzenInventory, deviceSelected])
+	}, [amdSeries, chipPressed, ryzenInventory, deviceSelected])
 
 
 	return (
@@ -123,7 +134,6 @@ export default function RyzenProducts() {
 			sheetContent={<SelectDeviceOptions device={itemDevice} setDevice={setItemDevice} onPress={sourceData} closeSheet={closeSheet} />}
 		>
 			<Body>
-				{isSearchBtnPressed && <SearchBarCustom focused />}
 
 				<ChipView>
 					<ChipCustom chipText="All" selected={isAllChipClicked} onPress={() => {
@@ -157,7 +167,6 @@ export default function RyzenProducts() {
 					/>
 				</ChipView>
 
-
 				<Animated.FlatList
 					itemLayoutAnimation={LinearTransition}
 					showsVerticalScrollIndicator={false}
@@ -168,23 +177,9 @@ export default function RyzenProducts() {
 						<RefreshControl
 							refreshing={isFlatlistIsReloading}
 							onRefresh={async () => {
-								// try {
-								// 	if (deviceSelected === 'all' && itemDevice === "all") {
-								// 		openSheet()
-								// 	}
-								// 	else {
-								// 		sourceData()
-								// 	}
-								// }
-								// catch (error: any) {
-								// 	console.log(error)
-								// 	showSnackbar({
-								// 		message: error.errMsg || error.errTitle || "Unknown Error!",
-								// 		isError: true
-								// 	})
-								// }
-
-								syncRyzenInventory()
+								setIsFlatlistIsReloading(true)
+								await syncRyzenInventory()
+								setIsFlatlistIsReloading(false)
 							}}
 						/>
 					}
