@@ -7,6 +7,7 @@ import runIntelUltra from "../scrapers/intel/intel_ultra_scraper"
 import runIntelArk from "../scrapers/intel/intel_ark_scraper"
 import runNvidiaGeforce from '../scrapers/nvidia/geforce_scraper'
 import { ArkSeries, IntelCoreScrapingOptions, intelGenerations, IntelGraphics, IntelGraphicsScrapingOptions, intelTiers, IntelUltraSeriesValues, NvidiaGeforceSeries } from '../../../packages/types'
+import runIntelXeon from '../scrapers/intel/intel_xeon_scraper'
 
 
 const scrapeRouter = express.Router()
@@ -70,6 +71,24 @@ scrapeRouter.post('/intel_core', async (req, res): Promise<any> => {
 		const desiredIntelProcessoesToScrape: IntelCoreScrapingOptions = { tier, generation }
 		await runIntelCoreIx(desiredIntelProcessoesToScrape)
 		res.json({ success: `Successfully saved ${generation}th gen Intel Core ${tier} Processors.` })
+	}
+	catch (error: any) {
+		res.status(500).json({
+			errorMsg: error.message
+		})
+	}
+})
+
+
+scrapeRouter.post('/intel_xeon', async (req, res): Promise<any> => {
+	const { series } = req.body
+
+	if (series < 0 || series > 23)
+		res.json({ errorMsg: 'Invalid Xeon Series' })
+
+	try {
+		const count = await runIntelXeon(series)
+		res.json({ success: `Successfully saved ${count} Intel Xeon Processors.` })
 	}
 	catch (error: any) {
 		res.status(500).json({

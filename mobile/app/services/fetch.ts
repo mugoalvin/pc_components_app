@@ -7,10 +7,10 @@ const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 
 export async function getTableRowCount(table: DatabaseTables) {
 	try {
-		const res = await axios.post(`${ apiDomain }/database/processors/getCount`, { table })
+		const res = await axios.post(`${apiDomain}/database/processors/getCount`, { table })
 		return res.data
 	}
-	catch(error: any) {
+	catch (error: any) {
 		throw error
 	}
 }
@@ -18,7 +18,7 @@ export async function getTableRowCount(table: DatabaseTables) {
 
 export async function getTableData(table: DatabaseTables) {
 	try {
-		const res = await axios.post(`${ apiDomain }/database/processors/getData`, { table })
+		const res = await axios.post(`${apiDomain}/database/processors/getData`, { table })
 		return res.data
 	}
 	catch (error: any) {

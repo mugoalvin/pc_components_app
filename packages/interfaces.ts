@@ -1,60 +1,60 @@
 // ==============================================> AMD Products <==============================================
 
 export interface InitialAmdProps {
-	name: string
-	link: string
+    name: string
+    link: string
 }
 
 // Radeon
 export interface Radeon {
-	image?: string
-	link?: string
-	name?: string
-	family?: string
-	series?: string
-	board_type?: string
-	os_support?: string[]
-	additional_power_connector?: string
-	compute_units?: number
-	boost_frequency?: string
-	game_frequency?: string
-	base_frequency?: string
-	ray_accelerators?: number
-	ai_accelerators?: number
-	peak_pixel_fill_rate?: string
-	peak_texture_fill_rate?: string
-	peak_half_precision_compute_performance?: string
-	peak_single_precision_compute_performance?: string
-	peak_int4_performance?: string
-	peak_int8_performance?: string
-	rops?: number
-	stream_processors?: number
-	texture_units?: number
-	transistor_count?: string
-	typical_board_power_desktop?: string
-	minimum_psu_recommendation?: string
-	recommended_power_supply?: string
-	amd_infinity_cache_technology?: string
-	memory_speed?: string
-	max_memory_size?: string
-	memory_type?: string
-	memory_interface?: string
-	memory_bandwidth?: string
-	effective_memory_bandwidth?: string
-	hdmi_4k_support?: boolean
-	"4k_h264_decode"?: boolean
-	"4k_h264_encode"?: boolean
-	h265_hevc_decode?: boolean
-	h265_hevc_encode?: boolean
-	av1_decode?: boolean
-	av1_encode?: boolean
+    image?: string
+    link?: string
+    name?: string
+    family?: string
+    series?: string
+    board_type?: string
+    os_support?: string[]
+    additional_power_connector?: string
+    compute_units?: number
+    boost_frequency?: string
+    game_frequency?: string
+    base_frequency?: string
+    ray_accelerators?: number
+    ai_accelerators?: number
+    peak_pixel_fill_rate?: string
+    peak_texture_fill_rate?: string
+    peak_half_precision_compute_performance?: string
+    peak_single_precision_compute_performance?: string
+    peak_int4_performance?: string
+    peak_int8_performance?: string
+    rops?: number
+    stream_processors?: number
+    texture_units?: number
+    transistor_count?: string
+    typical_board_power_desktop?: string
+    minimum_psu_recommendation?: string
+    recommended_power_supply?: string
+    amd_infinity_cache_technology?: string
+    memory_speed?: string
+    max_memory_size?: string
+    memory_type?: string
+    memory_interface?: string
+    memory_bandwidth?: string
+    effective_memory_bandwidth?: string
+    hdmi_4k_support?: boolean
+    "4k_h264_decode"?: boolean
+    "4k_h264_encode"?: boolean
+    h265_hevc_decode?: boolean
+    h265_hevc_encode?: boolean
+    av1_decode?: boolean
+    av1_encode?: boolean
     displayport?: string
     hdmi?: string
-	usb_type_c?: boolean
-	length?: string
-	slots?: number
-	launch_date?: string
-	supported_technologies?: string
+    usb_type_c?: boolean
+    length?: string
+    slots?: number
+    launch_date?: string
+    supported_technologies?: string
 }
 
 
@@ -62,46 +62,46 @@ export interface Radeon {
 // Ryzen
 export interface Ryzen {
     name: string
-	family?: string
-	series?: string
-	image?: string
+    family?: string
+    series?: string
+    image?: string
     device?: string
-	form_factor?: string
-	market_segment?: string
-	amd_pro_technologies?: boolean
-	regional_availability?: string
-	former_codename?: string
-	architecture?: string
-	number_of_cpu_cores?: number
-	multithreading_smt?: boolean
-	number_of_threads?: number
-	max_boost_clock?: string
-	base_clock?: string
-	l1_cache?: string
-	l2_cache?: string
-	l3_cache?: string
-	default_tdp?: string
-	processor_technology_for_cpu_cores?: string
-	processor_technology_for_i_o_die?: string
-	package_die_count?: number
-	unlocked_for_overclocking?: boolean
-	amd_expo_memory_overclocking_technology?: boolean
-	precision_boost_overdrive?: boolean
-	curve_optimizer_voltage_offsets?: boolean
-	amd_ryzen_master_support?: boolean
-	cpu_socket?: string
-	supporting_chipsets?: string[]
-	cpu_boost_technology?: string
-	instruction_set?: string
-	supported_extensions?: string[]
-	thermal_solution_pib?: string
-	recommended_cooler?: string
-	max_operating_temperature_tjmax?: string
-	launch_date?: string
-	os_support?: string[]
+    form_factor?: string
+    market_segment?: string
+    amd_pro_technologies?: boolean
+    regional_availability?: string
+    former_codename?: string
+    architecture?: string
+    number_of_cpu_cores?: number
+    multithreading_smt?: boolean
+    number_of_threads?: number
+    max_boost_clock?: string
+    base_clock?: string
+    l1_cache?: string
+    l2_cache?: string
+    l3_cache?: string
+    default_tdp?: string
+    processor_technology_for_cpu_cores?: string
+    processor_technology_for_i_o_die?: string
+    package_die_count?: number
+    unlocked_for_overclocking?: boolean
+    amd_expo_memory_overclocking_technology?: boolean
+    precision_boost_overdrive?: boolean
+    curve_optimizer_voltage_offsets?: boolean
+    amd_ryzen_master_support?: boolean
+    cpu_socket?: string
+    supporting_chipsets?: string[]
+    cpu_boost_technology?: string
+    instruction_set?: string
+    supported_extensions?: string[]
+    thermal_solution_pib?: string
+    recommended_cooler?: string
+    max_operating_temperature_tjmax?: string
+    launch_date?: string
+    os_support?: string[]
 
     created_at?: Date
-	updated_at?: Date
+    updated_at?: Date
 }
 
 
@@ -111,13 +111,13 @@ export interface Ryzen {
 
 // =============================================> Intel Products <=============================================
 export interface IntelFamily {
-	familyName: string
-	familyLink: string
+    familyName: string
+    familyLink: string
 }
 
 export interface InitialIntelProps {
-	name: string
-	link: string
+    name: string
+    link: string
 }
 
 
@@ -241,65 +241,65 @@ export interface IntelCoreUltra {
 
 export interface IntelCore {
     name?: string
-	code_name?: string
-	vertical_segment?: string
-	processor_number?: string
-	lithography?: string
-	recommended_customer_price?: string
-	number_of_performance_cores?: number
-	number_of_efficient_cores?: number
+    code_name?: string
+    vertical_segment?: string
+    processor_number?: string
+    lithography?: string
+    recommended_customer_price?: string
+    number_of_performance_cores?: number
+    number_of_efficient_cores?: number
     total_cores?: number
-	total_threads?: number
-	max_turbo_frequency?: string
-	intel_turbo_boost_max_technology_3_0_frequency?: string
-	performance_core_max_turbo_frequency?: string
-	efficient_core_max_turbo_frequency?: string
-	performance_core_base_frequency?: string
-	efficient_core_base_frequency?: string
-	cache?: string
-	total_l2_cache?: string
-	processor_base_power?: string
-	maximum_turbo_power?: string
-	launch_date?: string
-	embedded_options_available?: boolean
-	use_conditions?: string | string[]
-	datasheet?: string
-	memory_types?: string
-	max_number_of_memory_channels?: number
-	max_memory_bandwidth?: string
-	max_number_of_dmi_lanes?: number
-	scalability?: string
-	pci_express_revision?: string
-	pci_express_configurations?: string[]
-	max_number_of_pci_express_lanes?: number
-	max_cpu_configuration?: number
-	thermal_solution_specification?: string
-	tjunction?: string
-	package_size?: string
-	max_operating_temperature?: string
-	intel_gaussian_neural_accelerator?: number
-	intel_thread_director?: boolean
-	intel_deep_learning_boost_intel_dl_boost_on_cpu?: boolean
-	intel_speed_shift_technology?: boolean
-	intel_turbo_boost_max_technology_3_0?: boolean
-	intel_turbo_boost_technology?: number
-	intel_hyper_threading_technology?: boolean
-	intel_64?: boolean
-	instruction_set?: string
-	instruction_set_extensions?: string[]
-	idle_states?: boolean
-	enhanced_intel_speedstep_technology?: boolean
-	thermal_monitoring_technologies?: boolean
-	intel_control_flow_enforcement_technology?: boolean
-	intel_aes_new_instructions?: boolean
-	secure_key?: boolean
-	intel_os_guard?: boolean
-	execute_disable_bit?: boolean
-	intel_boot_guard?: boolean
-	mode_based_execute_control_mbec?: boolean
-	intel_virtualization_technology_vt_x?: boolean
-	intel_virtualization_technology_for_directed_i_o_vt_d?: boolean
-	intel_vt_x_with_extended_page_tables_ept?: boolean
+    total_threads?: number
+    max_turbo_frequency?: string
+    intel_turbo_boost_max_technology_3_0_frequency?: string
+    performance_core_max_turbo_frequency?: string
+    efficient_core_max_turbo_frequency?: string
+    performance_core_base_frequency?: string
+    efficient_core_base_frequency?: string
+    cache?: string
+    total_l2_cache?: string
+    processor_base_power?: string
+    maximum_turbo_power?: string
+    launch_date?: string
+    embedded_options_available?: boolean
+    use_conditions?: string | string[]
+    datasheet?: string
+    memory_types?: string
+    max_number_of_memory_channels?: number
+    max_memory_bandwidth?: string
+    max_number_of_dmi_lanes?: number
+    scalability?: string
+    pci_express_revision?: string
+    pci_express_configurations?: string[]
+    max_number_of_pci_express_lanes?: number
+    max_cpu_configuration?: number
+    thermal_solution_specification?: string
+    tjunction?: string
+    package_size?: string
+    max_operating_temperature?: string
+    intel_gaussian_neural_accelerator?: number
+    intel_thread_director?: boolean
+    intel_deep_learning_boost_intel_dl_boost_on_cpu?: boolean
+    intel_speed_shift_technology?: boolean
+    intel_turbo_boost_max_technology_3_0?: boolean
+    intel_turbo_boost_technology?: number
+    intel_hyper_threading_technology?: boolean
+    intel_64?: boolean
+    instruction_set?: string
+    instruction_set_extensions?: string[]
+    idle_states?: boolean
+    enhanced_intel_speedstep_technology?: boolean
+    thermal_monitoring_technologies?: boolean
+    intel_control_flow_enforcement_technology?: boolean
+    intel_aes_new_instructions?: boolean
+    secure_key?: boolean
+    intel_os_guard?: boolean
+    execute_disable_bit?: boolean
+    intel_boot_guard?: boolean
+    mode_based_execute_control_mbec?: boolean
+    intel_virtualization_technology_vt_x?: boolean
+    intel_virtualization_technology_for_directed_i_o_vt_d?: boolean
+    intel_vt_x_with_extended_page_tables_ept?: boolean
     intel_thermal_velocity_boost_frequency?: string
     tdp?: string
     ecc_memory_supported?: boolean
@@ -379,7 +379,7 @@ export interface IntelArk {
     weight?: string
     minimum_power_supply_unit?: string
     power_connectors?: string
-    
+
     execution_units?: number;
     memory_type?: string;
     tgp?: string;
@@ -388,6 +388,26 @@ export interface IntelArk {
     intel_deep_link_hyper_compute?: boolean;
     intel_deep_link_hyper_encode?: boolean;
     intel_deep_link_stream_assist?: boolean;
+}
+
+export interface IntelXeon {
+    name?: string
+    vertical_segment?: string
+    processor_number?: string
+    lithography?: string
+    recommended_customer_price?: string
+    total_cores?: number
+    total_threads?: number
+    max_turbo_frequency?: string
+    processor_base_frequency?: string
+    cache?: string
+    max_number_of_upi_links?: string
+    tdp?: string
+    launch_date?: string
+    use_conditions?: string
+    embedded_options_available?: boolean
+    max_memory_size_dependent_on_memory_type?: string
+    max_number_of_memory_channels?: number
 }
 
 

@@ -1,4 +1,4 @@
-import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount } from "@/app/index";
+import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncIntelXeonInventoryCount } from "@/app/index";
 import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter } from "@/utils/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
@@ -35,6 +35,7 @@ export default function IntelLines() {
 							setIsPageRefreshing(true)
 							await syncIntelCoreInventoryCount()
 							await syncIntelUltraInventoryCount()
+							await syncIntelXeonInventoryCount()
 							setIsPageRefreshing(false)
 						}}
 					/>
@@ -64,6 +65,7 @@ export default function IntelLines() {
 
 				<CategoryListing
 					label="Xeon"
+					tables="xeon"
 					image="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Intel-Xeon-Badge-2024.jpg/250px-Intel-Xeon-Badge-2024.jpg"
 					onClick={() => openPage({
 						selectedComponent: Number(selectedComponent),

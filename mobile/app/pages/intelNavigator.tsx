@@ -8,19 +8,30 @@ import CoreLine from "./intel/core_line";
 import CoreProducts from "./intel/core_products";
 import UltraLine from "./intel/ultra_line";
 import UltraProducts from "./intel/ultra_products";
+import XeonLine from "./intel/xeon_line";
+import XeonProducts from "./intel/xeon_products";
 
 
 export default function IntelNavigator() {
 	// @ts-expect-error
-	const { selectedComponent, brand, line, generation, ultraSeries, ultraTier } = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const { selectedComponent, brand, line, generation, ultraSeries, ultraTier, xeonSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
 
+	// Intel Ultra
 	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '0' && !isSet(ultraSeries)) return <UltraLine />
 
 	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '0' && isSet(ultraSeries)) return <UltraProducts />
 
+
+	// Intel Core
 	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '1' && !isSet(generation)) return <CoreLine />
 
 	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '1' && isSet(generation)) return <CoreProducts />
+
+	// Intel Xeon
+	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '3' && !isSet(xeonSeries)) return <XeonLine />
+
+	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '3' && isSet(xeonSeries)) return <XeonProducts />
+
 
 	return (
 		<Body>

@@ -3,7 +3,7 @@ import HeaderBackArrow from "@/app/components/headerBackArrow";
 import Body from "@/app/components/ui/body";
 import ChipView from "@/app/components/ui/chipView";
 import CustomSectionList from "@/app/components/view/sectionList";
-import { syncIntelCoreInventory, syncIntelCoreInventoryCount } from "@/app/index";
+import { syncIntelCoreInventory } from "@/app/index";
 import { getSectionedCoreData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
 import { CoreDeviceChipsOptions, ProductBrandFilter } from "@/utils/types";
@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { useTheme } from "react-native-paper";
 import { IntelGenerationEnum } from "../../../../packages/types";
+import useSnackbarContext from "@/context/SnackbarContext";
 
 export default function CoreLine() {
 	const theme = useTheme()
@@ -21,6 +22,7 @@ export default function CoreLine() {
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
 	// @ts-expect-error
 	const { selectedComponent, brand, line } = params
+	const { showSnackbar } = useSnackbarContext()
 
 	const [chipPressed, setChipPressed] = useState<CoreDeviceChipsOptions>('all')
 	const [isAllSelected, setIsAllSelected] = useState<boolean>(true)
@@ -37,7 +39,7 @@ export default function CoreLine() {
 		setIsMobileSelected(false)
 	}
 
-	const coreInventory = useIntelCoreStore(state => state.intel_core_inventory) || []
+	const coreInventory = useIntelCoreStore(state => state.intel_core_inventory)
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -45,7 +47,7 @@ export default function CoreLine() {
 			headerLeft: () => <HeaderBackArrow />,
 		})
 
-		syncIntelCoreInventoryCount()
+		syncIntelCoreInventory()
 	})
 
 	return (
@@ -107,9 +109,16 @@ export default function CoreLine() {
 					generation: Number(IntelGenerationEnum[item.generation as keyof typeof IntelGenerationEnum])
 				})}
 				onrefresh={async () => {
-					setIsPageRefreshing(true)
-					await syncIntelCoreInventoryCount()
-					setIsPageRefreshing(false)
+					try {
+						setIsPageRefreshing(true)
+						await syncIntelCoreInventory()
+					}
+					catch (error: any) {
+						console.log(error)
+					}
+					finally {
+						setIsPageRefreshing(false)
+					}
 				}}
 			/>
 		</Body>

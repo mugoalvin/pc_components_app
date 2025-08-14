@@ -1,8 +1,7 @@
-import { SnackbarParams } from "@/context/SnackbarContext";
 import axios from "axios";
 import Constants from 'expo-constants';
 import { Alert } from "react-native";
-import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from "../../../packages/types";
+import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries, IntelXeonSeries } from "../../../packages/types";
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 
@@ -16,7 +15,7 @@ export async function scrapeGeForce(requestParams: GeforceScrapeRequestType) {
 		const res = await axios.post(`${apiDomain}/scrape/geforce`, requestParams)
 		Alert.alert("Success", res.data.success)
 	}
-	catch(err: any) {
+	catch (err: any) {
 		const error: string = err.response?.data?.errorMsg
 		const [title, ...rest] = error.split(":")
 
@@ -133,9 +132,31 @@ export async function scrapeCore(requestParams: CoreScrapeRequestParams) {
 }
 
 
+export interface XeonScrapeRequestParams {
+	series: IntelXeonSeries
+}
+
+export async function scrapeXeon(requestParams: XeonScrapeRequestParams) {
+
+	try {
+		const res = await axios.post(`${apiDomain}/scrape/xeon`, requestParams)
+		return res.data.success
+	}
+	catch (err: any) {
+		const error: string = err.response?.data?.errorMsg
+		const [title, ...rest] = error.split(":")
+
+		throw {
+			errTitle: title.trim(),
+			errMsg: rest.join(':').trim()
+		}
+	}
+}
 
 
-export async function connectDatabase(showSnackbar: (params: SnackbarParams) => void) {
+
+
+export async function connectDatabase() {
 
 	try {
 		const res = await axios.post(`${apiDomain}/connect`)

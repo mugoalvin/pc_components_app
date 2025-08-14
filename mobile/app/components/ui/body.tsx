@@ -16,7 +16,7 @@ export default function Body({ children, className }: BodyProps) {
 		<SafeAreaView
 			className={`flex-1 ${className}`}
 			style={{
-				backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level0 : theme.colors.background,
+				backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background,
 				padding: 10,
 				gap: 20
 			}}>

@@ -32,6 +32,10 @@ scrapeRouter.post('/core', async function (req, res) {
 	sendPostRequest(req, res, "/scrape/intel_core")
 })
 
+scrapeRouter.post('/xeon', async function (req, res) {
+	sendPostRequest(req, res, "/scrape/intel_xeon")
+})
+
 scrapeRouter.post('/ryzen', async function (req, res) {
 	sendPostRequest(req, res, "/scrape/amd_ryzen")
 })

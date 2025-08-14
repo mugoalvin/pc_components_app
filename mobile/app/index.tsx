@@ -1,9 +1,9 @@
-import { SnackbarParams } from "@/context/SnackbarContext";
 import useRadeonStore from "@/zustand/amd/radeon";
 import useRyzenStore from "@/zustand/amd/ryzen";
 import useIntelArkStore from "@/zustand/intel/ark";
 import useIntelCoreStore from "@/zustand/intel/core";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
+import useIntelXeonStore from "@/zustand/intel/xeon";
 import useNvidiaGeforceStore from "@/zustand/nvidia/geforce";
 import { IntelArk, IntelCore, IntelCoreUltra, NvidiaGeForce, Radeon, Ryzen } from "../../packages/interfaces";
 import Dashboard from "./pages/dashboard";
@@ -102,6 +102,31 @@ export async function syncIntelUltraInventory() {
 		const intelUltra = await getTableData('ultra') as IntelCoreUltra[];
 		updateIntelUltraInventory(intelUltra);
 		updateIntelUltraInventoryCount(intelUltra.length);
+	}
+	catch (err: any) {
+		throw err
+	}
+}
+
+// Intel Xeon
+export async function syncIntelXeonInventoryCount() {
+	try {
+		const updateIntelXeonInventoryCount = useIntelXeonStore.getState().update_xeon_inventory_count
+		const intelXeonCount = await getTableRowCount('xeon')
+		updateIntelXeonInventoryCount(intelXeonCount)
+	}
+	catch (err: any) {
+		throw err
+	}
+}
+export async function syncIntelXeonInventory() {
+	try {
+		const updateIntelXeonInventory = useIntelXeonStore.getState().update_xeon_inventory
+		const updateIntelXeonInventoryCount = useIntelXeonStore.getState().update_xeon_inventory_count
+		const intelXeon = await getTableData("xeon") as any[]
+		const intelXeonCount = await getTableRowCount("xeon")
+		updateIntelXeonInventory(intelXeon)
+		updateIntelXeonInventoryCount(intelXeonCount)
 	}
 	catch (err: any) {
 		throw err
