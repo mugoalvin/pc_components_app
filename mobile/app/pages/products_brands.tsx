@@ -6,7 +6,7 @@ import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import { RefreshControl, ScrollView } from 'react-native'
 
-import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncRyzenInventoryCount } from "@/app/index"
+import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncIntelXeonInventoryCount, syncRyzenInventoryCount } from "@/app/index"
 import useSnackbarContext from "@/context/SnackbarContext"
 import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
 import CategoryListing from '../components/cards/categoryListing'
@@ -27,6 +27,7 @@ export default function ProductsBrands() {
 			await syncRyzenInventoryCount()
 			await syncIntelCoreInventoryCount()
 			await syncIntelUltraInventoryCount()
+			await syncIntelXeonInventoryCount()
 		}
 		catch (error: any) {
 			showSnackbar({

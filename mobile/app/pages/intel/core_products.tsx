@@ -13,11 +13,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { RefreshControl, TouchableOpacity } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { IntelCore } from "../../../../packages/interfaces";
 import { IntelGeneration } from "../../../../packages/types";
+import { syncIntelCoreInventory } from "@/app/index";
 
 export default function CoreProducts() {
 	const theme = useTheme()
@@ -26,13 +27,13 @@ export default function CoreProducts() {
 	// @ts-ignore
 	const { generation } = params
 
-	const [ chipPressed, setChipPressed ] = useState<CoreTierChipOptions>("all")
+	const [chipPressed, setChipPressed] = useState<CoreTierChipOptions>("all")
 
-	const [ isAllSelected, setIsAllSelected ] = useState<boolean>(true)
-	const [ isI9Selected, setIsI9Selected ] = useState<boolean>(false)
-	const [ isI7Selected, setIsI7Selected ] = useState<boolean>(false)
-	const [ isI5Selected, setIsI5Selected ] = useState<boolean>(false)
-	const [ isI3Selected, setIsI3Selected ] = useState<boolean>(false)
+	const [isAllSelected, setIsAllSelected] = useState<boolean>(true)
+	const [isI9Selected, setIsI9Selected] = useState<boolean>(false)
+	const [isI7Selected, setIsI7Selected] = useState<boolean>(false)
+	const [isI5Selected, setIsI5Selected] = useState<boolean>(false)
+	const [isI3Selected, setIsI3Selected] = useState<boolean>(false)
 
 	const falsifyAllChips = () => {
 		setIsAllSelected(false)
@@ -48,6 +49,18 @@ export default function CoreProducts() {
 
 	const coreInventory = useIntelCoreStore(state => state.intel_core_inventory)
 	const [coreToDisplay, setCoreToDisplay] = useState<IntelCore[]>([])
+	const [pageRefreshing, setPageRefreshing] = useState<boolean>(false)
+
+	const pageRefresh = async () => {
+		try {
+			setPageRefreshing(true)
+			await syncIntelCoreInventory()
+			setPageRefreshing(false)
+		}
+		catch (error: any) {
+			console.error(error)
+		}
+	}
 
 	useEffect(() => {
 		const currentProcessors = coreInventory
@@ -139,7 +152,7 @@ export default function CoreProducts() {
 					keyExtractor={(_, index) => index.toString()}
 					renderItem={({ item, index }) => (
 						<ProductCard
-							key={item.name}
+							key={index}
 							title={item.name}
 							mainDescription={`${item.total_cores} cores ${item.total_threads} threads`}
 							secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
@@ -153,8 +166,13 @@ export default function CoreProducts() {
 						/>
 					)}
 					ItemSeparatorComponent={() => <Divider bold />}
-
-					ListEmptyComponent={ <EmptySectionList isNotScraped /> }
+					ListEmptyComponent={<EmptySectionList isNotScraped />}
+					refreshControl={
+						<RefreshControl
+							refreshing={pageRefreshing}
+							onRefresh={pageRefresh}
+						/>
+					}
 				/>
 			</Body>
 		</PageWithBottomSheet>

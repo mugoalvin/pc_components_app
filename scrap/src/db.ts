@@ -8,6 +8,7 @@ import { CoreEntity } from "./entities/intel/core"
 import { UltraEntity } from "./entities/intel/ultra"
 import { ArkEntity } from './entities/intel/ark'
 import { GeForce } from './entities/nvidia/geforce'
+import { XeonEntity } from './entities/intel/xeon'
 
 
 dotenv.config()
@@ -21,7 +22,7 @@ export const AppDataSource = new DataSource({
 	username: USERNAME,
 	password: PASSWORD || '',
 	database: DATABASE_NAME,
-	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity, GeForce],
+	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity, XeonEntity, GeForce],
 	synchronize: isDevelopment
 })
 

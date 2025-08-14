@@ -1,15 +1,16 @@
-import { GraphicsBrandEnum, IntelGenerationEnum, IntelProcessorLine, IntelUltraSeriesEnum, IntelUltraTierEnum, ProcessorsEnum, RyzenSeriesEnum } from "../../packages/types";
+import { GraphicsBrandEnum, IntelGenerationEnum, IntelProcessorLine, IntelUltraSeriesEnum, IntelUltraTierEnum, ProcessorsEnum, RyzenSeriesEnum, IntelXeonSeries } from "../../packages/types";
 
 // Dashboard
 export type DashboardCategoryType = "processors" | "graphics"
 export enum ComponentTypeEnum { "Processors", "Graphics" }
-export const DashboardCategoryTypeArray = [ "processors", "graphics" ]
+export const DashboardCategoryTypeArray = ["processors", "graphics"]
 
 export type SectionedDataItem = {
 	title: string;
 	data: {
 		name: string;
 		amdSeries?: string;
+		xeonSeries?: string;
 		line?: string
 		generation?: string
 		tableColumnData?: string;
@@ -27,7 +28,7 @@ export type ProductBrandFilter =
 	// Intel
 	{ selectedComponent: ComponentTypeEnum.Processors, brand?: ProcessorsEnum.Intel, line?: IntelProcessorLine.Ultra, ultraSeries?: IntelUltraSeriesEnum, ultraTier?: IntelUltraTierEnum } |
 	{ selectedComponent: ComponentTypeEnum.Processors, brand?: ProcessorsEnum.Intel, line?: IntelProcessorLine.Core, generation?: IntelGenerationEnum } |
-	{ selectedComponent: ComponentTypeEnum.Processors, brand?: ProcessorsEnum.Intel, line?: IntelProcessorLine.Xeon } |
+	{ selectedComponent: ComponentTypeEnum.Processors, brand?: ProcessorsEnum.Intel, line?: IntelProcessorLine.Xeon, xeonSeries?: IntelXeonSeries } |
 
 
 	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Ark } |

@@ -11,6 +11,7 @@ import { useTheme } from 'react-native-paper'
 import { DatabaseTables } from '../../../../packages/types'
 import ImageCust from '../images/imageCust'
 import AppText from '../texts/appText'
+import useIntelXeonStore from '@/zustand/intel/xeon'
 
 interface CategoryListingProps {
 	label?: string
@@ -28,9 +29,10 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 	const ryzenCount = useRyzenStore(state => state.ryzen_inventory_count)
 	const radeonCount = useRadeonStore(state => state.radeon_inventory_count)
 
+	const arkCount = useIntelArkStore(state => state.ark_inventory_count)
 	const coreCount = useIntelCoreStore(state => state.intel_core_inventory_count)
 	const ultraCount = useIntelCoreUltraStore(state => state.intel_ultra_inventory_count)
-	const arkCount = useIntelArkStore(state => state.ark_inventory_count)
+	const xeonCount = useIntelXeonStore(state => state.xeon_inventory_count)
 
 	const geforceCount = useNvidiaGeforceStore(state => state.geforce_inventory_count)
 
@@ -50,6 +52,8 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 			noRows = arkCount
 		} else if (tables === 'geforce') {
 			noRows = geforceCount
+		} else if (tables === 'xeon') {
+			noRows = xeonCount
 		} else {
 			noRows = 0
 		}
@@ -67,6 +71,8 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 				return sum + radeonCount
 			} else if (table === 'geforce') {
 				return sum + geforceCount
+			} else if (table === 'xeon') {
+				return sum + xeonCount
 			} else {
 				return sum
 			}

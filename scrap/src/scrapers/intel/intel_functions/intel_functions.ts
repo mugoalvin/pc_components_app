@@ -1,11 +1,12 @@
 import { launch } from 'puppeteer'
 
-import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine } from "../../../../../packages/types"
+import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine, XeonSeries } from "../../../../../packages/types"
 import { IntelCore, IntelCoreUltra } from "../../../../../packages/interfaces"
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
 import { launchOptions, handleError } from '../../../global/functions'
 import { findTierAndGenMatch } from './core_ix'
+import { getIntelXeonProcessors } from './xeon'
 
 
 
@@ -53,14 +54,18 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 }
 
 
+export async function scrapeIntelXeonProcessors(url: MyUrl, series: XeonSeries) {
+	const browser = await launch(launchOptions)
+	try {
+		const page = await browser.newPage()
+		const initialProcessorValues = await getIntelXeonProcessors(page, url, series)
 
-// export const intelsKeysToKeep = [
-// 	// Intel Core
-// 	"name", "code_name", "vertical_segment", "processor_number", "lithography", 
-// 	"number_of_performance_cores", "number_of_efficient_cores", "total_threads", "max_turbo_frequency",
-// 	"cache", "processor_base_power", "launch_date", "memory_types", "graphics_output", "max_resolution_hdmi", "max_resolution_dp",
-// 	"number_of_displays_supported", 
-
-// 	// Intel Ultra
-// 	"xe_cores", "ray_tracing", "recommended_customer_price",
-// ]
+		return initialProcessorValues
+	}
+	catch(error) {
+		handleError(error, "Failed to scrape Intel Xeon Processors")
+	}
+	finally {
+		await browser.close()
+	}
+}

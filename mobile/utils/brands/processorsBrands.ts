@@ -8,7 +8,7 @@ export const processorsBrandsArray = [
 	},
 	{
 		name: "Intel",
-		tableNames: ['core', 'ultra'] as DatabaseTables[],
+		tableNames: ['core', 'ultra', "xeon"] as DatabaseTables[],
 		logoImage: require("../../assets/images/intel_logo.png"),
 	}
 ]

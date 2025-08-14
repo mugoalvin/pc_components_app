@@ -66,7 +66,6 @@ export default function UltraLine() {
 	}, [navigation])
 
 	useEffect(() => {
-		console.log("Here")
 		syncIntelUltraInventory()
 	}, [])
 
