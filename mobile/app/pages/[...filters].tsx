@@ -15,9 +15,7 @@ import RyzenProducts from './ryzen/ryzen_products'
 
 
 export default function CategoryNavigator() {
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
-
-	// @ts-ignore
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line, amdSeries, ultraSeries, generation } = params
 
 	if (!isSet(selectedComponent)) return <Index />

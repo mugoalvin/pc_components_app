@@ -19,8 +19,7 @@ export default function CoreLine() {
 	const theme = useTheme()
 	const colorScheme = useColorScheme()
 	const navigation = useNavigation()
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
-	// @ts-expect-error
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line } = params
 	const { showSnackbar } = useSnackbarContext()
 

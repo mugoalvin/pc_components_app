@@ -81,13 +81,13 @@ scrapeRouter.post('/intel_core', async (req, res): Promise<any> => {
 
 
 scrapeRouter.post('/intel_xeon', async (req, res): Promise<any> => {
-	const { series } = req.body
+	const { series, seriesName } = req.body
 
 	if (series < 0 || series > 23)
 		res.json({ errorMsg: 'Invalid Xeon Series' })
 
 	try {
-		const count = await runIntelXeon(series)
+		const count = await runIntelXeon(series, seriesName)
 		res.json({ success: `Successfully saved ${count} Intel Xeon Processors.` })
 	}
 	catch (error: any) {

@@ -17,6 +17,7 @@ export type SectionedDataItem = {
 		lastUpdated?: string;
 		count?: string;
 		device?: string
+		dbLike?: string
 	}[];
 };
 
@@ -42,3 +43,4 @@ export type UltraDeviceChipsOptions = 'all' | 'desktop' | 'mobile' | 'embedded'
 export type UltraSeriesChipsOptions = 'all' | 'series 2' | 'series 1'
 export type CoreDeviceChipsOptions = UltraDeviceChipsOptions
 export type CoreTierChipOptions = 'all' | 'i9' | 'i7' | 'i5' | 'i3'
+export type XeonChipsOptions = 'all' | 'embedded' | 'server'

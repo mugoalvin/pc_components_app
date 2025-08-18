@@ -12,10 +12,9 @@ import { Divider } from "react-native-paper";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { IntelCoreUltra } from "../../../../packages/interfaces";
 
-export default function UltraProducts(){
+export default function UltraProducts() {
 	const navigation = useNavigation()
-	// @ts-expect-error
-	const { ultraSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const { ultraSeries } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 
 	const [seriesSelected, setSeriesSelected] = useState<UltraSeriesChipsOptions>('all')
 	const [isAllChipSelected, setIsAllChipSelected] = useState<boolean>(true)
@@ -55,7 +54,7 @@ export default function UltraProducts(){
 
 	useEffect(() => {
 		navigation.setOptions({
-			title: `Intel ${ ultraSeries }`,
+			title: `Intel ${ultraSeries}`,
 			headerLeft: () => (
 				<HeaderBackArrow />
 			)
@@ -102,7 +101,7 @@ export default function UltraProducts(){
 					<ProductCard
 						key={item.name}
 						title={item.name}
-						mainDescription={`${ item.number_of_performance_cores } cores ${ item.total_threads } threads`}
+						mainDescription={`${item.number_of_performance_cores} cores ${item.total_threads} threads`}
 						secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
 						extraInfo={item.recommended_customer_price || item.launch_date}
 						onPress={() =>
@@ -113,7 +112,7 @@ export default function UltraProducts(){
 						}
 					/>
 				)}
-				ItemSeparatorComponent={() => <Divider bold/>}
+				ItemSeparatorComponent={() => <Divider bold />}
 			/>
 
 		</Body>

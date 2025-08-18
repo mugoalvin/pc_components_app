@@ -7,55 +7,58 @@ export class XeonEntity {
 	id?: number;
 
 	@Column(getColumnOptions())
-    name?: string
+	name?: string
 
 	@Column(getColumnOptions())
-    vertical_segment?: string
+	vertical_segment?: string
 
 	@Column(getColumnOptions())
-    processor_number?: string
+	processor_number?: string
 
 	@Column(getColumnOptions())
-    lithography?: string
+	lithography?: string
 
 	@Column(getColumnOptions())
-    recommended_customer_price?: string
+	seriesName?: string
+
+	@Column(getColumnOptions())
+	recommended_customer_price?: string
 
 	@Column(getColumnOptions("int"))
-    total_cores?: number
+	total_cores?: number
 
 	@Column(getColumnOptions("int"))
-    total_threads?: number
+	total_threads?: number
 
 	@Column(getColumnOptions())
-    max_turbo_frequency?: string
+	max_turbo_frequency?: string
 
 	@Column(getColumnOptions())
-    processor_base_frequency?: string
+	processor_base_frequency?: string
 
 	@Column(getColumnOptions())
-    cache?: string
+	cache?: string
 
 	@Column(getColumnOptions())
-    max_number_of_upi_links?: string
+	max_number_of_upi_links?: string
 
 	@Column(getColumnOptions())
-    tdp?: string
+	tdp?: string
 
 	@Column(getColumnOptions())
-    launch_date?: string
+	launch_date?: string
 
 	@Column(getColumnOptions())
-    use_conditions?: string
+	use_conditions?: string
 
 	@Column(getColumnOptions('boolean'))
-    embedded_options_available?: boolean
+	embedded_options_available?: boolean
 
 	@Column(getColumnOptions())
-    max_memory_size_dependent_on_memory_type?: string
+	max_memory_size_dependent_on_memory_type?: string
 
 	@Column(getColumnOptions('int'))
-    max_number_of_memory_channels?: number
+	max_number_of_memory_channels?: number
 }
 
 

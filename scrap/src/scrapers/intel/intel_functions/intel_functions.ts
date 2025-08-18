@@ -1,7 +1,7 @@
 import { launch } from 'puppeteer'
 
-import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine, XeonSeries } from "../../../../../packages/types"
-import { IntelCore, IntelCoreUltra } from "../../../../../packages/interfaces"
+import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine, IntelXeonSeries, IntelXeonSeriesType } from "../../../../../packages/types"
+import { IntelCore, IntelCoreUltra, IntelXeon } from "../../../../../packages/interfaces"
 import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
 import { launchOptions, handleError } from '../../../global/functions'
@@ -54,13 +54,16 @@ export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelU
 }
 
 
-export async function scrapeIntelXeonProcessors(url: MyUrl, series: XeonSeries) {
+export async function scrapeIntelXeonProcessors(url: MyUrl, series: IntelXeonSeries, seriesName: IntelXeonSeriesType) {
 	const browser = await launch(launchOptions)
 	try {
 		const page = await browser.newPage()
 		const initialProcessorValues = await getIntelXeonProcessors(page, url, series)
-
-		return initialProcessorValues
+		const detailedSpecs = await fetchDetailedSpecifications(page, initialProcessorValues)
+		return detailedSpecs.map(xeon => ({
+			...xeon,
+			seriesName: seriesName
+		}))
 	}
 	catch(error) {
 		handleError(error, "Failed to scrape Intel Xeon Processors")

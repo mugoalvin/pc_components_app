@@ -13,10 +13,8 @@ import XeonProducts from "./intel/xeon_products";
 
 
 export default function IntelNavigator() {
-	// @ts-expect-error
-	const { selectedComponent, brand, line, generation, ultraSeries, ultraTier, xeonSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const { selectedComponent, brand, line, generation, ultraSeries, ultraTier, xeonSeries } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 
-	// Intel Ultra
 	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '0' && !isSet(ultraSeries)) return <UltraLine />
 
 	if (String(selectedComponent) === '0' && String(brand) === '1' && String(line) === '0' && isSet(ultraSeries)) return <UltraProducts />

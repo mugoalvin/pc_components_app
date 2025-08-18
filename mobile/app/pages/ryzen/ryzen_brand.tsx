@@ -29,7 +29,7 @@ export default function RyzenBrand() {
 	const theme = useTheme()
 	const navigator = useNavigation()
 	const { showSnackbar } = useSnackbarContext()
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand } = params
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)

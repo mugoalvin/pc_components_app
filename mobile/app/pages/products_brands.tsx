@@ -16,7 +16,7 @@ import Body from '../components/ui/body'
 export default function ProductsBrands() {
 	const navigator = useNavigation()
 	const { showSnackbar } = useSnackbarContext()
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent } = params
 	const capitalizeFirstCharacter = (text: string) => (text.slice(0, 1) as string).toUpperCase().concat((text as string).slice(1))
 
@@ -44,7 +44,7 @@ export default function ProductsBrands() {
 				<HeaderBackArrow />
 			)
 		})
-		
+
 
 		runSync()
 	}, [])
