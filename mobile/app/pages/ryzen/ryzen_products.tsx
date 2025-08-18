@@ -33,8 +33,7 @@ export default function RyzenProducts() {
 	const navigation = useNavigation()
 	const { showSnackbar } = useSnackbarContext()
 
-	// @ts-expect-error
-	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter>
+	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 
 	const ryzenInventory = useRyzenStore(state => state.ryzen_inventory)
 	const [ryzenToDisplay, setRyzenToDisplay] = useState(ryzenInventory)

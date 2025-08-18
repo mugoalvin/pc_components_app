@@ -394,6 +394,7 @@ export interface IntelXeon {
     name?: string
     vertical_segment?: string
     processor_number?: string
+    seriesName?: string
     lithography?: string
     recommended_customer_price?: string
     total_cores?: number

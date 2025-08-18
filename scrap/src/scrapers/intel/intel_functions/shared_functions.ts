@@ -2,7 +2,7 @@ import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
 
 import { handleError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
-import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra } from '../../../../../packages/interfaces'
+import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra, IntelXeon } from '../../../../../packages/interfaces'
 import { IntelUltraSeries } from '../../../../../packages/types'
 // import { intelsKeysToKeep } from './intel_functions'
 
@@ -54,16 +54,14 @@ async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
  * @param series - Series number of Intel Ultra.
  * @returns Promise<IntelCore[]> Array of detailed processor specifications
  */
-export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise< IntelCore[] | IntelCoreUltra[] | IntelArk[] > {
+export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise< IntelCore[] | IntelCoreUltra[] | IntelArk[] | IntelXeon[]> {
 	console.log("\nGetting detailed information per product.")
 	try {
 		const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
 		for (const product of products) {
 			const rawData = await getMoreInfoPerProduct(page, product)
-			// const cleanedRawData = keepOnlyKeys(rawData, intelsKeysToKeep)
 
 			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk 
-			// detailedInfo = series ? { ...cleanedRawData as IntelCoreUltra, series } : cleanedRawData as IntelCore | IntelArk
 			detailedInfo = series ? { ...rawData as IntelCoreUltra, series } : rawData as IntelCore | IntelArk
 
 			const index = products.indexOf(product) + 1
@@ -74,7 +72,7 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 			detailedSpecifications.push(detailedInfo)
 		}
 
-		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[]
+		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[] | IntelXeon[]
 	}
 	catch (err) {
 		handleError(err, "Failed to fetch detailed information")

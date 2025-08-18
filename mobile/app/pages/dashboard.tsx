@@ -15,6 +15,7 @@ import NewComponents from "../components/ui/dashboard/newComponents";
 import RecommendedForYou from "../components/ui/dashboard/recommendedForYou";
 import DashboardSection from "../components/ui/dashboard/section";
 import ToolsAndUtils from "../components/ui/dashboard/tools&Utils";
+import { connectDatabase } from '../services/scrape';
 
 
 const Dashboard = () => {
@@ -29,6 +30,8 @@ const Dashboard = () => {
 		navigator.setOptions({
 			title: "Dashboard"
 		})
+
+		connectDatabase()
 	})
 
 	return (

@@ -5,23 +5,22 @@ import ChipView from "@/app/components/ui/chipView";
 import CustomSectionList from "@/app/components/view/sectionList";
 import { getSectionedXeonData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
-import { ProductBrandFilter } from "@/utils/types";
+import { ProductBrandFilter, XeonChipsOptions } from "@/utils/types";
 import useIntelXeonStore from "@/zustand/intel/xeon";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { IntelXeonSeries } from "../../../../packages/types";
 import { syncIntelXeonInventory } from "@/app/index";
 import useSnackbarContext from "@/context/SnackbarContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function XeonLine() {
 	const navigation = useNavigation()
 	const { showSnackbar } = useSnackbarContext()
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
-	// @ts-expect-error
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line } = params
-
-
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
+	const [selectedChip, setSelectedChip] = useState<XeonChipsOptions>('all')
 
 	const xeonInventory = useIntelXeonStore(state => state.xeon_inventory)
 
@@ -30,26 +29,45 @@ export default function XeonLine() {
 			title: "Intel Xeon",
 			headerLeft: () => <HeaderBackArrow />
 		})
+
+		syncIntelXeonInventory()
 	}, [])
 
 	return (
 		<Body>
 			<ChipView>
-				<ChipCustom chipText="All" selected />
-				<ChipCustom chipText="Embedded" />
-				<ChipCustom chipText="Server" />
+				<ChipCustom
+					chipText="All"
+					selected={selectedChip === 'all'}
+					onPress={() => setSelectedChip('all')}
+				/>
+				<ChipCustom
+					chipText="Embedded"
+					selected={selectedChip === 'embedded'}
+					onPress={() => setSelectedChip('embedded')}
+				/>
+				<ChipCustom
+					chipText="Server"
+					selected={selectedChip === 'server'}
+					onPress={() => setSelectedChip('server')}
+				/>
 			</ChipView>
 
 			<CustomSectionList
 				sections={
-					getSectionedXeonData(xeonInventory)
+					getSectionedXeonData(xeonInventory, selectedChip)
 				}
-				onItemPress={(item) => openPage({
-					selectedComponent: Number(selectedComponent),
-					brand: Number(brand),
-					line: Number(line),
-					xeonSeries: Number(IntelXeonSeries[item.xeonSeries as keyof typeof IntelXeonSeries])
-				})}
+				onItemPress={async (item) => {
+					await AsyncStorage.setItem("selectedXeonSerie", item.xeonSeries)
+					await AsyncStorage.setItem("selectedChip", selectedChip)
+
+					openPage({
+						selectedComponent: Number(selectedComponent),
+						brand: Number(brand),
+						line: Number(line),
+						xeonSeries: Number(IntelXeonSeries[item.xeonSeries as keyof typeof IntelXeonSeries])
+					})
+				}}
 				isPageRefreshing={isPageRefreshing}
 				onrefresh={async () => {
 					try {

@@ -17,13 +17,13 @@ import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import IntelUltraScrapeOptions from "@/app/components/buttomSheet/intelUltraScrapeOptions";
 import { Ionicons } from "@expo/vector-icons";
+import HeaderRightIcon from "@/app/components/headerRightIcon";
 
 export default function UltraLine() {
 	const theme = useTheme()
 	const navigation = useNavigation()
 	const colorScheme = useColorScheme()
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
-	// @ts-expect-error
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line } = params
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
@@ -54,14 +54,8 @@ export default function UltraLine() {
 	useEffect(() => {
 		navigation.setOptions({
 			title: "Ultra",
-			headerLeft: () => (
-				<HeaderBackArrow />
-			),
-			headerRight: () => (
-				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={openSheet}>
-					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
-				</TouchableOpacity>
-			)
+			headerLeft: () => <HeaderBackArrow />,
+			headerRight: () => <HeaderRightIcon iconName="cloud-download-outline" onPressFunction={openSheet} />,
 		})
 	}, [navigation])
 

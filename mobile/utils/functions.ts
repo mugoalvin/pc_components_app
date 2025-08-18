@@ -2,7 +2,7 @@ import { getTableRowCount } from "@/app/services/fetch"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { IntelCore, IntelCoreUltra, IntelXeon, Ryzen } from "../../packages/interfaces"
 import { DatabaseTables, IntelGeneration } from "../../packages/types"
-import { CoreDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem, UltraDeviceChipsOptions } from "./types"
+import { CoreDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem, UltraDeviceChipsOptions, XeonChipsOptions } from "./types"
 
 export function makeKeyUserFriendly(text: string): string {
 	return text
@@ -227,56 +227,64 @@ export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: C
 		: []
 }
 
-// , Scalable_Gen_5, Scalable_Gen_4, Scalable_Gen_3, Scalable_Gen_2, Scalable_Gen_1, , E, W, D, E7_v4, E7_v3, E7_v2, E7_v1, E5_v4, E5_v3, E5_v2, E5_v1, E3_v6, E3_v5, E3_v4, E3_v3, E3_v2, E3_v1
-export function getSectionedXeonData(xeonProcessors: IntelXeon[]): SectionedDataItem[] {
+export function getSectionedXeonData(xeonProcessors: IntelXeon[], selectedChip?: XeonChipsOptions): SectionedDataItem[] {
+
+	function getCount(pattern: string) {
+		return xeonProcessors.filter(xeon =>
+			xeon.seriesName === pattern &&
+			(selectedChip === "all" ? true : (xeon.vertical_segment)?.toLowerCase().trim() === selectedChip),
+		).length
+	}
+
+
 	const xeonSections: SectionedDataItem[] = [
 		{
 			title: "Special Purpose",
 			data: [
-				{ name: "Xeon CPU Max", xeonSeries: 'CPU_Max' },
-				{ name: 'Xeon 6', xeonSeries: 'Xeon6' },
-				{ name: "Xeon D", xeonSeries: 'D' },
-				{ name: "Xeon W", xeonSeries: 'W' },
-				{ name: "Xeon E", xeonSeries: 'E' },
+				{ name: "Xeon CPU Max", xeonSeries: 'CPU_Max', count: `${getCount("CPU_Max")} Processors` },
+				{ name: 'Xeon 6', xeonSeries: 'Xeon6', count: `${getCount("Xeon6")} Processors` },
+				{ name: "Xeon D", xeonSeries: 'D', count: `${getCount("D")} Processors` },
+				{ name: "Xeon W", xeonSeries: 'W', count: `${getCount("W")} Processors` },
+				{ name: "Xeon E", xeonSeries: 'E', count: `${getCount("E")} Processors` },
 			]
 		},
 		{
 			title: "Scalable Series",
 			data: [
-				{ name: "Scalable 5", xeonSeries: 'Scalable_Gen_5' },
-				{ name: "Scalable 4", xeonSeries: 'Scalable_Gen_4' },
-				{ name: "Scalable 3", xeonSeries: 'Scalable_Gen_3' },
-				{ name: "Scalable 2", xeonSeries: 'Scalable_Gen_2' },
-				{ name: "Scalable 1", xeonSeries: 'Scalable_Gen_1' },
+				{ name: "Scalable 5", xeonSeries: 'Scalable_Gen_5', count: `${getCount("Scalable_Gen_5")} Processors` },
+				{ name: "Scalable 4", xeonSeries: 'Scalable_Gen_4', count: `${getCount("Scalable_Gen_4")} Processors` },
+				{ name: "Scalable 3", xeonSeries: 'Scalable_Gen_3', count: `${getCount("Scalable_Gen_3")} Processors` },
+				{ name: "Scalable 2", xeonSeries: 'Scalable_Gen_2', count: `${getCount("Scalable_Gen_2")} Processors` },
+				{ name: "Scalable 1", xeonSeries: 'Scalable_Gen_1', count: `${getCount("Scalable_Gen_1")} Processors` },
 			]
 		},
 		{
 			title: "E7 Family",
 			data: [
-				{ name: "E7 - V4", xeonSeries: 'E7_V4' },
-				{ name: "E7 - V3", xeonSeries: 'E7_V3' },
-				{ name: "E7 - V2", xeonSeries: 'E7_V2' },
-				{ name: "E7 - V1", xeonSeries: 'E7_V1' },
+				{ name: "E7 - V4", xeonSeries: 'E7_V4', count: `${getCount("E7_V4")} Processors` },
+				{ name: "E7 - V3", xeonSeries: 'E7_V3', count: `${getCount("E7_V3")} Processors` },
+				{ name: "E7 - V2", xeonSeries: 'E7_V2', count: `${getCount("E7_V2")} Processors` },
+				{ name: "E7 - V1", xeonSeries: 'E7_V1', count: `${getCount("E7_V1")} Processors` },
 			]
 		},
 		{
 			title: "E5 Family",
 			data: [
-				{ name: "E5 - V4", xeonSeries: 'E5_V4' },
-				{ name: "E5 - V3", xeonSeries: 'E5_V3' },
-				{ name: "E5 - V2", xeonSeries: 'E5_V2' },
-				{ name: "E5 - V1", xeonSeries: 'E5_V1' },
+				{ name: "E5 - V4", xeonSeries: 'E5_V4', count: `${getCount("E5_V4")} Processors` },
+				{ name: "E5 - V3", xeonSeries: 'E5_V3', count: `${getCount("E5_V3")} Processors` },
+				{ name: "E5 - V2", xeonSeries: 'E5_V2', count: `${getCount("E5_V2")} Processors` },
+				{ name: "E5 - V1", xeonSeries: 'E5_V1', count: `${getCount("E5_V1")} Processors` },
 			]
 		},
 		{
 			title: "E3 Family",
 			data: [
-				{ name: "E3 - V6", xeonSeries: 'E3_V6' },
-				{ name: "E3 - V5", xeonSeries: 'E3_V5' },
-				{ name: "E3 - V4", xeonSeries: 'E3_V4' },
-				{ name: "E3 - V3", xeonSeries: 'E3_V3' },
-				{ name: "E3 - V2", xeonSeries: 'E3_V2' },
-				{ name: "E3 - V1", xeonSeries: 'E3_V1' },
+				{ name: "E3 - V6", xeonSeries: 'E3_V6', count: `${getCount("E3_V6")} Processors` },
+				{ name: "E3 - V5", xeonSeries: 'E3_V5', count: `${getCount("E3_V5")} Processors` },
+				{ name: "E3 - V4", xeonSeries: 'E3_V4', count: `${getCount("E3_V4")} Processors` },
+				{ name: "E3 - V3", xeonSeries: 'E3_V3', count: `${getCount("E3_V3")} Processors` },
+				{ name: "E3 - V2", xeonSeries: 'E3_V2', count: `${getCount("E3_V2")} Processors` },
+				{ name: "E3 - V1", xeonSeries: 'E3_V1', count: `${getCount("E3_V1")} Processors` },
 			]
 		}
 	]

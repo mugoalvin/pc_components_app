@@ -11,22 +11,16 @@ import { IntelGeneration, IntelTierEnum } from "../../../../packages/types";
 import BottomSheetHeader from "../texts/bottomSheetHeader";
 import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 import BottomSheetCard from "../ui/bottomSheet/bottomSheetCard";
-import  ordinal from 'ordinal'
+import ordinal from 'ordinal'
 
 interface IntelCoreScrapeOptionsProps {
 	generation: IntelGeneration
 	sheetRef?: RefObject<BottomSheetMethods | null>
 }
 
-export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelCoreScrapeOptionsProps) {
+export default function IntelCoreScrapeOptions({ generation, sheetRef }: IntelCoreScrapeOptionsProps) {
 	const theme = useTheme();
-	const colorScheme = useColorScheme();
 	const { showSnackbar } = useSnackbarContext()
-
-	const [ isi9Checked, setI9Checked ] = useState<boolean>(false);
-	const [ isi7Checked, setI7Checked ] = useState<boolean>(false);
-	const [ isi5Checked, setI5Checked ] = useState<boolean>(false);
-	const [ isi3Checked, setI3Checked ] = useState<boolean>(false);
 
 	const radioBtnTierArray = [
 		{
@@ -46,14 +40,7 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 			tierName: 'Intel i3'
 		}
 	]
-	const [ selectedCheckBox, setSelectedCheckBox ] = useState<'i9' | 'i7' | 'i5' | 'i3' | undefined>(undefined);
-
-	const falsifyAllCheckBoxes = () => {
-		setI9Checked(false)
-		setI7Checked(false)
-		setI5Checked(false)
-		setI3Checked(false)
-	}
+	const [selectedCheckBox, setSelectedCheckBox] = useState<'i9' | 'i7' | 'i5' | 'i3' | undefined>(undefined);
 
 
 	return (
@@ -63,7 +50,7 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 			<BottomSheetSection
 				headerText={`Select ${ordinal(Number(generation))} generation tier`}
 				BodyComponent={
-					<BottomSheetCard  className="p-3 rounded-xl">
+					<BottomSheetCard className="p-3 rounded-xl">
 						<RadioButton.Group value={selectedCheckBox!} onValueChange={newValue => setSelectedCheckBox(newValue as 'i9' | 'i7' | 'i5' | 'i3')}>
 							{
 								radioBtnTierArray.map(tier => (
@@ -103,6 +90,7 @@ export default function IntelCoreScrapeOptions({ generation, sheetRef } : IntelC
 					}
 				}}
 			/>
+
 		</>
 	)
 }

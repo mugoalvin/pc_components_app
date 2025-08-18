@@ -11,8 +11,8 @@ import Body from "../../components/ui/body";
 
 export default function IntelLines() {
 	const navigation = useNavigation()
-	const { selectedComponent, brand } = useLocalSearchParams() as Partial<ProductBrandFilter>
-	const [ isPageRefreshing, setIsPageRefreshing ] = useState<boolean>(false)
+	const { selectedComponent, brand } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
+	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
 
 	useEffect(() => {
 		navigation.setOptions({

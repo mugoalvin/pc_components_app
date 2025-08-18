@@ -23,8 +23,7 @@ import { syncIntelCoreInventory } from "@/app/index";
 export default function CoreProducts() {
 	const theme = useTheme()
 	const navigation = useNavigation();
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter>
-	// @ts-ignore
+	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { generation } = params
 
 	const [chipPressed, setChipPressed] = useState<CoreTierChipOptions>("all")
