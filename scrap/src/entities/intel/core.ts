@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { getColumnOptions } from "../entityFunctions";
 
 @Unique(["name"])
@@ -63,6 +63,12 @@ export class CoreEntity {
 
     @Column(getColumnOptions("int"))
     number_of_displays_supported?: number;
+
+    @CreateDateColumn(getColumnOptions("timestamp"))
+    created_at?: Date
+
+    @UpdateDateColumn(getColumnOptions("timestamp"))
+    updated_at?: Date
 }
 
 

@@ -55,6 +55,9 @@ export interface Radeon {
     slots?: number
     launch_date?: string
     supported_technologies?: string
+
+    created_at?: Date
+    updated_at?: Date
 }
 
 
@@ -237,6 +240,9 @@ export interface IntelCoreUltra {
     intel_vt_x_with_extended_page_tables_ept?: boolean;
     max_cpu_configuration?: number;
     intel_hyper_threading_technology?: boolean
+
+    created_at?: Date
+    updated_at?: Date
 }
 
 export interface IntelCore {
@@ -331,6 +337,9 @@ export interface IntelCore {
     intel_trusted_execution_technology?: boolean
     intel_stable_it_platform_program_sipp?: boolean
     intel_virtualization_technology_with_redirect_protection_vt_rp?: boolean
+
+    created_at?: Date
+    updated_at?: Date
 }
 
 
@@ -388,6 +397,9 @@ export interface IntelArk {
     intel_deep_link_hyper_compute?: boolean;
     intel_deep_link_hyper_encode?: boolean;
     intel_deep_link_stream_assist?: boolean;
+
+    created_at?: Date
+    updated_at?: Date
 }
 
 export interface IntelXeon {
@@ -409,6 +421,9 @@ export interface IntelXeon {
     embedded_options_available?: boolean
     max_memory_size_dependent_on_memory_type?: string
     max_number_of_memory_channels?: number
+    
+    created_at?: Date
+    updated_at?: Date
 }
 
 
@@ -461,4 +476,7 @@ export interface NvidiaGeForce {
     total_graphics_power_w?: number,
     required_system_power_w_5?: number
     required_power_connectors?: string
+
+    created_at?: Date
+    updated_at?: Date
 }
