@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { getColumnOptions } from "../entityFunctions";
 
 @Unique(["name"])
@@ -33,6 +33,12 @@ export class ArkEntity {
     
 	@Column(getColumnOptions())
 	tbp?: string
+
+	@CreateDateColumn(getColumnOptions("timestamp"))
+	created_at?: Date
+
+	@UpdateDateColumn(getColumnOptions("timestamp"))
+	updated_at?: Date
 
 	// @Column(getColumnOptions())
 	// code_name?: string

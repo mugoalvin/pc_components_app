@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm"
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm"
 import { getColumnOptions } from "../entityFunctions"
 
 
@@ -49,6 +49,12 @@ export class RadeonEntity {
 
     @Column(getColumnOptions())
     launch_date?: string
+
+    @CreateDateColumn(getColumnOptions("timestamp"))
+    created_at?: Date
+
+    @UpdateDateColumn(getColumnOptions("timestamp"))
+    updated_at?: Date
 }
 
 

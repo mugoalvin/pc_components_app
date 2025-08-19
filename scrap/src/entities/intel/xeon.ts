@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { getColumnOptions } from "../entityFunctions";
 
 @Entity({ name: "xeon" })
@@ -59,6 +59,12 @@ export class XeonEntity {
 
 	@Column(getColumnOptions('int'))
 	max_number_of_memory_channels?: number
+
+	@CreateDateColumn(getColumnOptions("timestamp"))
+	created_at?: Date
+
+	@UpdateDateColumn(getColumnOptions("timestamp"))
+	updated_at?: Date
 }
 
 
