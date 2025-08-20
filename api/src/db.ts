@@ -1,5 +1,7 @@
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
+import { DatabaseTables } from '../../packages/types'
+import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities"
 
 dotenv.config()
 const { HOST, USERNAME, PORT, PASSWORD, DATABASE_NAME, NODE_ENV } = process.env
@@ -12,6 +14,7 @@ export const ApiDataSource = new DataSource({
 	username: USERNAME,
 	password: PASSWORD || '',
 	database: DATABASE_NAME,
+	entities: [ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity],
 	synchronize: isDevelopment
 })
 
@@ -20,7 +23,7 @@ export async function initApiDatabase() {
 		.catch(error => {
 			throw error
 		})
-}	
+}
 
 
 export async function disconnectApiDatabase() {
@@ -28,4 +31,14 @@ export async function disconnectApiDatabase() {
 		.catch(err => {
 			throw err
 		})
+}
+
+export const entityMap: Record<DatabaseTables, any> = {
+	ark: ArkEntity,
+	core: CoreEntity,
+	geforce: GeForceEntity,
+	radeon: RadeonEntity,
+	ryzen: RyzenEntity,
+	ultra: UltraEntity,
+	xeon: XeonEntity
 }

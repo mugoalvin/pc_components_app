@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { XeonEntity } from "../../entities/intel/xeon";
+import { XeonEntity } from "@pc/entities/src";
 import { handleError } from "../../global/functions";
 
 export async function saveIntelXeonProcessors(xeonProcessors: any[]) {

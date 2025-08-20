@@ -1,0 +1,29 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"name": "@pc/entities",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc -p tsconfig.json"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"compilerOptions": {
+		"outDir": "dist",
+		"declaration": true
+	},
+	"includes": [
+		"src"
+	],
+	"dependencies": {
+		"typeorm": "^0.3.26"
+	},
+	"devDependencies": {
+		"@types/node": "^24.3.0",
+		"typescript": "^5.9.2"
+	}
+}

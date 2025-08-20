@@ -3,7 +3,7 @@ import { getColumnOptions } from "../entityFunctions";
 
 @Unique(["name"])
 @Entity({ name: "geforce" })
-export class GeForce {
+export class GeForceEntity {
 	@PrimaryGeneratedColumn()
 	id?: number
 
@@ -11,140 +11,140 @@ export class GeForce {
 	name?: string
 
 	@Column(getColumnOptions())
-    standard_memory_config?: string
+	standard_memory_config?: string
 
 	@Column(getColumnOptions())
-    memory_interface_width?: string
+	memory_interface_width?: string
 
 	@Column(getColumnOptions())
-    nvidia_dlss?: string
+	nvidia_dlss?: string
 
 	@Column(getColumnOptions("int"))
-    nvidia_cuda_cores?: number
+	nvidia_cuda_cores?: number
 
 	@Column(getColumnOptions())
-    shader_cores?: string
+	shader_cores?: string
 
 	@Column(getColumnOptions('boolean'))
-    ray_tracing?: boolean
+	ray_tracing?: boolean
 
 	@Column(getColumnOptions())
-    nvidia_architecture?: string
+	nvidia_architecture?: string
 
 	@Column(getColumnOptions())
-    length?: string
+	length?: string
 
 	@Column(getColumnOptions())
-    width?: string
+	width?: string
 
 	@Column(getColumnOptions())
-    slot?: string
+	slot?: string
 
 	@Column(getColumnOptions('int'))
-    maximum_gpu_temperature_in_c?: number
+	maximum_gpu_temperature_in_c?: number
 
 	@Column(getColumnOptions())
-    total_graphics_power_w?: string
+	total_graphics_power_w?: string
 
 	@Column(getColumnOptions('int'))
-    required_system_power_w_5?: number
+	required_system_power_w_5?: number
 
 	// @Column(getColumnOptions())
-    // required_power_connectors?: string
+	// required_power_connectors?: string
 
 	// @Column(getColumnOptions())
-    // tensor_cores_ai?: string
+	// tensor_cores_ai?: string
 
 	// @Column(getColumnOptions())
-    // ray_tracing_cores?: string
+	// ray_tracing_cores?: string
 
 	// @Column(getColumnOptions('int'))
-    // boost_clock_ghz?: number
+	// boost_clock_ghz?: number
 
 	// @Column(getColumnOptions('int'))
-    // base_clock_ghz?: number
+	// base_clock_ghz?: number
 
 	// @Column(getColumnOptions())
-    // maximum_digital_resolution_1?: string
+	// maximum_digital_resolution_1?: string
 
 	// @Column(getColumnOptions())
-    // standard_display_connectors?: string
+	// standard_display_connectors?: string
 
 	// @Column(getColumnOptions())
-    // multi_monitor?: string
+	// multi_monitor?: string
 
 	// @Column(getColumnOptions('int'))
-    // hdcp?: number
+	// hdcp?: number
 
 	// @Column(getColumnOptions())
-    // nvidia_reflex?: string
+	// nvidia_reflex?: string
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_broadcast?: boolean
+	// nvidia_broadcast?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // pci_express_gen_5?: boolean
+	// pci_express_gen_5?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // resizable_bar?: boolean
+	// resizable_bar?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_app?: boolean
+	// nvidia_app?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_freestyle?: boolean
+	// nvidia_freestyle?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_shadowplay?: boolean
+	// nvidia_shadowplay?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_highlights?: boolean
+	// nvidia_highlights?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_g_sync?: boolean
+	// nvidia_g_sync?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // game_ready_drivers?: boolean
+	// game_ready_drivers?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_studio_drivers?: boolean
+	// nvidia_studio_drivers?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_omniverse?: boolean
+	// nvidia_omniverse?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // rtx_remix?: boolean
+	// rtx_remix?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // microsoft_directx_12_ultimate?: boolean
+	// microsoft_directx_12_ultimate?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_gpu_boost?: boolean
+	// nvidia_gpu_boost?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // nvidia_nvlink_sli_ready?: boolean
+	// nvidia_nvlink_sli_ready?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // vulkan_1_4_opengl_4_6?: boolean
+	// vulkan_1_4_opengl_4_6?: boolean
 
 	// @Column(getColumnOptions())
-    // nvidia_encoder_nvenc?: string
+	// nvidia_encoder_nvenc?: string
 
 	// @Column(getColumnOptions())
-    // nvidia_decoder_nvdec?: string
+	// nvidia_decoder_nvdec?: string
 
 	// @Column(getColumnOptions('boolean'))
-    // av1_encode?: boolean
+	// av1_encode?: boolean
 
 	// @Column(getColumnOptions('boolean'))
-    // av1_decode?: boolean
+	// av1_decode?: boolean
 
 	// @Column(getColumnOptions('int'))
-    // cuda_capability?: number
+	// cuda_capability?: number
 
 	// @Column(getColumnOptions('boolean'))
-    // vr_ready?: boolean
+	// vr_ready?: boolean
 
 	// @Column(getColumnOptions())
-    // sff_ready_enthusiast_geforce_card?: string
+	// sff_ready_enthusiast_geforce_card?: string
 }

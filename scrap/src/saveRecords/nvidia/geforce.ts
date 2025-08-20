@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { GeForce } from "../../entities/nvidia/geforce";
+import { GeForceEntity } from "@pc/entities/src";
 import { handleError } from "../../global/functions";
 
 export async function saveNvidiaGeForceGraphics(geForceGraphics: any[]) {
@@ -7,9 +7,9 @@ export async function saveNvidiaGeForceGraphics(geForceGraphics: any[]) {
 	try {
 		await queryRunner.connect()
 		await queryRunner.startTransaction()
-		for(const geforce of geForceGraphics) {
+		for (const geforce of geForceGraphics) {
 			await queryRunner.manager.upsert(
-				GeForce,
+				GeForceEntity,
 				geforce,
 				["name"]
 			)

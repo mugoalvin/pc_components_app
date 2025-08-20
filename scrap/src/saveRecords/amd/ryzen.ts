@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { RyzenEntity } from "../../entities/amd/ryzen";
+import { RyzenEntity } from "@pc/entities/src";
 import { handleError } from "../../global/functions";
 
 export async function saveRyzenProcessors(ryzenProcessors: any[]) {

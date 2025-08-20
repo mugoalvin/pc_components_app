@@ -3,9 +3,9 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 
-import router from './routes/root.js'
-import scrapeRouter from './routes/scrape.js'
-import databaseRouter from './routes/database/database.js'
+import router from './routes/root'
+import scrapeRouter from './routes/scrape'
+import databaseRouter from './routes/database/database'
 
 dotenv.config()
 const { API_PORT } = process.env
