@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"outDir": "dist",
+		"declaration": true,
+		"module": "commonjs",
+		"target": "es2019",
+		"strict": true,
+		"esModuleInterop": true,
+		"types": ["node"],
+
+		// TypeOrm Settings
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true
+	},
+	"include": ["*.ts", "src/**/*.ts"]
+}

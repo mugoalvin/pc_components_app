@@ -1,5 +1,5 @@
 import express from 'express'
-import processorRouter from './processors.js'
+import processorRouter from './processors'
 
 const databaseRouter = express.Router()
 databaseRouter.use(express.json())

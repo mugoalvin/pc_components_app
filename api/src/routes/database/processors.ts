@@ -1,23 +1,33 @@
 import express from 'express'
-import { ApiDataSource, initApiDatabase } from '../../db.js'
+import { ApiDataSource, entityMap, initApiDatabase } from '../../db'
+import { DatabaseTables } from '@packages/types.js'
 
 const processorRouter = express.Router()
 processorRouter.use(express.json())
 
 
 processorRouter.post('/getCount', async function (req, res) {
-	const table = req.body.table
+	const table: DatabaseTables = req.body.table
+	const classEntity = entityMap[table]
+
 	!ApiDataSource.isInitialized && await initApiDatabase()
-	const result = await ApiDataSource.query(`SELECT COUNT(*) AS count FROM ${ table }`)
-	res.send(result[0].count)
+	const entityRepo = ApiDataSource.getRepository(classEntity)
+
+	const result = await entityRepo.count()
+
+	res.send(result)
 })
 
 
 processorRouter.post('/getData', async function (req, res) {
-	const table = req.body.table
+	const table: DatabaseTables = req.body.table
+	const entityClass = entityMap[table]
+
 	!ApiDataSource.isInitialized && await initApiDatabase()
 
-	const tableData = await ApiDataSource.query(`SELECT * FROM ${ table }`)
+	const entiryRepo = ApiDataSource.getRepository(entityClass);
+	const tableData = await entiryRepo.find();
+
 	res.send(tableData)
 })
 
@@ -25,9 +35,16 @@ processorRouter.post('/getData', async function (req, res) {
 processorRouter.post('/getDistinct', async function (req, res) {
 	const { table, column } = req.body
 	!ApiDataSource.isInitialized && await initApiDatabase()
+	const entityClass = entityMap[table as  DatabaseTables]
 
-	const tableData = await ApiDataSource.query(`SELECT * FROM ${ table }`)
-	res.send(tableData)
+	const repo = ApiDataSource.getRepository(entityClass)
+
+	const distinctValues = repo
+		.createQueryBuilder(table)
+		.select(`DISTINCT ${table}.${column}`)
+		.getMany()
+		
+	res.send(distinctValues)
 })
 
 

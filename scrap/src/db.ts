@@ -2,13 +2,7 @@ import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
 
 import { handleError } from './global/functions'
-import { RadeonEntity } from './entities/amd/radeon'
-import { RyzenEntity } from "./entities/amd/ryzen"
-import { CoreEntity } from "./entities/intel/core"
-import { UltraEntity } from "./entities/intel/ultra"
-import { ArkEntity } from './entities/intel/ark'
-import { GeForce } from './entities/nvidia/geforce'
-import { XeonEntity } from './entities/intel/xeon'
+import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities/src"
 
 
 dotenv.config()
@@ -22,7 +16,7 @@ export const AppDataSource = new DataSource({
 	username: USERNAME,
 	password: PASSWORD || '',
 	database: DATABASE_NAME,
-	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity, XeonEntity, GeForce],
+	entities: [RadeonEntity, RyzenEntity, CoreEntity, UltraEntity, ArkEntity, XeonEntity, GeForceEntity],
 	synchronize: isDevelopment
 })
 

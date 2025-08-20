@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { CoreEntity } from "../../entities/intel/core";
+import { CoreEntity } from "@pc/entities/src";
 import { handleError } from "../../global/functions";
 
 export async function saveIntelCoreIxProcessors(coreIxProcessors: any[]) {
