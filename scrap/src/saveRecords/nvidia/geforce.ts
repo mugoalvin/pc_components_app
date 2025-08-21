@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { GeForceEntity } from "@pc/entities/src";
+import { GeForceEntity } from "@pc/entities";
 import { handleError } from "../../global/functions";
 
 export async function saveNvidiaGeForceGraphics(geForceGraphics: any[]) {

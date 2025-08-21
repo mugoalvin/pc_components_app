@@ -5,7 +5,7 @@ import CoreComponent from "./coreComponent";
 
 
 export default function ToolsAndUtils(
-	{ openSheet }: {openSheet: () => void}
+	{ openSheet }: { openSheet: () => void }
 ) {
 	return (
 		<>
@@ -14,13 +14,14 @@ export default function ToolsAndUtils(
 			</View>
 			<View className="flex-row gap-2 justify-between">
 				<CoreComponent key="extra" title="An Extra Button" iconLib="MaterialCommunityIcons" icon="test-tube" onPress={() =>
-					ToastAndroid.showWithGravityAndOffset(
-						'Unutilized Button!',
-						ToastAndroid.LONG,
-						ToastAndroid.TOP,
-						25,
-						50,
-					)
+					// ToastAndroid.showWithGravityAndOffset(
+					// 	'Unutilized Button!',
+					// 	ToastAndroid.LONG,
+					// 	ToastAndroid.TOP,
+					// 	25,
+					// 	50,
+					// )
+					router.push("/pages/test")
 				} />
 				<CoreComponent key="settings" title='Settings' iconLib="FontAwesome6" icon='gear' onPress={openSheet} />
 			</View>

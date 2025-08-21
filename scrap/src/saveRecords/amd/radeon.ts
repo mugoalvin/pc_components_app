@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { RadeonEntity } from "@pc/entities/src";
+import { RadeonEntity } from "@pc/entities";
 import { handleError } from "../../global/functions";
 
 export async function saveRadeonCards(radeonCards: any[]) {
