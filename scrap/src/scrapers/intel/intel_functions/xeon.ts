@@ -1,7 +1,7 @@
-import { IntelProcessorLine, MyUrl, IntelXeonSeries } from "../../../../../packages/types";
 import { Page } from "puppeteer";
+import { IntelProcessorLine, IntelXeonSeries, MyUrl } from "../../../../../packages/types";
 import { getTextsAndLinks } from "./core_ultra";
-import { fetchDetailedSpecifications, readIntelTable } from "./shared_functions";
+import { readIntelTable } from "./shared_functions";
 
 export async function getIntelXeonProcessors(page: Page, url: MyUrl, series: IntelXeonSeries) {
 	await page.goto(`${url.domain}${url.route}`)

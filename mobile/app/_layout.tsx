@@ -1,3 +1,4 @@
+import { SnackbarProvider } from '@/context/SnackbarContext';
 import { getScreenOptions } from '@/utils/stackOptions';
 import { JosefinSans_400Regular, JosefinSans_700Bold, useFonts } from '@expo-google-fonts/josefin-sans';
 import { Zain_400Regular, Zain_800ExtraBold } from "@expo-google-fonts/zain";
@@ -8,9 +9,8 @@ import { NativeModules, View, useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
 import { ThemeContext } from '../context/ThemeContext';
+import { WebSocketProvider } from '../context/WebsockerContext';
 import '../global.css';
-import { SnackbarProvider } from '@/context/SnackbarContext';
-import { WebSocketProvider } from '../context/WebsockerContext'
 
 export default function App() {
     const { MaterialTheme } = NativeModules;

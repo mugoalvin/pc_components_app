@@ -11,7 +11,7 @@ router.post("/connect", async (_, res) => {
 		await axios.post(`${SERVER_DOMAIN}/database/connect`)
 		res.send("Success")
 	}
-	catch(error: any) {
+	catch (error: any) {
 		res.send(error.errorMsg || "Failed to connect to the database!")
 	}
 })

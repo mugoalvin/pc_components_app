@@ -1,12 +1,12 @@
-import dotenv from "dotenv"
+import dotenv from "dotenv";
 
-import { AppDataSource, initDatabase } from "../../db";
-import { IntelGraphicsScrapingOptions } from "../../../../packages/types";
-import { scrapeIntelArkGpu } from "./intel_functions/ark";
 import { IntelArk } from "../../../../packages/interfaces";
+import { IntelGraphicsScrapingOptions } from "../../../../packages/types";
+import { AppDataSource, initDatabase } from "../../db";
 import { handleError, normalizeData } from "../../global/functions";
-import { saveIntelArkGraphics } from "../../saveRecords/intel/ark";
 import { ProgressReporter } from '../../global/websocket/ProgressReporter';
+import { saveIntelArkGraphics } from "../../saveRecords/intel/ark";
+import { scrapeIntelArkGpu } from "./intel_functions/ark";
 
 dotenv.config()
 const { intel_website_domain, intel_ark_route } = process.env

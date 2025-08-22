@@ -1,7 +1,7 @@
-import { Page } from "puppeteer"
+import { Page } from "puppeteer";
 
-import { MyUrl, IntelUltraSeries, IntelProcessorLine } from "../../../../../packages/types"
-import { readIntelTable } from "./shared_functions"
+import { IntelProcessorLine, IntelUltraSeries, MyUrl } from "../../../../../packages/types";
+import { readIntelTable } from "./shared_functions";
 
 // Extracts series text and links from the page
 export async function getTextsAndLinks(page: Page, data_panel_key: string): Promise<{ text: string, link: string }[]> {

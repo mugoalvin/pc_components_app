@@ -6,6 +6,8 @@ import Body from "@/app/components/ui/body";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import ChipView from "@/app/components/ui/chipView";
 import EmptySectionList from "@/app/components/view/emptySectionList";
+import { syncIntelCoreInventory } from "@/app/index";
+import { useWebSocket } from "@/context/WebsockerContext";
 import { isIntelGenMatching } from "@/utils/functions";
 import { CoreTierChipOptions, ProductBrandFilter } from "@/utils/types";
 import useIntelCoreStore from "@/zustand/intel/core";
@@ -18,8 +20,6 @@ import { Divider, useTheme } from "react-native-paper";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import { IntelCore } from "../../../../packages/interfaces";
 import { IntelGeneration } from "../../../../packages/types";
-import { syncIntelCoreInventory } from "@/app/index";
-import { useWebSocket } from "@/context/WebsockerContext";
 
 export default function CoreProducts() {
 	const { socket } = useWebSocket()

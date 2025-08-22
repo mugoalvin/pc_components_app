@@ -1,7 +1,7 @@
+import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities"
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
 import { DatabaseTables } from '../../packages/types'
-import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities"
 
 dotenv.config()
 const { HOST, USERNAME, PORT, PASSWORD, DATABASE_NAME, NODE_ENV } = process.env

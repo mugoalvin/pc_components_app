@@ -1,5 +1,5 @@
-import express from 'express'
 import dotenv from 'dotenv'
+import express from 'express'
 import os from 'os'
 
 dotenv.config()
@@ -7,7 +7,7 @@ dotenv.config()
 const { SERVER_PORT } = process.env
 const webSocketRouter = express.Router()
 
-webSocketRouter.get("/getServerDomain", (req, res) => {
+webSocketRouter.get("/getServerDomain", (_req, res) => {
 	try {
 		const interfaces = os.networkInterfaces();
 		for (let name in interfaces) {

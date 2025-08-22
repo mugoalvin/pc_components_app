@@ -1,6 +1,6 @@
+import { DatabaseTables } from '@packages/types.js'
 import express from 'express'
 import { ApiDataSource, entityMap, initApiDatabase } from '../../db'
-import { DatabaseTables } from '@packages/types.js'
 
 const processorRouter = express.Router()
 processorRouter.use(express.json())
@@ -35,7 +35,7 @@ processorRouter.post('/getData', async function (req, res) {
 processorRouter.post('/getDistinct', async function (req, res) {
 	const { table, column } = req.body
 	!ApiDataSource.isInitialized && await initApiDatabase()
-	const entityClass = entityMap[table as  DatabaseTables]
+	const entityClass = entityMap[table as DatabaseTables]
 
 	const repo = ApiDataSource.getRepository(entityClass)
 
@@ -43,7 +43,7 @@ processorRouter.post('/getDistinct', async function (req, res) {
 		.createQueryBuilder(table)
 		.select(`DISTINCT ${table}.${column}`)
 		.getMany()
-		
+
 	res.send(distinctValues)
 })
 

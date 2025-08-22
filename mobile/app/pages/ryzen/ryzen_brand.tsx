@@ -1,15 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import RyzenScrapeOptions from '@/app/components/buttomSheet/ryzenScrapeOptions'
+import AppText from '@/app/components/texts/appText'
 import PageWithBottomSheet from '@/app/components/ui/bottomSheet'
 import CustomSectionList from '@/app/components/view/sectionList'
 import { syncRyzenInventory } from '@/app/index'
 import useSnackbarContext from '@/context/SnackbarContext'
+import { useWebSocket } from '@/context/WebsockerContext'
 import { getSectionedRyzenData, setAsyncData } from '@/utils/functions'
 import { openPage } from '@/utils/stackOptions'
 import { ProductBrandFilter, RyzenDeviceChipsOptions } from '@/utils/types'
 import useRyzenStore from '@/zustand/amd/ryzen'
 import { Ionicons } from '@expo/vector-icons'
 import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { TouchableOpacity, View } from 'react-native'
@@ -20,9 +23,6 @@ import ChipCustom from '../../components/buttons/chips'
 import HeaderBackArrow from '../../components/headerBackArrow'
 import Body from '../../components/ui/body'
 import ChipView from '../../components/ui/chipView'
-import AppText from '@/app/components/texts/appText'
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useWebSocket } from '@/context/WebsockerContext'
 
 
 

@@ -1,6 +1,6 @@
-import { LaunchOptions } from "puppeteer";
 import fs from "fs";
 import path from "path";
+import { LaunchOptions } from "puppeteer";
 
 import { IntelArk, IntelCore, IntelCoreUltra, NvidiaGeForce, Radeon, Ryzen } from "../../../packages/interfaces";
 
@@ -21,7 +21,7 @@ export function normalizeValue(value: string): string | string[] | number | bool
 	const numericMatch = value.match(/^([\d.]+)\s*()?$/i)
 	if (numericMatch) return parseFloat(numericMatch[1])
 	if (value.includes(',')) return value.split(',').map(v => v.trim())
-	
+
 	return value.trim()
 }
 
@@ -56,9 +56,9 @@ export const launchOptions: LaunchOptions = {
 export function convertArrayToString(inputValue: number | string | string[]): string {
 	if (typeof (inputValue) === 'number') return String(inputValue)
 	if (inputValue.length == 0) return ''
-	if (typeof(inputValue) == "string") return inputValue
+	if (typeof (inputValue) == "string") return inputValue
 	return inputValue.reduce(
-		(prevValue, currentValue) => 
+		(prevValue, currentValue) =>
 			`${prevValue}, ${currentValue}`
 	)
 }

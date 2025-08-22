@@ -1,10 +1,10 @@
-import dotenv from 'dotenv'
-import { normalizeData } from "../../global/functions"
-import { saveIntelUltraProcessors } from "../../saveRecords/intel/ultra"
-import { scrapeIntelCoreUltraProcessors } from "./intel_functions/intel_functions"
+import dotenv from 'dotenv';
 import { IntelUltraSeries } from "../../../../packages/types";
 import { AppDataSource, initDatabase } from '../../db';
+import { normalizeData } from "../../global/functions";
 import { ProgressReporter } from '../../global/websocket/ProgressReporter';
+import { saveIntelUltraProcessors } from "../../saveRecords/intel/ultra";
+import { scrapeIntelCoreUltraProcessors } from "./intel_functions/intel_functions";
 
 dotenv.config();
 const { intel_website_domain, intel_ark_route } = process.env;
@@ -12,7 +12,7 @@ const { intel_website_domain, intel_ark_route } = process.env;
 export default async function runIntelUltra(serie?: IntelUltraSeries) {
 	const reporter = new ProgressReporter()
 	reporter.report(101)
-	
+
 	AppDataSource.isInitialized || await initDatabase()
 
 	const ultra_processors = await scrapeIntelCoreUltraProcessors({

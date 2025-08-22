@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
-import Body from "../components/ui/body";
-import AppText from "../components/texts/appText";
-import ButtonCustom from "../components/buttons/buttonCust";
-import { useNavigation } from "expo-router";
-import HeaderBackArrow from "../components/headerBackArrow";
-import { ProgressBar, useTheme } from "react-native-paper";
-import axios from "axios";
-import Constants from "expo-constants";
 import useSnackbarContext from "@/context/SnackbarContext";
 import { useWebSocket } from "@/context/WebsockerContext";
+import { useNavigation } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { ProgressBar } from "react-native-paper";
+import ButtonCustom from "../components/buttons/buttonCust";
+import HeaderBackArrow from "../components/headerBackArrow";
+import AppText from "../components/texts/appText";
+import Body from "../components/ui/body";
 
-const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
-const webSocketDomain = Constants.expoConfig?.extra?.WEB_SOCKET_API_DOMAIN ?? ''
 
 
 export default function ProgressClient() {

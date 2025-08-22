@@ -4,29 +4,27 @@ import { filterRyzenWithPerformanceTier } from "@/utils/functions";
 import { ProductBrandFilter, RyzenDeviceChipsOptions, RyzenTierChipsOptions } from "@/utils/types";
 import useRyzenStore from "@/zustand/amd/ryzen";
 import { Ionicons } from "@expo/vector-icons";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RefreshControl, TouchableOpacity, View } from "react-native";
-import { ActivityIndicator, Divider, Menu, useTheme } from "react-native-paper";
+import { Divider, useTheme } from "react-native-paper";
 import Animated, { LinearTransition } from "react-native-reanimated";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { AmdDevice, RyzenDesktopSeries, RyzenLaptopSeries, RyzenSeriesArray, RyzenSeriesNameArray, RyzenSeriesNameEnum } from "../../../../packages/types";
+import { AmdDevice, RyzenSeriesNameEnum } from "../../../../packages/types";
 
+import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
+import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import useSnackbarContext from "@/context/SnackbarContext";
+import { useWebSocket } from "@/context/WebsockerContext";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import ChipCustom from "../../components/buttons/chips";
 import ProductCard from "../../components/cards/productCard";
 import HeaderBackArrow from "../../components/headerBackArrow";
-import AppText from "../../components/texts/appText";
 import SubTitle from "../../components/texts/subTitle";
 import Body from "../../components/ui/body";
-import SearchBarCustom from "../../components/ui/searchBarCustom";
 import { syncRyzenInventory } from "../../index";
 import { scrapeRyzen } from "../../services/scrape";
-import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
-import { useWebSocket } from "@/context/WebsockerContext";
 
 
 export default function RyzenProducts() {
@@ -69,7 +67,7 @@ export default function RyzenProducts() {
 	if (socket) {
 		socket.onmessage = (event: MessageEvent) => {
 			const { progress } = JSON.parse(event.data)
-			setProgress( progress === 100 ? undefined : progress  )
+			setProgress(progress === 100 ? undefined : progress)
 		}
 	}
 

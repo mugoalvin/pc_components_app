@@ -4,16 +4,14 @@ import Body from "@/app/components/ui/body";
 import ChipView from "@/app/components/ui/chipView";
 import CustomSectionList from "@/app/components/view/sectionList";
 import { syncIntelCoreInventory } from "@/app/index";
+import useSnackbarContext from "@/context/SnackbarContext";
 import { getSectionedCoreData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
 import { CoreDeviceChipsOptions, ProductBrandFilter } from "@/utils/types";
 import useIntelCoreStore from "@/zustand/intel/core";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { useColorScheme } from "react-native";
-import { useTheme } from "react-native-paper";
 import { IntelGenerationEnum } from "../../../../packages/types";
-import useSnackbarContext from "@/context/SnackbarContext";
 
 export default function CoreLine() {
 	const navigation = useNavigation()

@@ -1,9 +1,9 @@
 import axios from 'axios'
-import express from 'express'
 import dotenv from 'dotenv'
+import express from 'express'
 
 dotenv.config()
-const { SERVER_DOMAIN, WEBSOCKET_SERVER_DOMAIN } = process.env
+const { SERVER_DOMAIN } = process.env
 const webSocketRouter = express.Router()
 
 webSocketRouter.get("/start", async (req, res) => {
