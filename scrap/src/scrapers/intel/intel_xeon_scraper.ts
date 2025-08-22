@@ -1,10 +1,10 @@
 import dotenv from 'dotenv'
-import { AppDataSource, initDatabase } from '../../db'
-import { scrapeIntelXeonProcessors } from './intel_functions/intel_functions'
 import { IntelXeonSeries, IntelXeonSeriesType } from '../../../../packages/types'
+import { AppDataSource, initDatabase } from '../../db'
 import { normalizeData } from '../../global/functions'
+import { ProgressReporter } from '../../global/websocket/ProgressReporter'
 import { saveIntelXeonProcessors } from '../../saveRecords/intel/xeon'
-import { ProgressReporter } from '../../global/websocket/ProgressReporter';
+import { scrapeIntelXeonProcessors } from './intel_functions/intel_functions'
 
 dotenv.config()
 const { intel_website_domain, intel_ark_route } = process.env

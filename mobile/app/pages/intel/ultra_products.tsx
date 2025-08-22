@@ -97,7 +97,7 @@ export default function UltraProducts() {
 				itemLayoutAnimation={LinearTransition}
 				data={ultraToDisplay}
 				keyExtractor={(_, index) => index.toString()}
-				renderItem={({ item, index }) => (
+				renderItem={({ item }) => (
 					<ProductCard
 						key={item.name}
 						title={item.name}

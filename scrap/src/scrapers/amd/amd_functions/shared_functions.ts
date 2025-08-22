@@ -1,10 +1,10 @@
-import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
+import { launch, Page } from 'puppeteer'
 
-import { ProgressReporter } from '../../../global/websocket/ProgressReporter'
 import { InitialAmdProps, Radeon, Ryzen } from '../../../../../packages/interfaces'
-import { RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../packages/types'
-import { handleError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
+import { MyUrl, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../../packages/types'
+import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
+import { ProgressReporter } from '../../../global/websocket/ProgressReporter'
 
 
 dotenv.config()
@@ -56,8 +56,8 @@ export async function fetchSeriesProducts(page: Page, series_id: string) {
  * @returns Normalized product specifications
  */
 export async function fetchProductDetails(page: Page, product: InitialAmdProps, isScrapingGraphicsCards: boolean) {
-    const specs = isScrapingGraphicsCards ? 
-        await getMoreRadeonRxInfo(page, product) : 
+    const specs = isScrapingGraphicsCards ?
+        await getMoreRadeonRxInfo(page, product) :
         await getMoreRyzenInfo(page, product)
 
     return Object.entries(specs).reduce((acc, [key, value]) => ({
@@ -138,7 +138,7 @@ async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
  */
 async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[], isScrapingGraphicsCards: boolean) {
     const detailedSpecs: (Ryzen | Radeon)[] = []
-	const reporter = new ProgressReporter()
+    const reporter = new ProgressReporter()
 
     for (const product of products) {
         try {
@@ -151,10 +151,10 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             detailedSpecs.push(specs)
 
             reporter.report(
-				Math.trunc(
-					(index / length) * 100
-				)
-			)
+                Math.trunc(
+                    (index / length) * 100
+                )
+            )
         } catch (error) {
             handleError(error, `Failed to fetch info for ${product.name}`)
         }
@@ -172,13 +172,13 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | Ryze
     const browser = await launch(launchOptions)
     try {
         const page = await browser.newPage()
-		// await page.goto(`${url.domain}${url.route}`, { waitUntil: ['networkidle0', 'domcontentloaded', 'load'] })
-		await page.goto(`${url.domain}${url.route}`)
+        // await page.goto(`${url.domain}${url.route}`, { waitUntil: ['networkidle0', 'domcontentloaded', 'load'] })
+        await page.goto(`${url.domain}${url.route}`)
 
         const amd_series = await fetchAmdSeriesIds(page, url.tabIndex || 1)
         const isScrapingGraphicsCards: boolean = url.tabIndex == 2
         const products: InitialAmdProps[] = []
-         
+
         if (serie !== undefined) {
             await page.click(`#${amd_series[serie || 0].id}`)
             const seriesProducts = await fetchSeriesProducts(page, amd_series[serie || 0].id || '') as InitialAmdProps[]
@@ -191,7 +191,7 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | Ryze
                 products.push(...results)
             }
         }
-        
+
         return await fetchDetailedProductSpecs(page, products, isScrapingGraphicsCards) as Ryzen[] | Radeon[]
     } catch (error) {
         handleError(error, "Failed to fetch AMD products")

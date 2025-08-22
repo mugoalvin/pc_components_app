@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
 import Body from "../components/ui/body";
-import { connectDatabase, scrapeUltra, scrapeXeon } from "../services/scrape";
-import { IntelUltraSeriesEnum, IntelXeonSeries } from "../../../packages/types";
+import { connectDatabase } from "../services/scrape";
 
 export default function ScrapeData() {
 	const navigation = useNavigation()

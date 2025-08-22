@@ -1,6 +1,5 @@
 import axios from "axios";
 import Constants from "expo-constants";
-import { Alert } from "react-native";
 import { DatabaseTables } from "../../../packages/types";
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''

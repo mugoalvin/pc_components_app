@@ -3,9 +3,9 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 
+import databaseRouter from './routes/database/database'
 import router from './routes/root'
 import scrapeRouter from './routes/scrape'
-import databaseRouter from './routes/database/database'
 import webSocketRouter from './websocket'
 
 dotenv.config()

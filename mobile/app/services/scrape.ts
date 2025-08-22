@@ -1,7 +1,7 @@
 import axios from "axios";
 import Constants from 'expo-constants';
 import { Alert } from "react-native";
-import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries, IntelXeonSeries, IntelXeonSeriesType } from "../../../packages/types";
+import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, IntelXeonSeries, IntelXeonSeriesType, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from "../../../packages/types";
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 
@@ -159,7 +159,6 @@ export async function scrapeXeon(requestParams: XeonScrapeRequestParams) {
 export async function connectDatabase() {
 
 	try {
-		const res = await axios.post(`${apiDomain}/connect`)
 		return "Successful Database Connection"
 	}
 	catch (err: any) {

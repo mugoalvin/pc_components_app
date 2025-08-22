@@ -1,11 +1,11 @@
 import { launch } from 'puppeteer'
 
-import { MyUrl, IntelCoreScrapingOptions, IntelUltraSeries, IntelProcessorLine, IntelXeonSeries, IntelXeonSeriesType } from "../../../../../packages/types"
-import { IntelCore, IntelCoreUltra, IntelXeon } from "../../../../../packages/interfaces"
-import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
-import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
-import { launchOptions, handleError } from '../../../global/functions'
+import { IntelCore, IntelCoreUltra } from "../../../../../packages/interfaces"
+import { IntelCoreScrapingOptions, IntelProcessorLine, IntelUltraSeries, IntelXeonSeries, IntelXeonSeriesType, MyUrl } from "../../../../../packages/types"
+import { handleError, launchOptions } from '../../../global/functions'
 import { findTierAndGenMatch } from './core_ix'
+import { getIntelCoreUltraProcessors, getTextsAndLinks } from './core_ultra'
+import { fetchDetailedSpecifications, readIntelTable } from './shared_functions'
 import { getIntelXeonProcessors } from './xeon'
 
 
@@ -40,7 +40,7 @@ export async function scrapeIntelCoreIxProcessors(url: MyUrl, scrapeOptions: Int
 
 export async function scrapeIntelCoreUltraProcessors(url: MyUrl, series?: IntelUltraSeries): Promise<IntelCoreUltra[]> {
 	const browser = await launch(launchOptions)
-	try{
+	try {
 		const page = await browser.newPage()
 		const initialProcessorValues = await getIntelCoreUltraProcessors(page, url, series)
 		return await fetchDetailedSpecifications(page, initialProcessorValues, series) as IntelCoreUltra[]
@@ -65,7 +65,7 @@ export async function scrapeIntelXeonProcessors(url: MyUrl, series: IntelXeonSer
 			seriesName: seriesName
 		}))
 	}
-	catch(error) {
+	catch (error) {
 		handleError(error, "Failed to scrape Intel Xeon Processors")
 	}
 	finally {

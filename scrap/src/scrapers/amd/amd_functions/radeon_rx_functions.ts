@@ -1,8 +1,8 @@
-import { z } from "zod"
+import { z } from "zod";
 
-import { MyUrl, RadeonSeriesEnum } from "../../../../../packages/types";
 import { Radeon } from "../../../../../packages/interfaces";
-import { getAmdProducts } from './shared_functions'
+import { MyUrl, RadeonSeriesEnum } from "../../../../../packages/types";
+import { getAmdProducts } from './shared_functions';
 
 export async function getAmdRadeonRx(url: MyUrl, serie?: RadeonSeriesEnum): Promise<Radeon[]> {
 	return await getAmdProducts(url, serie) as Radeon[]

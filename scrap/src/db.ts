@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
 
-import { handleError } from './global/functions'
 import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities"
+import { handleError } from './global/functions'
 
 
 dotenv.config()

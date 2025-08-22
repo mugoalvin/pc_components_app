@@ -3,16 +3,16 @@ import HeaderBackArrow from "@/app/components/headerBackArrow";
 import Body from "@/app/components/ui/body";
 import ChipView from "@/app/components/ui/chipView";
 import CustomSectionList from "@/app/components/view/sectionList";
+import { syncIntelXeonInventory } from "@/app/index";
+import useSnackbarContext from "@/context/SnackbarContext";
 import { getSectionedXeonData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter, XeonChipsOptions } from "@/utils/types";
 import useIntelXeonStore from "@/zustand/intel/xeon";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { IntelXeonSeries } from "../../../../packages/types";
-import { syncIntelXeonInventory } from "@/app/index";
-import useSnackbarContext from "@/context/SnackbarContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function XeonLine() {
 	const navigation = useNavigation()

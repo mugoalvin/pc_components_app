@@ -39,7 +39,7 @@ const Dashboard = () => {
 			ref={bottomSheetRef}
 			snapPoints={snapPoints}
 			initialSnapIndex={-1}
-			sheetContent={ <ThemeChooser /> }
+			sheetContent={<ThemeChooser />}
 		>
 			<Body>
 				<ScrollView showsVerticalScrollIndicator={false} className='flex-col'>
@@ -77,7 +77,7 @@ const Dashboard = () => {
 						}
 						BodyComponent={<ToolsAndUtils openSheet={openSheet} />}
 					/>
-					
+
 				</ScrollView>
 			</Body>
 		</PageWithBottomSheet>

@@ -1,5 +1,5 @@
+import { IntelCoreScrapingOptions } from '../../../../../packages/types';
 import { handleError } from "../../../global/functions";
-import { IntelCoreScrapingOptions } from '../../../../../packages/types'
 
 export function findTierAndGenMatch(processorCells: { text: string | null; link: string | null }[], scrapeOptions: IntelCoreScrapingOptions) {
 	try {

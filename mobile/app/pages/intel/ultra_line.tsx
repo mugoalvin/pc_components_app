@@ -1,24 +1,21 @@
+import IntelUltraScrapeOptions from "@/app/components/buttomSheet/intelUltraScrapeOptions";
 import ChipCustom from "@/app/components/buttons/chips";
 import HeaderBackArrow from "@/app/components/headerBackArrow";
+import HeaderRightIcon from "@/app/components/headerRightIcon";
+import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import ChipView from "@/app/components/ui/chipView";
 import CustomSectionList from "@/app/components/view/sectionList";
 import { syncIntelUltraInventory } from "@/app/index";
+import { useWebSocket } from "@/context/WebsockerContext";
 import { getSectionedUltraData, setAsyncData } from "@/utils/functions";
 import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter, UltraDeviceChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { TouchableOpacity, useColorScheme } from "react-native";
-import { useTheme } from "react-native-paper";
 import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../packages/types";
 import Body from "../../components/ui/body";
-import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
-import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import IntelUltraScrapeOptions from "@/app/components/buttomSheet/intelUltraScrapeOptions";
-import { Ionicons } from "@expo/vector-icons";
-import HeaderRightIcon from "@/app/components/headerRightIcon";
-import { useWebSocket } from "@/context/WebsockerContext";
 
 export default function UltraLine() {
 	const navigation = useNavigation()

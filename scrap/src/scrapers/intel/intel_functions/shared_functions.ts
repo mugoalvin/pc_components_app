@@ -1,9 +1,9 @@
-import { Page } from 'puppeteer'
 import dotenv from 'dotenv'
+import { Page } from 'puppeteer'
 
-import { handleError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra, IntelXeon } from '../../../../../packages/interfaces'
 import { IntelUltraSeries } from '../../../../../packages/types'
+import { handleError, normalizeKey, normalizeValue } from '../../../global/functions'
 import { ProgressReporter } from '../../../global/websocket/ProgressReporter'
 
 dotenv.config()
@@ -72,7 +72,7 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 
 			// @ts-ignore
 			detailedSpecifications.push(detailedInfo)
-			
+
 			reporter.report(
 				Math.trunc(
 					(index / length) * 100

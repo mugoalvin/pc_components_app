@@ -1,5 +1,5 @@
-import { AppDataSource } from "../../db";
 import { UltraEntity } from "@pc/entities";
+import { AppDataSource } from "../../db";
 import { handleError } from "../../global/functions";
 
 export async function saveIntelUltraProcessors(ultraProcessors: any[]) {

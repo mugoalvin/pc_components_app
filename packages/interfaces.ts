@@ -421,7 +421,7 @@ export interface IntelXeon {
     embedded_options_available?: boolean
     max_memory_size_dependent_on_memory_type?: string
     max_number_of_memory_channels?: number
-    
+
     created_at?: Date
     updated_at?: Date
 }

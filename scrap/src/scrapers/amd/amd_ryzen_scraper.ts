@@ -1,11 +1,11 @@
 import dotenv from 'dotenv'
 
-import { fetchAmdRyzenProcessors, validateRyzenProcessors } from "./amd_functions/ryzen_functions"
-import { saveRyzenProcessors } from '../../saveRecords/amd/ryzen'
-import { handleError, normalizeData } from '../../global/functions'
 import { AmdScrape, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../packages/types'
 import { AppDataSource, initDatabase } from '../../db'
-import { ProgressReporter } from '../../global/websocket/ProgressReporter';
+import { handleError, normalizeData } from '../../global/functions'
+import { ProgressReporter } from '../../global/websocket/ProgressReporter'
+import { saveRyzenProcessors } from '../../saveRecords/amd/ryzen'
+import { fetchAmdRyzenProcessors, validateRyzenProcessors } from "./amd_functions/ryzen_functions"
 
 
 dotenv.config()
@@ -17,7 +17,7 @@ async function runRyzenScraper(isLaptopProcessors: number, serie?: RyzenDesktopS
 		reporter.report(101)
 
 		AppDataSource.isInitialized || initDatabase()
-		
+
 		const amd_ryzen_processors = await fetchAmdRyzenProcessors({
 			domain: amd_website_domain || '',
 			route: (

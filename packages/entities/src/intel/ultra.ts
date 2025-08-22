@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm"
-import { getColumnOptions } from "../entityFunctions";
-import { IntelUltraSeriesValues } from "../../../types";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import type { IntelUltraSeries } from "../../../types";
+import { IntelUltraSeriesValues } from "../../../types";
+import { getColumnOptions } from "../entityFunctions";
 
 @Unique(["name"])
 @Entity({ name: "ultra" })

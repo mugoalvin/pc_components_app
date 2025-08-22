@@ -1,8 +1,8 @@
 import { launch } from "puppeteer";
 
-import { IntelArk } from '../../../../../packages/interfaces'
+import { IntelArk } from '../../../../../packages/interfaces';
+import { IntelGraphicsScrapingOptions, MyUrl } from '../../../../../packages/types';
 import { handleError, launchOptions } from "../../../global/functions";
-import { MyUrl, IntelGraphicsScrapingOptions } from '../../../../../packages/types'
 import { getTextsAndLinks } from "./core_ultra";
 import { fetchDetailedSpecifications, readIntelTable } from "./shared_functions";
 
@@ -19,7 +19,7 @@ export async function scrapeIntelArkGpu(url: MyUrl, options: IntelGraphicsScrapi
 		}, options.family)
 
 		const textAndLinks = await getTextsAndLinks(page, data_panel_key || '')
-		
+
 		await page.goto(`${url.domain}${textAndLinks[options.series].link}`)
 		const seriesGraphics = await readIntelTable(page)
 		return await fetchDetailedSpecifications(page, seriesGraphics) as IntelArk[]

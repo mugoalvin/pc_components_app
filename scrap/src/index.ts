@@ -1,11 +1,11 @@
-import dotenv from 'dotenv'
 import cors from 'cors'
+import dotenv from 'dotenv'
 import express from 'express'
 import { v4 as uuidV4 } from 'uuid'
 import { WebSocketServer } from 'ws'
 
-import scrapeRouter from './routes/scrape.routes'
 import databaseRouter from './routes/database.routes'
+import scrapeRouter from './routes/scrape.routes'
 import webSocketRouter from './routes/websockets/websocket'
 
 dotenv.config()
@@ -31,7 +31,7 @@ wss.on("connection", (ws) => {
 	const clientId = uuidV4()
 	clients.set(clientId, { ws, registeredTasks: new Set() })
 
-	ws.on("message", (message) => {
+	ws.on("message", () => {
 		let i = 0
 		const interval = setInterval(() => {
 			ws.send(i)

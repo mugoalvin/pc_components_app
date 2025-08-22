@@ -1,13 +1,13 @@
 import express from 'express'
 
-import runRyzenScraper from "../scrapers/amd/amd_ryzen_scraper"
+import { ArkSeries, IntelCoreScrapingOptions, intelGenerations, IntelGraphics, IntelGraphicsScrapingOptions, intelTiers, IntelUltraSeriesValues } from '../../../packages/types'
 import runRadeonRxScraper from "../scrapers/amd/amd_radeon_scraper"
+import runRyzenScraper from "../scrapers/amd/amd_ryzen_scraper"
+import runIntelArk from "../scrapers/intel/intel_ark_scraper"
 import runIntelCoreIx from "../scrapers/intel/intel_core_scraper"
 import runIntelUltra from "../scrapers/intel/intel_ultra_scraper"
-import runIntelArk from "../scrapers/intel/intel_ark_scraper"
-import runNvidiaGeforce from '../scrapers/nvidia/geforce_scraper'
-import { ArkSeries, IntelCoreScrapingOptions, intelGenerations, IntelGraphics, IntelGraphicsScrapingOptions, intelTiers, IntelUltraSeriesValues, NvidiaGeforceSeries } from '../../../packages/types'
 import runIntelXeon from '../scrapers/intel/intel_xeon_scraper'
+import runNvidiaGeforce from '../scrapers/nvidia/geforce_scraper'
 
 
 const scrapeRouter = express.Router()

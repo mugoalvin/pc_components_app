@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
-import { scrapeIntelCoreIxProcessors } from './intel_functions/intel_functions';
-import { normalizeData } from '../../global/functions';
-import { saveIntelCoreIxProcessors } from '../../saveRecords/intel/core';
 import { IntelCoreScrapingOptions } from "../../../../packages/types";
 import { AppDataSource, initDatabase } from '../../db';
+import { normalizeData } from '../../global/functions';
 import { ProgressReporter } from '../../global/websocket/ProgressReporter';
+import { saveIntelCoreIxProcessors } from '../../saveRecords/intel/core';
+import { scrapeIntelCoreIxProcessors } from './intel_functions/intel_functions';
 
 dotenv.config();
 const { intel_website_domain, intel_ark_route } = process.env
