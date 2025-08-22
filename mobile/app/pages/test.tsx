@@ -9,6 +9,7 @@ import { ProgressBar, useTheme } from "react-native-paper";
 import axios from "axios";
 import Constants from "expo-constants";
 import useSnackbarContext from "@/context/SnackbarContext";
+import { useWebSocket } from "@/context/WebsockerContext";
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 const webSocketDomain = Constants.expoConfig?.extra?.WEB_SOCKET_API_DOMAIN ?? ''
@@ -16,6 +17,7 @@ const webSocketDomain = Constants.expoConfig?.extra?.WEB_SOCKET_API_DOMAIN ?? ''
 
 export default function ProgressClient() {
 	const navigation = useNavigation()
+	const { socket } = useWebSocket()
 	const { showSnackbar } = useSnackbarContext()
 	const [progress, setProgress] = useState<(number)>(0);
 	const [taskStatus, setTaskStatus] = useState<string>("Not started");
@@ -23,24 +25,17 @@ export default function ProgressClient() {
 
 	const startJob = async () => {
 		try {
-			const serverDomain: string = (await axios.get(`${apiDomain}/websocket/start`)).data
-			const webSocketDomain = serverDomain.replace('http', 'ws')
+			socket!.send("Hello World")
 
-			const socket = new WebSocket(webSocketDomain)
-
-			socket.onopen = () => {
-				socket.send("Hello World")
-			}
-
-			socket.onmessage = (event: MessageEvent) => {
+			socket!.onmessage = (event: MessageEvent) => {
 				setProgress(event.data)
 			}
 
 
-			socket.onerror = (err: Event) => {
+			socket!.onerror = (err: Event) => {
 				console.error(err)
 				showSnackbar({
-					message: "WebSocket error: "
+					message: "WebSocket Error."
 				})
 			}
 		}

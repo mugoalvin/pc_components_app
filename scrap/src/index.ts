@@ -31,18 +31,22 @@ wss.on("connection", (ws) => {
 	const clientId = uuidV4()
 	clients.set(clientId, { ws, registeredTasks: new Set() })
 
-	// ws.send(clientId)
-	let i = 0
-	const interval = setInterval(() => {
-		ws.send(i)
-		i++
-		if (i > 100) {
-			clearInterval(interval) // stop when done
-		}
-	}, 100)
-
-
 	ws.on("message", (message) => {
-		// ws.send("Message received is: " + message.toString())
+		let i = 0
+		const interval = setInterval(() => {
+			ws.send(i)
+			i++
+			if (i > 100) {
+				clearInterval(interval) // stop when done
+			}
+		}, 100)
 	})
-});
+})
+
+export function broadcastMessageToClient(message: {}) {
+	wss.clients.forEach(client => {
+		if (client.readyState == 1) {
+			client.send(JSON.stringify(message))
+		}
+	})
+}

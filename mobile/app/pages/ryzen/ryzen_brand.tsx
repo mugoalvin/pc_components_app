@@ -22,18 +22,21 @@ import Body from '../../components/ui/body'
 import ChipView from '../../components/ui/chipView'
 import AppText from '@/app/components/texts/appText'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useWebSocket } from '@/context/WebsockerContext'
 
 
 
 export default function RyzenBrand() {
 	const theme = useTheme()
 	const navigator = useNavigation()
+	const { socket } = useWebSocket()
 	const { showSnackbar } = useSnackbarContext()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand } = params
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
 	const [isScrapingInProgress, setIsScrapingInProgress] = useState<boolean>(false)
+	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const [chipPressed, setChipPressed] = useState<RyzenDeviceChipsOptions>('all')
 	const [isAllSelected, setIsAllChipSelected] = useState<boolean>(true)
@@ -63,6 +66,15 @@ export default function RyzenBrand() {
 			})
 		}
 	}
+
+
+	if (socket) {
+		socket.onmessage = (event: MessageEvent) => {
+			const { progress } = JSON.parse(event.data)
+			setProgress(progress === 100 ? undefined : progress)
+		}
+	}
+
 
 	const ProductsArray: string[] =
 		String(selectedComponent) === "0" ? ProcessorsArray :
@@ -100,7 +112,7 @@ export default function RyzenBrand() {
 		>
 
 			<Body>
-				<ChipView>
+				<ChipView progress={progress}>
 					<ChipCustom
 						chipText='All'
 						selected={isAllSelected}

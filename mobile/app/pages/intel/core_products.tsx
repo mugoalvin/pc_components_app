@@ -19,14 +19,17 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 import { IntelCore } from "../../../../packages/interfaces";
 import { IntelGeneration } from "../../../../packages/types";
 import { syncIntelCoreInventory } from "@/app/index";
+import { useWebSocket } from "@/context/WebsockerContext";
 
 export default function CoreProducts() {
+	const { socket } = useWebSocket()
 	const theme = useTheme()
 	const navigation = useNavigation();
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { generation } = params
 
 	const [chipPressed, setChipPressed] = useState<CoreTierChipOptions>("all")
+	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const [isAllSelected, setIsAllSelected] = useState<boolean>(true)
 	const [isI9Selected, setIsI9Selected] = useState<boolean>(false)
@@ -61,6 +64,13 @@ export default function CoreProducts() {
 		}
 	}
 
+	if (socket) {
+		socket.onmessage = (event: MessageEvent) => {
+			const { progress } = JSON.parse(event.data)
+			setProgress(progress === 100 ? undefined : progress)
+		}
+	}
+
 	useEffect(() => {
 		const currentProcessors = coreInventory
 			.filter(core => isIntelGenMatching(core.processor_number || '', Number(generation) as IntelGeneration))
@@ -83,7 +93,7 @@ export default function CoreProducts() {
 				</TouchableOpacity>
 			)
 		})
-	})
+	}, [])
 
 	return (
 		<PageWithBottomSheet
@@ -93,7 +103,7 @@ export default function CoreProducts() {
 			sheetContent={<IntelCoreScrapeOptions generation={generation} sheetRef={bottomSheetRef} />}
 		>
 			<Body>
-				<ChipView>
+				<ChipView progress={progress}>
 					<ChipCustom
 						selected={isAllSelected}
 						chipText="All"

@@ -18,15 +18,17 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import IntelUltraScrapeOptions from "@/app/components/buttomSheet/intelUltraScrapeOptions";
 import { Ionicons } from "@expo/vector-icons";
 import HeaderRightIcon from "@/app/components/headerRightIcon";
+import { useWebSocket } from "@/context/WebsockerContext";
 
 export default function UltraLine() {
-	const theme = useTheme()
 	const navigation = useNavigation()
-	const colorScheme = useColorScheme()
+	const { socket } = useWebSocket()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line } = params
+	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
+
 
 	const [chipPressed, setChipPressed] = useState<UltraDeviceChipsOptions>('all')
 	const [isAllSelected, setIsAllChipSelected] = useState<boolean>(true)
@@ -46,6 +48,13 @@ export default function UltraLine() {
 	}
 
 	const ultraInventory = useIntelCoreUltraStore(state => state.intel_ultra_inventory) || []
+
+	if (socket) {
+		socket.onmessage = (event: MessageEvent) => {
+			const { progress } = JSON.parse(event.data)
+			setProgress(progress === 100 ? undefined : progress)
+		}
+	}
 
 	useEffect(() => {
 		setAsyncData('chipPressed', chipPressed)
@@ -71,7 +80,7 @@ export default function UltraLine() {
 			sheetContent={<IntelUltraScrapeOptions sheetRef={bottomSheetRef} />}
 		>
 			<Body>
-				<ChipView>
+				<ChipView progress={progress} >
 					<ChipCustom
 						chipText="All"
 						selected={isAllSelected}

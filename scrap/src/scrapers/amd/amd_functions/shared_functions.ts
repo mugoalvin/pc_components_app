@@ -1,5 +1,7 @@
 import { launch, Page } from 'puppeteer'
 import dotenv from 'dotenv'
+
+import { ProgressReporter } from '../../../global/websocket/ProgressReporter'
 import { InitialAmdProps, Radeon, Ryzen } from '../../../../../packages/interfaces'
 import { RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries, MyUrl } from '../../../../../packages/types'
 import { handleError, launchOptions, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
@@ -136,11 +138,23 @@ async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
  */
 async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[], isScrapingGraphicsCards: boolean) {
     const detailedSpecs: (Ryzen | Radeon)[] = []
+	const reporter = new ProgressReporter()
+
     for (const product of products) {
         try {
             const specs = await fetchProductDetails(page, product, isScrapingGraphicsCards) as Ryzen | Radeon
-            console.log(`${products.indexOf(product) + 1}/${products.length}. ✓ ${specs?.name}`)
+
+            const index = products.indexOf(product) + 1
+            const length = products.length
+
+            console.log(`${index}/${length}. ✓ ${specs?.name}`)
             detailedSpecs.push(specs)
+
+            reporter.report(
+				Math.trunc(
+					(index / length) * 100
+				)
+			)
         } catch (error) {
             handleError(error, `Failed to fetch info for ${product.name}`)
         }
@@ -158,7 +172,8 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | Ryze
     const browser = await launch(launchOptions)
     try {
         const page = await browser.newPage()
-		await page.goto(`${url.domain}${url.route}`, { waitUntil: ['networkidle0', 'domcontentloaded', 'load'] })
+		// await page.goto(`${url.domain}${url.route}`, { waitUntil: ['networkidle0', 'domcontentloaded', 'load'] })
+		await page.goto(`${url.domain}${url.route}`)
 
         const amd_series = await fetchAmdSeriesIds(page, url.tabIndex || 1)
         const isScrapingGraphicsCards: boolean = url.tabIndex == 2

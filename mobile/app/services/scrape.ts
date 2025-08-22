@@ -5,7 +5,6 @@ import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTier
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 
-
 export interface GeforceScrapeRequestType {
 	series: NvidiaGeforceSeries
 }

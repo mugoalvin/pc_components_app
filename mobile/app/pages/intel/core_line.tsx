@@ -16,8 +16,6 @@ import { IntelGenerationEnum } from "../../../../packages/types";
 import useSnackbarContext from "@/context/SnackbarContext";
 
 export default function CoreLine() {
-	const theme = useTheme()
-	const colorScheme = useColorScheme()
 	const navigation = useNavigation()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line } = params
@@ -47,7 +45,7 @@ export default function CoreLine() {
 		})
 
 		syncIntelCoreInventory()
-	})
+	}, [])
 
 	return (
 		<Body>
@@ -113,7 +111,10 @@ export default function CoreLine() {
 						await syncIntelCoreInventory()
 					}
 					catch (error: any) {
-						console.log(error)
+						showSnackbar({
+							message: error.errorMsg || error.message || "Refresh error",
+							isError: true
+						})
 					}
 					finally {
 						setIsPageRefreshing(false)

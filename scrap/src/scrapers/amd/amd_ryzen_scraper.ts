@@ -5,14 +5,19 @@ import { saveRyzenProcessors } from '../../saveRecords/amd/ryzen'
 import { handleError, normalizeData } from '../../global/functions'
 import { AmdScrape, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../packages/types'
 import { AppDataSource, initDatabase } from '../../db'
+import { ProgressReporter } from '../../global/websocket/ProgressReporter';
+
 
 dotenv.config()
 const { amd_website_domain, amd_desktop_prosessors_route, amd_laptop_processors_route } = process.env
 
 async function runRyzenScraper(isLaptopProcessors: number, serie?: RyzenDesktopSeries | RyzenLaptopSeries) {
 	try {
-		AppDataSource.isInitialized || initDatabase()
+		const reporter = new ProgressReporter()
+		reporter.report(101)
 
+		AppDataSource.isInitialized || initDatabase()
+		
 		const amd_ryzen_processors = await fetchAmdRyzenProcessors({
 			domain: amd_website_domain || '',
 			route: (
