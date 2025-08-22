@@ -14,7 +14,7 @@ export default function CustomSplashScreen(){
 		navigation.setOptions({
 			headerShown: false
 		})
-	})
+	}, [])
 
 	return(
 		<Body className="items-center justify-center">

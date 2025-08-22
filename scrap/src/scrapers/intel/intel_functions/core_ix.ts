@@ -5,7 +5,6 @@ export function findTierAndGenMatch(processorCells: { text: string | null; link:
 	try {
 		return processorCells.find(cell => {
 			const matchesTier = cell.text?.includes(scrapeOptions.tier)
-			// const matchesGeneration = cell.text?.includes(`\\b${scrapeOptions.generation}th\\b`)
 
 			const generation = scrapeOptions.generation;
 			const regex = new RegExp(`\\b${generation}th\\b`);

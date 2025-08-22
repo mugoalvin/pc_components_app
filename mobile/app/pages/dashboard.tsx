@@ -32,7 +32,7 @@ const Dashboard = () => {
 		})
 
 		connectDatabase()
-	})
+	}, [])
 
 	return (
 		<PageWithBottomSheet

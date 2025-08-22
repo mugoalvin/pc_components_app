@@ -26,11 +26,13 @@ import { scrapeRyzen } from "../../services/scrape";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
+import { useWebSocket } from "@/context/WebsockerContext";
 
 
 export default function RyzenProducts() {
 	const theme = useTheme()
 	const navigation = useNavigation()
+	const { socket } = useWebSocket()
 	const { showSnackbar } = useSnackbarContext()
 
 	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
@@ -49,6 +51,7 @@ export default function RyzenProducts() {
 	const [isRyzen7ChipClicked, setIsRyzen7ChipClicked] = useState<boolean>(false)
 	const [isRyzen5ChipClicked, setIsRyzen5ChipClicked] = useState<boolean>(false)
 	const [isRyzen3ChipClicked, setIsRyzen3ChipClicked] = useState<boolean>(false)
+	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['75%'], [])
@@ -61,6 +64,13 @@ export default function RyzenProducts() {
 		setIsRyzen7ChipClicked(false)
 		setIsRyzen5ChipClicked(false)
 		setIsRyzen3ChipClicked(false)
+	}
+
+	if (socket) {
+		socket.onmessage = (event: MessageEvent) => {
+			const { progress } = JSON.parse(event.data)
+			setProgress( progress === 100 ? undefined : progress  )
+		}
 	}
 
 	const getAsyncData = async () => {
@@ -134,7 +144,7 @@ export default function RyzenProducts() {
 		>
 			<Body>
 
-				<ChipView>
+				<ChipView progress={progress} >
 					<ChipCustom chipText="All" selected={isAllChipClicked} onPress={() => {
 						falsifyAllChips()
 						setIsAllChipClicked(prev => !prev)

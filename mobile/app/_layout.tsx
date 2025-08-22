@@ -10,6 +10,7 @@ import { ActivityIndicator, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'r
 import { ThemeContext } from '../context/ThemeContext';
 import '../global.css';
 import { SnackbarProvider } from '@/context/SnackbarContext';
+import { WebSocketProvider } from '../context/WebsockerContext'
 
 export default function App() {
     const { MaterialTheme } = NativeModules;
@@ -63,13 +64,15 @@ export default function App() {
     return (
         <ThemeContext.Provider value={{ resetTheme, updateTheme }}>
             <PaperProvider theme={finalTheme}>
-                <SnackbarProvider>
-                    <GestureHandlerRootView>
-                        <Stack screenOptions={getScreenOptions(finalTheme, colorScheme)}>
-                            <Stack.Screen name='index' />
-                        </Stack>
-                    </GestureHandlerRootView>
-                </SnackbarProvider>
+                <WebSocketProvider>
+                    <SnackbarProvider>
+                        <GestureHandlerRootView>
+                            <Stack screenOptions={getScreenOptions(finalTheme, colorScheme)}>
+                                <Stack.Screen name='index' />
+                            </Stack>
+                        </GestureHandlerRootView>
+                    </SnackbarProvider>
+                </WebSocketProvider>
             </PaperProvider>
         </ThemeContext.Provider>
     );

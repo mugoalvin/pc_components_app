@@ -6,6 +6,7 @@ import { scrapeIntelArkGpu } from "./intel_functions/ark";
 import { IntelArk } from "../../../../packages/interfaces";
 import { handleError, normalizeData } from "../../global/functions";
 import { saveIntelArkGraphics } from "../../saveRecords/intel/ark";
+import { ProgressReporter } from '../../global/websocket/ProgressReporter';
 
 dotenv.config()
 const { intel_website_domain, intel_ark_route } = process.env
@@ -13,6 +14,9 @@ const { intel_website_domain, intel_ark_route } = process.env
 
 export default async function runIntelArk(desiredGraphicsToScrape: IntelGraphicsScrapingOptions): Promise<number> {
 	try {
+		const reporter = new ProgressReporter()
+		reporter.report(101)
+
 		AppDataSource.isInitialized || await initDatabase()
 
 		const intel_ark_graphics = await scrapeIntelArkGpu({

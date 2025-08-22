@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { DataSource } from 'typeorm'
 
 import { handleError } from './global/functions'
-import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities/src"
+import { ArkEntity, CoreEntity, GeForceEntity, RadeonEntity, RyzenEntity, UltraEntity, XeonEntity } from "@pc/entities"
 
 
 dotenv.config()
@@ -25,7 +25,7 @@ export async function initDatabase() {
 		.catch(error => {
 			handleError(error)
 		})
-}	
+}
 
 
 export async function disConnectDatabase() {

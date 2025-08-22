@@ -21,7 +21,7 @@ export default function IntelLines() {
 				<HeaderBackArrow />
 			)
 		})
-	})
+	}, [])
 
 	return (
 		<Body>

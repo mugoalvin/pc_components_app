@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import { handleError, normalizeKey, normalizeValue, keepOnlyKeys } from '../../../global/functions'
 import { InitialIntelProps, IntelArk, IntelCore, IntelCoreUltra, IntelXeon } from '../../../../../packages/interfaces'
 import { IntelUltraSeries } from '../../../../../packages/types'
-// import { intelsKeysToKeep } from './intel_functions'
+import { ProgressReporter } from '../../../global/websocket/ProgressReporter'
 
 dotenv.config()
 const { intel_website_domain } = process.env
@@ -27,7 +27,7 @@ async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
 					const value =
 						row.querySelector(".tech-data span")?.textContent ||
 						row.querySelector(".tech-data a")?.textContent
-					
+
 					return { ...acc, [label]: value }
 				}, {})
 			}
@@ -54,14 +54,16 @@ async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
  * @param series - Series number of Intel Ultra.
  * @returns Promise<IntelCore[]> Array of detailed processor specifications
  */
-export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise< IntelCore[] | IntelCoreUltra[] | IntelArk[] | IntelXeon[]> {
+export async function fetchDetailedSpecifications(page: Page, products: InitialIntelProps[], series?: IntelUltraSeries): Promise<IntelCore[] | IntelCoreUltra[] | IntelArk[] | IntelXeon[]> {
 	console.log("\nGetting detailed information per product.")
+	const reporter = new ProgressReporter()
 	try {
 		const detailedSpecifications: IntelCore[] | IntelCoreUltra[] | IntelArk[] = []
+
 		for (const product of products) {
 			const rawData = await getMoreInfoPerProduct(page, product)
 
-			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk 
+			let detailedInfo: IntelCore | IntelCoreUltra | IntelArk
 			detailedInfo = series ? { ...rawData as IntelCoreUltra, series } : rawData as IntelCore | IntelArk
 
 			const index = products.indexOf(product) + 1
@@ -70,6 +72,12 @@ export async function fetchDetailedSpecifications(page: Page, products: InitialI
 
 			// @ts-ignore
 			detailedSpecifications.push(detailedInfo)
+			
+			reporter.report(
+				Math.trunc(
+					(index / length) * 100
+				)
+			)
 		}
 
 		return detailedSpecifications as IntelCore[] | IntelCoreUltra[] | IntelArk[] | IntelXeon[]
@@ -87,7 +95,7 @@ export async function readIntelTable(page: Page): Promise<InitialIntelProps[]> {
 				if (!processorName) return ''
 				const cutIndex = processorName.indexOf("(")
 				if (cutIndex !== -1) processorName = processorName.slice(0, cutIndex);
-				
+
 				return processorName
 					.replace("Processor", "")
 					.replace("processor", "")

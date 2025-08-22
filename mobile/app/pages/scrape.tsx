@@ -19,7 +19,7 @@ export default function ScrapeData() {
 				<HeaderBackArrow />
 			)
 		})
-	})
+	}, [])
 
 	return (
 		<Body>

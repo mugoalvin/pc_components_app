@@ -1,34 +1,40 @@
 import { syncIntelXeonInventory } from "@/app/index"
-import ChipCustom from "@/app/components/buttons/chips"
 import ProductCard from "@/app/components/cards/productCard"
 import HeaderBackArrow from "@/app/components/headerBackArrow"
 import Body from "@/app/components/ui/body"
-import ChipView from "@/app/components/ui/chipView"
-import { ProductBrandFilter, XeonChipsOptions } from "@/utils/types"
+import { XeonChipsOptions } from "@/utils/types"
 import useIntelXeonStore from "@/zustand/intel/xeon"
-import { router, useLocalSearchParams, useNavigation } from "expo-router"
+import { router, useNavigation } from "expo-router"
 import { useEffect, useMemo, useRef, useState } from "react"
 import Animated from "react-native-reanimated"
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet"
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types"
 import HeaderRightIcon from "@/app/components/headerRightIcon"
-import { useTheme } from "react-native-paper"
 import IntelXeonScrapeOptions from "@/app/components/buttomSheet/intelXeonscrapeOptions"
-import AppText from "@/app/components/texts/appText"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { IntelXeon } from "../../../../packages/interfaces"
+import ProgressBarCustom from "@/app/components/ui/customProgressBar"
+import { useWebSocket } from "@/context/WebsockerContext"
 
 export default function XeonProducts() {
 	const navigation = useNavigation()
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['40%'], [])
+	const { socket } = useWebSocket()
 	const openSheet = () => bottomSheetRef.current?.snapToIndex(0)
 	const xeonInventory = useIntelXeonStore(state => state.xeon_inventory)
 	const [serie, setSerie] = useState<string>()
 	const [xeonToDisplay, setXeonToDisplay] = useState<IntelXeon[]>()
 	const [selectedChip, setSelectedChip] = useState<XeonChipsOptions>()
-	
 
+	const [progress, setProgress] = useState<number | undefined>(undefined)
+
+	if (socket) {
+		socket.onmessage = (event: MessageEvent) => {
+			const { progress } = JSON.parse(event.data)
+			setProgress(progress === 100 ? undefined : progress)
+		}
+	}
 	const getAsync = async () => {
 		const serie = await AsyncStorage.getItem("selectedXeonSerie")
 		const selectedChip = await AsyncStorage.getItem("selectedChip")
@@ -67,6 +73,7 @@ export default function XeonProducts() {
 			sheetContent={<IntelXeonScrapeOptions sheetRef={bottomSheetRef} />}
 		>
 			<Body>
+				<ProgressBarCustom progress={progress} />
 
 				<Animated.FlatList
 					data={xeonToDisplay}

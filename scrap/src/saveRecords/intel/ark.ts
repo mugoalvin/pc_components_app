@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../db";
-import { ArkEntity } from "@pc/entities/src";
+import { ArkEntity } from "@pc/entities";
 import { handleError } from "../../global/functions";
 
 export async function saveIntelArkGraphics(arkGraphicsCards: any[]) {

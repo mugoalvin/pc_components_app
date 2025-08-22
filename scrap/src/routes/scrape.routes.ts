@@ -19,7 +19,7 @@ scrapeRouter.post('/intel_ark', async (req, res) => {
 
 	if (!Object.values(IntelGraphics).includes(family) || !Object.values(ArkSeries).includes(series))
 		res.json({
-			error: "Invalid Family or Series"
+			errorMsg: "Invalid Family or Series"
 		})
 
 	const desiredGraphicsToScrape: IntelGraphicsScrapingOptions = { family, series }
