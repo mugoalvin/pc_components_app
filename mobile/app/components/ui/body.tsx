@@ -1,30 +1,31 @@
 import React, { ReactNode } from 'react'
-import { StatusBar, useColorScheme } from 'react-native'
+import { StatusBar, useColorScheme, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import ProgressBarCustom from './customProgressBar'
 
 interface BodyProps {
 	children?: ReactNode
 	className?: string
+	progress?: number
 }
 
-export default function Body({ children, className }: BodyProps) {
+export default function Body({ children, className, progress }: BodyProps) {
 	const theme = useTheme()
 	const colorScheme = useColorScheme()
 
 	return (
-		<SafeAreaView
+		<View
 			className={`flex-1 ${className}`}
 			style={{
 				backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background,
-				padding: 10,
-				gap: 20
+				paddingHorizontal: 10,
 			}}>
 			<StatusBar
 				barStyle={colorScheme === 'light' ? 'dark-content' : 'light-content'}
 				backgroundColor={colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background}
 			/>
+			<ProgressBarCustom progress={progress} />
 			{children}
-		</SafeAreaView>
+		</View>
 	)
 }

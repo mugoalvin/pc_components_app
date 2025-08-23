@@ -57,7 +57,7 @@ export default function XeonProducts() {
 		if (serie !== undefined) {
 			setXeonToDisplay(
 				xeonInventory.filter(xeon =>
-					xeon.seriesName === serie &&
+					xeon.seriesName?.toLowerCase() === serie.toLowerCase() &&
 					(selectedChip === "all" ? true : (xeon.vertical_segment)?.toLowerCase().trim() === selectedChip),
 				)
 			)

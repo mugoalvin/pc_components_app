@@ -111,8 +111,8 @@ export default function RyzenBrand() {
 			sheetContent={<RyzenScrapeOptions sheetRef={bottomSheetRef} setIsScrapingInProgress={setIsScrapingInProgress} />}
 		>
 
-			<Body>
-				<ChipView progress={progress}>
+			<Body progress={progress} >
+				<ChipView>
 					<ChipCustom
 						chipText='All'
 						selected={isAllSelected}
