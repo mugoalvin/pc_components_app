@@ -140,9 +140,8 @@ export default function RyzenProducts() {
 			initialSnapIndex={-1}
 			sheetContent={<SelectDeviceOptions device={itemDevice} setDevice={setItemDevice} onPress={sourceData} closeSheet={closeSheet} />}
 		>
-			<Body>
-
-				<ChipView progress={progress} >
+			<Body progress={progress} >
+				<ChipView>
 					<ChipCustom chipText="All" selected={isAllChipClicked} onPress={() => {
 						falsifyAllChips()
 						setIsAllChipClicked(prev => !prev)

@@ -102,8 +102,8 @@ export default function CoreProducts() {
 			initialSnapIndex={-1}
 			sheetContent={<IntelCoreScrapeOptions generation={generation} sheetRef={bottomSheetRef} />}
 		>
-			<Body>
-				<ChipView progress={progress}>
+			<Body progress={progress}>
+				<ChipView>
 					<ChipCustom
 						selected={isAllSelected}
 						chipText="All"

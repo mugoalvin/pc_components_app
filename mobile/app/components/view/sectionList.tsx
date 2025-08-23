@@ -18,6 +18,7 @@ export default function CustomSectionList({ sections, isPageRefreshing = false, 
 
 	return (
 		<SectionList
+			className="mt-3"
 			stickySectionHeadersEnabled
 			showsVerticalScrollIndicator={false}
 			sections={sections}

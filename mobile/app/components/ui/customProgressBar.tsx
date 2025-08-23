@@ -11,8 +11,8 @@ export default function ProgressBarCustom({ progress }: ProgressBarCustomProps) 
 			indeterminate={progress! > 100}
 			progress={progress === undefined ? 0 : progress / 100}
 			style={{
-				marginBottom: 0,
 				height: 2,
+				marginBottom: 10
 			}}
 		/>
 	)

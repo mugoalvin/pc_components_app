@@ -76,8 +76,8 @@ export default function UltraLine() {
 			initialSnapIndex={-1}
 			sheetContent={<IntelUltraScrapeOptions sheetRef={bottomSheetRef} />}
 		>
-			<Body>
-				<ChipView progress={progress} >
+			<Body progress={progress} >
+				<ChipView>
 					<ChipCustom
 						chipText="All"
 						selected={isAllSelected}
