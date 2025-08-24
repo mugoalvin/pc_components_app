@@ -1,95 +1,80 @@
 import axios from 'axios'
 import Constants from 'expo-constants'
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 
 type WebSocketContextType = {
 	socket: WebSocket | null
+	connectWebSocket: () => Promise<WebSocket>
 	sendMessage: (msg: string) => void
-	runTask: (
-		endpoint: string,
-		onProgress: (data: any) => void,
-		body?: Record<string, any>
-	) => Promise<void>
 }
 
 
 const WebSocketContext = createContext<WebSocketContextType>({
 	socket: null,
+	connectWebSocket: async () => { throw new Error("WebSocketProvider not mounted") },
 	sendMessage: () => { },
-	runTask: async () => { },
 })
 
-
 export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	let reconnectTimeout: NodeJS.Timeout
 	const [socketState, setSocketState] = useState<WebSocket | null>(null)
-	const taskFinalizerRef = useRef<{ resolve: (v: any) => void; reject: (e: any) => void } | null>(null)
 	const socketRef = useRef<WebSocket | null>(null)
 	const progressCallbackRef = useRef<((data: any) => void) | null>(null)
 
-	const runTask = (endpoint: string, onProgress: (data: any) => void, body?: Record<string, any>) => {
-		return new Promise<void>(async (resolve, reject) => {
-			progressCallbackRef.current = onProgress;
-			taskFinalizerRef.current = { resolve, reject };
-			try {
-				await axios.post(`${apiDomain}${endpoint}`, body || {});
-			} catch (err) {
-				taskFinalizerRef.current = null;
-				progressCallbackRef.current = null;
-				reject(err);
-			}
-		});
-	};
 
+	const connectWebSocket = useCallback(async () => {
+		if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+			return socketRef.current
+		}
 
-	useEffect(() => {
-		let cleanup: (() => void) | undefined;
+		try {
+			const serverDomain: string = (await axios.get(`${apiDomain}/websocket/start`)).data
+			const webSocketDomain = serverDomain.replace('http', 'ws')
 
-		(async () => {
-			const serverDomain: string = (await axios.get(`${apiDomain}/websocket/start`)).data;
-			const webSocketDomain = serverDomain.replace('http', 'ws');
+			const socket = new WebSocket(webSocketDomain)
+			socketRef.current = socket
+			setSocketState(socket)
 
-			const socket = new WebSocket(webSocketDomain);
-			socketRef.current = socket;
-			setSocketState(socket);
-
-			socket.onopen = () => console.log("✅ WebSocket connected");
-
+			socket.onopen = () => console.log("✅ WebSocket connected")
 			socket.onmessage = (event) => {
-				console.log(event)
-
-				let data: any = event.data;
-				data = JSON.parse(event.data);
-
-				// default: treat as progress
-				progressCallbackRef.current?.(data);
-			};
+				let data: any = event.data
+				console.log(data.progress)
+				try { data = JSON.parse(event.data) } catch { }
+				progressCallbackRef.current?.(data)
+			}
 
 			socket.onclose = () => {
-				console.log("❌ WebSocket closed");
-				taskFinalizerRef.current?.reject(new Error('WebSocket closed'));
-				taskFinalizerRef.current = null;
-				progressCallbackRef.current = null;
-				setSocketState(null);
-			};
+				console.log("❌ WebSocket closed")
+				setSocketState(null)
+				socketRef.current = null
+			}
 
-			cleanup = () => socket.close();
-		})();
+			socket.onerror = () => {
+				console.log("Websocket error:")
+				socket.close()
+			}
 
-		return () => { cleanup?.(); };
-	}, []);
-
-
+			return socket
+		} catch (err) {
+			console.error("Failed to connect WebSocket:", err)
+			throw err
+		}
+	}, [])
 
 	const sendMessage = (msg: string) => {
 		if (socketRef.current?.readyState === WebSocket.OPEN) {
 			socketRef.current.send(msg);
 		}
-	};
+	}
+
+	useEffect(() => {
+		connectWebSocket()
+	}, [])
 
 	return (
-		<WebSocketContext.Provider value={{ socket: socketState, sendMessage, runTask }}>
+		<WebSocketContext.Provider value={{ socket: socketState, connectWebSocket, sendMessage }}>
 			{children}
 		</WebSocketContext.Provider>
 	);
