@@ -1,8 +1,8 @@
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useNavigation } from "expo-router";
-import React, { useEffect, useMemo, useRef } from "react";
-import { View } from "react-native";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { RefreshControl, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useTheme } from "react-native-paper";
 
@@ -16,15 +16,25 @@ import RecommendedForYou from "../components/ui/dashboard/recommendedForYou";
 import DashboardSection from "../components/ui/dashboard/section";
 import ToolsAndUtils from "../components/ui/dashboard/tools&Utils";
 import { connectDatabase } from '../services/scrape';
+import { useWebSocket } from '@/context/WebsockerContext';
 
 
 const Dashboard = () => {
 	const theme = useTheme()
 	const navigator = useNavigation()
+	const { connectWebSocket } = useWebSocket()
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['50%', '75%'], [])
 	const openSheet = () => bottomSheetRef.current?.snapToIndex(0)
+
+	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
+
+	const onrefresh = async () => {
+		setIsPageRefreshing(true)
+		await connectWebSocket()
+		setIsPageRefreshing(false)
+	}
 
 	useEffect(() => {
 		navigator.setOptions({
@@ -42,7 +52,18 @@ const Dashboard = () => {
 			sheetContent={<ThemeChooser />}
 		>
 			<Body>
-				<ScrollView showsVerticalScrollIndicator={false} className='flex-col'>
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					className='flex-col'
+					refreshControl={
+						<RefreshControl
+							colors={[theme.colors.inversePrimary, theme.colors.errorContainer]}
+							progressBackgroundColor={theme.colors.inverseSurface}
+							refreshing={isPageRefreshing}
+							onRefresh={onrefresh}
+						/>
+					}
+				>
 
 					<DashboardSection
 						HeaderComponent={
