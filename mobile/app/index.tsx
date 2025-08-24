@@ -183,6 +183,5 @@ export async function syncNvidiaGeforceInventory() {
 }
 
 export default function Index() {
-	// if (!isAllLoaded) return <CustomSplashScreen />
 	return <Dashboard />
 }

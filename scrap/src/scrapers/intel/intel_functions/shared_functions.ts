@@ -18,6 +18,7 @@ const { intel_website_domain } = process.env
 async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
 	await page.goto(`${intel_website_domain}${processor.link}`)
 	const detailedData = await page.evaluate(() => {
+		const imageSrc = document.querySelector(".product-spec-block.hidden-mobile figure span img")?.getAttribute("src")
 		const sections = Array.from(document.querySelectorAll(".tech-section"))
 		return sections.map(section => {
 			const rows = Array.from(section.querySelectorAll(".tech-section-row"))
@@ -29,10 +30,10 @@ async function getMoreInfoPerProduct(page: Page, processor: InitialIntelProps) {
 						row.querySelector(".tech-data a")?.textContent
 
 					return { ...acc, [label]: value }
-				}, {})
+				}, {}), image: imageSrc
 			}
 		})
-	})
+	}, intel_website_domain)
 
 	const flattenedData = detailedData.reduce((acc, obj) => ({ ...acc, ...obj }), {})
 
