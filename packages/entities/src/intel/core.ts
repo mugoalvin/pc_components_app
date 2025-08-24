@@ -64,6 +64,9 @@ export class CoreEntity {
     @Column(getColumnOptions("int"))
     number_of_displays_supported?: number;
 
+    @Column(getColumnOptions())
+	image?: string
+
     @CreateDateColumn(getColumnOptions("timestamp"))
     created_at?: Date
 

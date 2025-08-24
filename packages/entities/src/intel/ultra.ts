@@ -50,6 +50,9 @@ export class UltraEntity {
 	@Column(getColumnOptions("int"))
 	xe_cores?: number;
 
+	@Column(getColumnOptions())
+	image?: string
+
 	@CreateDateColumn(getColumnOptions("timestamp"))
 	created_at?: Date
 

@@ -34,6 +34,9 @@ export class ArkEntity {
 	@Column(getColumnOptions())
 	tbp?: string
 
+	@Column(getColumnOptions())
+	image?: string
+
 	@CreateDateColumn(getColumnOptions("timestamp"))
 	created_at?: Date
 

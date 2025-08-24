@@ -60,6 +60,9 @@ export class XeonEntity {
 	@Column(getColumnOptions('int'))
 	max_number_of_memory_channels?: number
 
+	@Column(getColumnOptions())
+	image?: string
+
 	@CreateDateColumn(getColumnOptions("timestamp"))
 	created_at?: Date
 

@@ -2,8 +2,9 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import { v4 as uuidV4 } from 'uuid'
-import { WebSocket, WebSocketServer } from 'ws'
+import { WebSocketServer } from 'ws'
 
+import { initDatabase } from './db'
 import databaseRouter from './routes/database.routes'
 import scrapeRouter from './routes/scrape.routes'
 import webSocketRouter from './routes/websockets/websocket'
@@ -22,6 +23,7 @@ app.use('/websocket', webSocketRouter)
 const clients = new Map<string, any>()
 
 const server = app.listen(SERVER_PORT, () => {
+	initDatabase()
 	console.log(`Server is running on port ${SERVER_PORT}`)
 })
 

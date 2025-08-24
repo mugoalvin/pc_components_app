@@ -130,6 +130,7 @@ export interface IntelCoreUltra {
     code_name?: string;
     vertical_segment?: string;
     series?: string
+    image?: string
     processor_number?: string;
     overall_peak_tops_int8?: number;
     recommended_customer_price?: string;
@@ -251,6 +252,7 @@ export interface IntelCore {
     vertical_segment?: string
     processor_number?: string
     lithography?: string
+    image?: string
     recommended_customer_price?: string
     number_of_performance_cores?: number
     number_of_efficient_cores?: number
@@ -348,6 +350,7 @@ export interface IntelArk {
     name?: string
     model_number?: string
     code_name?: string
+    image?: string
     microarchitecture?: string
     lithography_type?: string
     vertical_segment?: string
@@ -407,6 +410,7 @@ export interface IntelXeon {
     vertical_segment?: string
     processor_number?: string
     seriesName?: string
+    image?: string
     lithography?: string
     recommended_customer_price?: string
     total_cores?: number

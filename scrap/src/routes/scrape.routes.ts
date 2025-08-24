@@ -8,6 +8,7 @@ import runIntelCoreIx from "../scrapers/intel/intel_core_scraper"
 import runIntelUltra from "../scrapers/intel/intel_ultra_scraper"
 import runIntelXeon from '../scrapers/intel/intel_xeon_scraper'
 import runNvidiaGeforce from '../scrapers/nvidia/geforce_scraper'
+import { ProgressReporter } from '../global/websocket/ProgressReporter'
 
 
 const scrapeRouter = express.Router()
@@ -16,6 +17,7 @@ scrapeRouter.use(express.json());
 
 scrapeRouter.post('/intel_ark', async (req, res) => {
 	const { family, series } = req.body
+	const reporter = new ProgressReporter()
 
 	if (!Object.values(IntelGraphics).includes(family) || !Object.values(ArkSeries).includes(series))
 		res.json({
@@ -29,6 +31,7 @@ scrapeRouter.post('/intel_ark', async (req, res) => {
 		res.json({ success: `Successfully saved ${productCount} Intel Ark Graphics Cards.` })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
@@ -39,6 +42,7 @@ scrapeRouter.post('/intel_ark', async (req, res) => {
 
 scrapeRouter.post('/intel_ultra', async (req, res) => {
 	const { series } = req.body
+	const reporter = new ProgressReporter()
 
 	if (!IntelUltraSeriesValues.includes(series))
 		res.json({
@@ -50,6 +54,7 @@ scrapeRouter.post('/intel_ultra', async (req, res) => {
 		res.json({ success: `Successfully saved Intel Ultra ${series} Processors.` })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
@@ -60,6 +65,7 @@ scrapeRouter.post('/intel_ultra', async (req, res) => {
 
 scrapeRouter.post('/intel_core', async (req, res): Promise<any> => {
 	const { tier, generation } = req.body
+	const reporter = new ProgressReporter()
 
 	if (tier && !intelTiers.includes(tier))
 		res.json({ errorMsg: `Invalid Processor Tier "${tier}"` })
@@ -73,6 +79,7 @@ scrapeRouter.post('/intel_core', async (req, res): Promise<any> => {
 		res.json({ success: `Successfully saved ${generation}th gen Intel Core ${tier} Processors.` })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
@@ -82,6 +89,7 @@ scrapeRouter.post('/intel_core', async (req, res): Promise<any> => {
 
 scrapeRouter.post('/intel_xeon', async (req, res): Promise<any> => {
 	const { series, seriesName } = req.body
+	const reporter = new ProgressReporter()
 
 	if (series < 0 || series > 23)
 		res.json({ errorMsg: 'Invalid Xeon Series' })
@@ -91,6 +99,7 @@ scrapeRouter.post('/intel_xeon', async (req, res): Promise<any> => {
 		res.json({ success: `Successfully saved ${count} Intel Xeon Processors.` })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
@@ -101,12 +110,14 @@ scrapeRouter.post('/intel_xeon', async (req, res): Promise<any> => {
 
 scrapeRouter.post('/amd_ryzen', async function (req, res) {
 	const { isLaptop, series } = req.body
+	const reporter = new ProgressReporter()
 	try {
 		const isLaptopProcessors = isLaptop
 		const processorCount = await runRyzenScraper(isLaptopProcessors, series)
 		res.json({ success: `Successfully saved ${processorCount} Ryzen processors` })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
@@ -117,11 +128,13 @@ scrapeRouter.post('/amd_ryzen', async function (req, res) {
 
 scrapeRouter.post('/amd_radeon', async function (req, res) {
 	const { series } = req.body
+	const reporter = new ProgressReporter()
 	try {
 		await runRadeonRxScraper(series)
 		res.json({ success: 'Successfully saved all Radeon Cards.' })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
@@ -131,11 +144,13 @@ scrapeRouter.post('/amd_radeon', async function (req, res) {
 
 scrapeRouter.post('/geforce', async function (req, res) {
 	const { series } = req.body
+	const reporter = new ProgressReporter()
 	try {
 		const length = await runNvidiaGeforce(series)
 		res.json({ success: `Successfully scraped ${length} Nvidia Cards.` })
 	}
 	catch (error: any) {
+		reporter.report(0)
 		res.status(500).json({
 			errorMsg: error.message
 		})
