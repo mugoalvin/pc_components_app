@@ -4,7 +4,7 @@ import { openPage } from '@/utils/stackOptions'
 import { DashboardCategoryTypeArray, ProductBrandFilter } from '@/utils/types'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { RefreshControl, ScrollView } from 'react-native'
+import { FlatList } from 'react-native'
 
 import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncIntelXeonInventoryCount, syncRyzenInventoryCount } from "@/app/index"
 import useSnackbarContext from "@/context/SnackbarContext"
@@ -12,6 +12,7 @@ import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
 import CategoryListing from '../components/cards/categoryListing'
 import HeaderBackArrow from "../components/headerBackArrow"
 import Body from '../components/ui/body'
+import { Divider } from "react-native-paper"
 
 export default function ProductsBrands() {
 	const navigator = useNavigation()
@@ -19,8 +20,6 @@ export default function ProductsBrands() {
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent } = params
 	const capitalizeFirstCharacter = (text: string) => (text.slice(0, 1) as string).toUpperCase().concat((text as string).slice(1))
-
-	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
 
 	const runSync = async () => {
 		try {
@@ -51,58 +50,47 @@ export default function ProductsBrands() {
 
 	return (
 		<Body>
-			<ScrollView
-				refreshControl={
-					<RefreshControl
-						refreshing={isPageRefreshing}
-						onRefresh={async () => {
-							setIsPageRefreshing(true)
-							runSync()
-							setIsPageRefreshing(false)
-						}}
+			{
+				String(selectedComponent) === "0" && (
+					<FlatList
+						data={processorsBrandsArray}
+						renderItem={({ item }) =>
+							<CategoryListing
+								key={item.name}
+								label={item.name}
+								image={item.logoImage}
+								tables={item.tableNames}
+								onClick={() => openPage({
+									selectedComponent: Number(selectedComponent),
+									brand: ProcessorsEnum[item.name as keyof typeof ProcessorsEnum]
+								})}
+							/>
+						}
+						ItemSeparatorComponent={() => <Divider />}
 					/>
-				}
-			>
-				{
-					String(selectedComponent) === "0" && (
-						processorsBrandsArray.map(brand => {
-							return (
-								<CategoryListing
-									key={brand.name}
-									label={brand.name}
-									image={brand.logoImage}
-									tables={brand.tableNames}
-									onClick={() => openPage({
-										selectedComponent: Number(selectedComponent),
-										brand: ProcessorsEnum[brand.name as keyof typeof ProcessorsEnum]
-									})}
-								/>
-							)
-						})
-					)
-				}
+				)
+			}
 
-
-				{
-					String(selectedComponent) === "1" && (
-						graphicsBrandsArray.map(brand => {
-							return (
-								<CategoryListing
-									key={brand.name}
-									label={brand.name}
-									image={brand.logoImage}
-									tables={brand.tableNames}
-									onClick={() => openPage({
-										selectedComponent: Number(selectedComponent),
-										brand: GraphicsBrandEnum[brand.enumName as keyof typeof GraphicsBrandEnum]
-									})}
-								/>
-							)
-						})
-					)
-				}
-
-			</ScrollView>
+			{
+				String(selectedComponent) === "1" && (
+					<FlatList
+						data={graphicsBrandsArray}
+						renderItem={({ item }) =>
+							<CategoryListing
+								key={item.name}
+								label={item.name}
+								image={item.logoImage}
+								tables={item.tableNames}
+								onClick={() => openPage({
+									selectedComponent: Number(selectedComponent),
+									brand: GraphicsBrandEnum[item.enumName as keyof typeof GraphicsBrandEnum]
+								})}
+							/>
+						}
+						ItemSeparatorComponent={() => <Divider />}
+					/>
+				)
+			}
 		</Body>
 	)
 }

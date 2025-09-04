@@ -11,7 +11,7 @@ interface SpecificationsProps {
 }
 export default function Specifications({ data }: SpecificationsProps) {
 	const theme = useTheme()
-	const processedDummyData = Object.keys(
+	const relevantComponentData = Object.keys(
 		data
 	).filter(
 		key => 
@@ -26,7 +26,7 @@ export default function Specifications({ data }: SpecificationsProps) {
 		<View className='mb-5'>
 			<SubTitle bold className='mb-5'>Specifications</SubTitle>
 			{
-				processedDummyData?.map((item, index) => (
+				relevantComponentData?.map((item, index) => (
 					<Fragment key={item}>
 						{/* <AppText>{processedDummyData[index]}</AppText> */}
 						{index !== 0 && <Divider bold className='my-2' />}

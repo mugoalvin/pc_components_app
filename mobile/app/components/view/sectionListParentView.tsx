@@ -15,7 +15,7 @@ export default function SectionListParentView({ children } : SectionListParentVi
 			style={{
 				backgroundColor: 
 					colorScheme === 'light'
-					? theme.colors.elevation.level5
+					? "white"
 					: theme.colors.elevation.level2,
 			}}
 		>

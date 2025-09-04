@@ -1,8 +1,9 @@
 import { Image } from "expo-image"
-import { Pressable, useColorScheme } from "react-native"
+import { useColorScheme } from "react-native"
 import { useTheme } from "react-native-paper"
 
 import AppText from "../../texts/appText"
+import BasicCard from "../../view/basicCard"
 
 interface NewPartsProps {
 	image?: string
@@ -17,17 +18,9 @@ export default function NewParts({ image, title, description, index, onPress }: 
 	const colorScheme = useColorScheme()
 
 	return (
-		<Pressable
-			className={`w-36 rounded-xl p-3 ${index !== 0 && 'ml-2'}`}
-			style={{
-				backgroundColor: colorScheme === 'light'
-					? theme.colors.elevation.level5
-					: theme.colors.elevation.level2
-			}}
+		<BasicCard
 			onPress={onPress}
-			android_ripple={{
-				color: theme.colors.secondaryContainer,
-			}}
+			className={`w-36 rounded-xl p-3 ${index !== 0 && 'ml-2'}`}
 		>
 			<Image
 				source={image}
@@ -35,6 +28,6 @@ export default function NewParts({ image, title, description, index, onPress }: 
 			/>
 			<AppText bold className="text-xl mt-2">{title}</AppText>
 			<AppText color={theme.colors.onSurfaceDisabled}>{description}</AppText>
-		</Pressable>
+		</BasicCard>
 	)
 }

@@ -1,3 +1,4 @@
+import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useNavigation } from "expo-router";
@@ -94,7 +95,10 @@ const Dashboard = () => {
 
 					<DashboardSection
 						HeaderComponent={
-							<AppText bold className="text-2xl">Tools & Utilities</AppText>
+							<View className="flex-row gap-2 items-start">
+								<Entypo name="tools" size={20} color={theme.colors.primary} />
+								<AppText bold className="text-2xl">Tools & Utilities</AppText>
+							</View>
 						}
 						BodyComponent={<ToolsAndUtils openSheet={openSheet} />}
 					/>

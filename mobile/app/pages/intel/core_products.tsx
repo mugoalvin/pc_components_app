@@ -76,10 +76,11 @@ export default function CoreProducts() {
 			.filter(core => isIntelGenMatching(core.processor_number || '', Number(generation) as IntelGeneration))
 
 		setCoreToDisplay(
-			chipPressed === 'all' ?
+			(chipPressed === 'all' ?
 				currentProcessors :
 				currentProcessors
-					.filter(core => core.processor_number?.includes(chipPressed))
+					.filter(core => core.processor_number?.includes(chipPressed)))
+				.sort((a, b) => (b.name ?? '').localeCompare(a.name ?? ''))
 		)
 	}, [coreInventory, generation, chipPressed])
 

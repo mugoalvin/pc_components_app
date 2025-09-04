@@ -1,56 +1,66 @@
-import { Image } from 'expo-image'
+import useSnackbarContext from '@/context/SnackbarContext'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
-import { ScrollView, View } from 'react-native'
 import { useTheme } from 'react-native-paper'
-import { Ryzen } from '../../../packages/interfaces'
 import HeaderBackArrow from '../components/headerBackArrow'
-import InsetBlurBox from '../components/insetBlur'
-import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
-import Specifications from '../components/ui/specifications'
-import Compatibility from './compatibility'
+import RyzenMainInfo from '../components/ui/productDetails/ryzenMainInfo'
 
 export default function ProductDetails() {
 	const theme = useTheme()
 	const navigation = useNavigation()
+	const { showSnackbar } = useSnackbarContext()
 	const { processor } = useLocalSearchParams()
-	const product = JSON.parse(processor as string) as Partial<Ryzen>
+	const product = JSON.parse(processor as string) as Partial<any>
 
 	useEffect(() => {
 		navigation.setOptions({
-			title: product.name,
+			title: "",
 			headerLeft: () => (
 				<HeaderBackArrow />
-			)
+			),
+			headerShown: false
 		})
 	}, [])
 
 
 	return (
-		<Body className='flex-col'>
+		<Body >
 			{
-				product.image &&
-				<View className='items-center'>
-					<InsetBlurBox
-						height={150}
-						width={150}
-						shadowSize={30}
-						color={theme.colors.background}
-					>
-						<Image
-							source={product.image}
-							style={{ flex: 1 }}
-						/>
-					</InsetBlurBox>
-				</View>
+				product.family &&
+				product.family === 'Ryzen' &&
+				<RyzenMainInfo product={product} />
 			}
 
-			<ScrollView>
-				<Specifications data={product} />
-
-				<Compatibility />
-			</ScrollView>
 		</Body>
 	)
 }
+
+// <View className='flex-row justify-center'>
+
+// </View>
+
+
+// <View>
+// 	<View className='flex-row items-baseline justify-between'>
+// 		{
+// 			product?.recommended_customer_price
+// 				? <AppText bold className='text-4xl'>{product?.recommended_customer_price}</AppText>
+// 				: <AppText className='text-2xl'>{product?.name}</AppText>
+// 		}
+// 		<IconButton
+// 			icon={() =>
+// 				<AntDesign name='hearto' color={theme.colors.primary} size={16} />
+// 			}
+// 			onPress={() => { }}
+// 		/>
+// 	</View>
+// 	{
+// 		product?.recommended_customer_price && (
+// 			<View className='flex-row items-baseline gap-3'>
+// 				<AppText className='text-2xl'>{product?.name}</AppText>
+// 				<AppText color={theme.colors.onSurfaceDisabled}>{`${product.series} | ${product.architecture}`}</AppText>
+// 			</View>
+// 		)
+// 	}
+// </View>

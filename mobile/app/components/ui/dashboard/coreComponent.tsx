@@ -1,8 +1,9 @@
-import { Pressable, useColorScheme, View } from "react-native";
+import { View } from "react-native";
 import { useTheme } from "react-native-paper";
 
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import AppText from "../../texts/appText";
+import BasicCard from "../../view/basicCard";
 
 type library = "MaterialIcons" | "FontAwesome6" | "MaterialCommunityIcons"
 
@@ -17,17 +18,12 @@ interface CoreComponentProps {
 
 export default function CoreComponent({ iconLib, icon, title, extra, full, onPress }: CoreComponentProps) {
 	const theme = useTheme()
-	const colorScheme = useColorScheme()
 
 	return (
-		<Pressable
-			className={`flex-row ${ full ? 'w-full' :  'w-[49%]'} max-h-28 item-center rounded-xl`}
-			style={{ backgroundColor: colorScheme === 'light'? theme.colors.elevation.level5 : theme.colors.elevation.level2 }}
-			android_ripple={{
-				color: theme.colors.secondaryContainer,
-			}}
+		<BasicCard
+			className={`flex-row ${full ? 'w-full' : 'w-[49%]'} max-h-28 item-center rounded-xl`}
 			onPress={onPress}
-			>
+		>
 			<View className='h-full aspect-[2/3] items-center justify-center'>
 				{
 					iconLib == "MaterialIcons" &&
@@ -64,6 +60,6 @@ export default function CoreComponent({ iconLib, icon, title, extra, full, onPre
 					<AppText className="text-lg" color={theme.colors.onSurfaceDisabled} numberOfLines={1} ellipsizeMode="tail">{extra}</AppText>
 				}
 			</View>
-		</Pressable>
-	)	
+		</BasicCard>
+	)
 }
