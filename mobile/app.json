@@ -55,8 +55,7 @@
       "typedRoutes": true
     },
     "extra": {
-      "API_DOMAIN": "http://192.168.100.2:3000",
-      "WEB_SOCKET_API_DOMAIN": "ws://192.168.100.2:3000",
+      "API_DOMAIN": "http://10.104.194.47:3000",
       "router": {},
       "eas": {
         "projectId": "08c0424d-7446-46df-8dc0-be2c10db4d50"

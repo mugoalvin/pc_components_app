@@ -12,6 +12,7 @@ import { DatabaseTables } from '../../../../packages/types'
 import ImageCust from '../images/imageCust'
 import AppText from '../texts/appText'
 import useIntelXeonStore from '@/zustand/intel/xeon'
+import BasicCard from '../view/basicCard'
 
 interface CategoryListingProps {
 	label?: string
@@ -80,17 +81,10 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 	}
 
 	return (
-		<Pressable
-			className='w-full h-24 px-3 mb-3 rounded-xl flex-row justify-between'
+		<BasicCard
+			className='w-full h-24 px-3 my-2 rounded-xl flex-row justify-between'
+			hasTransparentBackground
 			onPress={onClick}
-			android_ripple={{
-				color: theme.colors.secondaryContainer
-			}}
-			style={{
-				backgroundColor: colorScheme === 'light'
-					? theme.colors.elevation.level5
-					: theme.colors.elevation.level2
-			}}
 		>
 			<View className='flex-row items-center gap-5' >
 				<View className={`items-center justify-center w-14 rounded-md aspect-square`}>
@@ -104,6 +98,6 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 			<View className='justify-center'>
 				<MaterialIcons name='chevron-right' color={theme.colors.onSecondaryContainer} size={20} />
 			</View>
-		</Pressable>
+		</BasicCard>
 	)
 }

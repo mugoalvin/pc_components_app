@@ -7,9 +7,10 @@ interface BodyProps {
 	children?: ReactNode
 	className?: string
 	progress?: number
+	topMargin?: number
 }
 
-export default function Body({ children, className, progress }: BodyProps) {
+export default function Body({ children, className, progress, topMargin }: BodyProps) {
 	const theme = useTheme()
 	const colorScheme = useColorScheme()
 
@@ -19,6 +20,7 @@ export default function Body({ children, className, progress }: BodyProps) {
 			style={{
 				backgroundColor: colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background,
 				paddingHorizontal: 10,
+				marginTop: topMargin
 			}}>
 			<StatusBar
 				barStyle={colorScheme === 'light' ? 'dark-content' : 'light-content'}

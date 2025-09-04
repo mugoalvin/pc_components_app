@@ -7,7 +7,7 @@ interface ChipViewProps {
 
 export default function ChipView({ children }: ChipViewProps) {
 	return (
-		<View className="flex-row gap-2 flex-wrap">
+		<View className="flex-row gap-2 mb-2 flex-wrap">
 			{children}
 		</View>
 	)

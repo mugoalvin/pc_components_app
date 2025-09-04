@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import { ToastAndroid, View } from "react-native";
+import { View } from "react-native";
 import CoreComponent from "./coreComponent";
 
 
@@ -14,13 +14,6 @@ export default function ToolsAndUtils(
 			</View>
 			<View className="flex-row gap-2 justify-between">
 				<CoreComponent key="extra" title="An Extra Button" iconLib="MaterialCommunityIcons" icon="test-tube" onPress={() =>
-					// ToastAndroid.showWithGravityAndOffset(
-					// 	'Unutilized Button!',
-					// 	ToastAndroid.LONG,
-					// 	ToastAndroid.TOP,
-					// 	25,
-					// 	50,
-					// )
 					router.push("/pages/test")
 				} />
 				<CoreComponent key="settings" title='Settings' iconLib="FontAwesome6" icon='gear' onPress={openSheet} />

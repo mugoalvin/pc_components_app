@@ -4,11 +4,13 @@ import React, { useEffect } from "react";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
 import Body from "../components/ui/body";
+import useSnackbarContext from "@/context/SnackbarContext";
 
 
 
 export default function ProgressClient() {
 	const navigation = useNavigation()
+	const { showSnackbar } = useSnackbarContext()
 	const { socket, connectWebSocket } = useWebSocket()
 
 	useEffect(() => {
@@ -23,7 +25,9 @@ export default function ProgressClient() {
 			socket.send("Hello World")
 
 			socket.onmessage = (event: MessageEvent) => {
-				console.log(event.data)
+				showSnackbar({
+					message: event.data
+				})
 			}
 		}
 		else {
