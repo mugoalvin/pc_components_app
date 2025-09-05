@@ -77,6 +77,7 @@ export interface Ryzen {
     regional_availability?: string
     former_codename?: string
     architecture?: string
+    link?: string
     number_of_cpu_cores?: number
     multithreading_smt?: boolean
     number_of_threads?: number

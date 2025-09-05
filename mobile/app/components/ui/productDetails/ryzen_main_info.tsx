@@ -2,7 +2,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { Image } from 'expo-image';
 import { View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
-import Animated, { FadeInLeft } from "react-native-reanimated";
 
 import { Ryzen } from "../../../../../packages/interfaces";
 import AppText from "../../texts/appText";
@@ -51,30 +50,9 @@ export default function RyzenMainInfo({ product }: RyzenMainInfoProps) {
 			</View>
 
 			<View className="my-3">
-				<SubTitle bold className="mb-4">Description</SubTitle>
+				<SubTitle bold>Description</SubTitle>
 				<AppText className="text-xl" >{product.description}</AppText>
 			</View>
 		</>
 	)
 }
-
-// <View className='flex-row items-baseline justify-between bg-red-700'>
-// 	<AppText className='text-2xl'>{product?.name}</AppText>
-// </View>
-// <AppText color={theme.colors.onSurfaceDisabled}>{`${product.series} | ${product.architecture}`}</AppText>
-
-
-{/* <View className='flex-row items-baseline justify-between'>
-				{
-					product?.recommended_customer_price
-						? <AppText bold className='text-4xl'>{product?.recommended_customer_price}</AppText>
-						: <AppText className='text-2xl'>{product?.name}</AppText>
-				}
-			</View>
-			{
-				product?.recommended_customer_price && (
-					<View className='flex-row items-baseline gap-3'>
-						<AppText className='text-2xl'>{product?.name}</AppText>
-					</View>
-				)
-			} */ }

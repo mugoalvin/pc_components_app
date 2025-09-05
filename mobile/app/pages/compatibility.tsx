@@ -3,16 +3,17 @@ import { View } from 'react-native'
 import SubTitle from '../components/texts/subTitle'
 import TextPoints from '../components/texts/textPoints'
 
-export default function Compatibility() {
+interface CompatibilityProps {
+	data?: any
+}
+export default function Compatibility({ data }: CompatibilityProps) {
 
 	return (
 		<View>
-			<SubTitle bold className='mb-2'>Compatibility</SubTitle>
+			<SubTitle bold>Compatibility</SubTitle>
 
 			<View>
-				<TextPoints text='LGA 1700 motherboards' />
-				<TextPoints text='600/700 series chipsets' />
-				<TextPoints text='DDR5 memory recommended' />
+				<TextPoints text={`${ data.cpu_socket } Socket`} />
 			</View>
 		</View>
 	)
