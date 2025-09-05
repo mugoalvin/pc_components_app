@@ -1,19 +1,16 @@
-import useSnackbarContext from '@/context/SnackbarContext'
-import { AntDesign } from '@expo/vector-icons'
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect } from 'react'
-import { View } from 'react-native'
-import { IconButton, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Ryzen } from '../../../packages/interfaces'
 import HeaderBackArrow from '../components/headerBackArrow'
-import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
-import RyzenMainInfo from '../components/ui/productDetails/ryzenMainInfo'
-import Specifications from '../components/ui/specifications'
+import IntelInfoPage from './intel/intel_info_page'
+import RyzenInfoPage from './ryzen/ryzenInfoPage'
 
 export default function ProductDetails() {
 	const theme = useTheme()
 	const navigation = useNavigation()
-	const { showSnackbar } = useSnackbarContext()
 	const { processor } = useLocalSearchParams()
 	const product = JSON.parse(processor as string) as Partial<any>
 
@@ -29,14 +26,19 @@ export default function ProductDetails() {
 
 
 	return (
-		<Body >
-			{
-				product.family &&
-				product.family === 'Ryzen' &&
-				<RyzenMainInfo product={product} />
-			}
+		<Body>
+			<SafeAreaView className='flex-1 gap-3'>
+				{
+					product.family &&
+					product.family === 'Ryzen' &&
+					<RyzenInfoPage product={product as Ryzen} />
+				}
 
+				{
+					(product.name as string).toLowerCase().includes('intel') &&
+					<IntelInfoPage product={product} />
+				}
+			</SafeAreaView>
 		</Body>
 	)
 }
-
