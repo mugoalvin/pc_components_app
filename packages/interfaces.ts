@@ -12,6 +12,7 @@ export interface Radeon {
     name?: string
     family?: string
     series?: string
+    description?: string
     board_type?: string
     os_support?: string[]
     additional_power_connector?: string
@@ -69,6 +70,7 @@ export interface Ryzen {
     series?: string
     image?: string
     device?: string
+    description?: string
     form_factor?: string
     market_segment?: string
     amd_pro_technologies?: boolean

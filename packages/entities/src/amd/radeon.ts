@@ -18,6 +18,9 @@ export class RadeonEntity {
     series?: string
 
     @Column(getColumnOptions())
+    description?: string
+
+    @Column(getColumnOptions())
     max_memory_size?: string
 
     @Column(getColumnOptions())

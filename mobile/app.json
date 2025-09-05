@@ -1,32 +1,34 @@
 {
   "expo": {
-    "name": "Pc Components",
-    "slug": "pc-components",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "mobile",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "jsEngine": "hermes",
-    "ios": {
-      "jsEngine": "jsc",
-      "supportsTablet": true,
-      "bundleIdentifier": "com.mugoalvin.pccomponents"
-    },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/images/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.mugoalvin.pccomponents"
     },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+    "experiments": {
+      "typedRoutes": true
     },
+    "extra": {
+      "API_DOMAIN": "http://192.168.100.32:3000",
+      "eas": {
+        "projectId": "08c0424d-7446-46df-8dc0-be2c10db4d50"
+      },
+      "router": {}
+    },
+    "icon": "./assets/images/icon.png",
+    "ios": {
+      "bundleIdentifier": "com.mugoalvin.pccomponents",
+      "jsEngine": "jsc",
+      "supportsTablet": true
+    },
+    "jsEngine": "hermes",
+    "name": "Pc Components",
+    "newArchEnabled": true,
+    "orientation": "portrait",
+    "owner": "mugoalvin",
     "plugins": [
       [
         "expo-dev-client",
@@ -38,10 +40,10 @@
       [
         "expo-splash-screen",
         {
+          "backgroundColor": "#ffffff",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "resizeMode": "contain"
         }
       ],
       [
@@ -51,20 +53,18 @@
         }
       ]
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "API_DOMAIN": "http://10.104.194.47:3000",
-      "router": {},
-      "eas": {
-        "projectId": "08c0424d-7446-46df-8dc0-be2c10db4d50"
-      }
-    },
-    "owner": "mugoalvin",
     "runtimeVersion": "1.0.0",
+    "scheme": "mobile",
+    "slug": "pc-components",
     "updates": {
       "url": "https://u.expo.dev/08c0424d-7446-46df-8dc0-be2c10db4d50"
+    },
+    "userInterfaceStyle": "automatic",
+    "version": "1.0.0",
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png",
+      "output": "static"
     }
   }
 }

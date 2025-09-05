@@ -55,7 +55,7 @@ export async function scrapeRadeon(requestParams: RadeonScraperRequestType) {
 
 	try {
 		const res = await axios.post(`${apiDomain}/scrape/radeon`, requestParams)
-		Alert.alert("Successful Radeon Scrape", res.data.success)
+		return res.data.success
 	}
 	catch (err: any) {
 		const error: string = err.response?.data?.errorMsg
