@@ -62,7 +62,7 @@ export async function fetchProductDetails(page: Page, product: InitialAmdProps, 
 
     return Object.entries(specs).reduce((acc, [key, value]) => ({
         ...acc,
-        [key === 'image' ? key : normalizeKey(key)]: key === 'image' ? value : normalizeValue(value)
+        [key === 'image' ? key : normalizeKey(key)]: key === 'image' ? value : normalizeValue(value || '')
     }), {})
 }
 
@@ -78,11 +78,13 @@ async function getMoreRyzenInfo(page: Page, product: InitialAmdProps) {
     await page.waitForSelector("#panel-product-specs")
 
     return await page.evaluate((product, domain) => {
+        const description = document.querySelector("#product-overview p")?.textContent
         const specSections = Array.from(document.querySelectorAll("#panel-product-specs .accordion-body dl div"))
         const image = document.querySelector(".cmp-image__image")?.getAttribute('src') || ''
         const imageUrl = image !== '' ? `${domain}${image}` : ''
 
         return {
+            description: description,
             image: imageUrl,
             link: product.link,
             ...specSections.reduce((acc, spec) => {
@@ -105,6 +107,7 @@ async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
     await page.click('.expansion-toggle.text-end')
 
     return await page.evaluate((product, domain) => {
+        const description = document.querySelector("#product-overview p")?.textContent
         const lists = document.querySelectorAll(".accordion.accordion-flush.product-specs-categories li")
         const allSpecs = {}
 
@@ -122,6 +125,7 @@ async function getMoreRadeonRxInfo(page: Page, product: InitialAmdProps) {
         }
 
         return {
+            description: description,
             image: imageUrl,
             link: product.link,
             ...allSpecs
@@ -159,7 +163,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             handleError(error, `Failed to fetch info for ${product.name}`)
         }
     }
-    return detailedSpecs
+    return detailedSpecs.reverse()
 }
 
 /**
@@ -172,7 +176,6 @@ export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | Ryze
     const browser = await launch(launchOptions)
     try {
         const page = await browser.newPage()
-        // await page.goto(`${url.domain}${url.route}`, { waitUntil: ['networkidle0', 'domcontentloaded', 'load'] })
         await page.goto(`${url.domain}${url.route}`)
 
         const amd_series = await fetchAmdSeriesIds(page, url.tabIndex || 1)

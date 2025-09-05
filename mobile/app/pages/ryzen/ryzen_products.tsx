@@ -26,7 +26,6 @@ import Body from "../../components/ui/body";
 import { syncRyzenInventory } from "../../index";
 import { scrapeRyzen } from "../../services/scrape";
 
-
 export default function RyzenProducts() {
 	const theme = useTheme()
 	const navigation = useNavigation()

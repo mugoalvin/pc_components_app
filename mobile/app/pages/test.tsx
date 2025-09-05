@@ -1,17 +1,20 @@
 import { useWebSocket } from "@/context/WebsockerContext";
 import { useNavigation } from "expo-router";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonCustom from "../components/buttons/buttonCust";
 import HeaderBackArrow from "../components/headerBackArrow";
 import Body from "../components/ui/body";
 import useSnackbarContext from "@/context/SnackbarContext";
+import { scrapeRadeon } from "../services/scrape";
+import { RadeonSeriesEnum } from "../../../packages/types";
 
 
 
 export default function ProgressClient() {
 	const navigation = useNavigation()
 	const { showSnackbar } = useSnackbarContext()
-	const { socket, connectWebSocket } = useWebSocket()
+	const { socket } = useWebSocket()
+	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	useEffect(() => {
 		navigation.setOptions({
@@ -20,32 +23,32 @@ export default function ProgressClient() {
 		})
 	}, [])
 
-	function makeCall() {
-		if (socket) {
-			socket.send("Hello World")
-
-			socket.onmessage = (event: MessageEvent) => {
-				showSnackbar({
-					message: event.data
-				})
-			}
-		}
-		else {
-			console.log("Connection not made")
+	if (socket) {
+		socket.onmessage = (event: MessageEvent) => {
+			const { progress } = JSON.parse(event.data)
+			setProgress(progress === 100 ? undefined : progress)
 		}
 	}
 
 	return (
-		<Body className="items-center justify-center gap-4">
+		<Body className="items-center justify-center gap-4" progress={progress}>
 			<ButtonCustom
-				btnText="Connect Websocket"
+				btnText="Scrape Radeon RX GPUs"
 				className="w-1/2"
-				onPress={connectWebSocket}
-			/>
-			<ButtonCustom
-				btnText="Call Websocket"
-				className="w-1/2"
-				onPress={makeCall}
+				onPress={() => 
+					scrapeRadeon({
+						series: RadeonSeriesEnum.Series9000
+					}).then(resMsg => {
+						showSnackbar({
+							message: resMsg
+						})
+					}).catch(error => 
+						showSnackbar({
+							message: error.errMsg || error.errTitle || "Unknown Error Occured",
+							isError: true
+						})
+					)
+				}
 			/>
 		</Body>
 	);

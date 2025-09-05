@@ -30,6 +30,9 @@ export class RyzenEntity {
 	number_of_threads?: number
 
 	@Column(getColumnOptions())
+	description?: string
+
+	@Column(getColumnOptions())
 	max_boost_clock?: string
 
 	@Column(getColumnOptions())
