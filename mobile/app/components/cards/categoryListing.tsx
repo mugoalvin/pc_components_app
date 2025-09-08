@@ -3,15 +3,15 @@ import useRyzenStore from '@/zustand/amd/ryzen'
 import useIntelArkStore from '@/zustand/intel/ark'
 import useIntelCoreStore from '@/zustand/intel/core'
 import useIntelCoreUltraStore from '@/zustand/intel/ultra'
+import useIntelXeonStore from '@/zustand/intel/xeon'
 import useNvidiaGeforceStore from '@/zustand/nvidia/geforce'
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
-import { Pressable, useColorScheme, View } from 'react-native'
+import { View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { DatabaseTables } from '../../../../packages/types'
 import ImageCust from '../images/imageCust'
 import AppText from '../texts/appText'
-import useIntelXeonStore from '@/zustand/intel/xeon'
 import BasicCard from '../view/basicCard'
 
 interface CategoryListingProps {
@@ -25,8 +25,7 @@ interface CategoryListingProps {
 
 export default function CategoryListing({ label, tables, image, onClick }: CategoryListingProps) {
 	const theme = useTheme()
-	const colorScheme = useColorScheme()
-	
+
 	const ryzenCount = useRyzenStore(state => state.ryzen_inventory_count)
 	const radeonCount = useRadeonStore(state => state.radeon_inventory_count)
 
@@ -82,7 +81,7 @@ export default function CategoryListing({ label, tables, image, onClick }: Categ
 
 	return (
 		<BasicCard
-			className='w-full h-24 px-3 my-2 rounded-xl flex-row justify-between'
+			className='flex-row justify-between px-3 my-2 h-20 rounded-xl'
 			hasTransparentBackground
 			onPress={onClick}
 		>

@@ -1,25 +1,27 @@
 import { ReactNode } from "react";
-import { useColorScheme, View } from "react-native";
+import { useColorScheme } from "react-native";
 import { useTheme } from "react-native-paper";
+import Animated from "react-native-reanimated";
 
 interface SectionListParentViewProps {
 	children: ReactNode
 }
-export default function SectionListParentView({ children } : SectionListParentViewProps) {
+
+export default function SectionListParentView({ children }: SectionListParentViewProps) {
 	const theme = useTheme()
 	const colorScheme = useColorScheme()
 
 	return (
-		<View
+		<Animated.View
 			className='px-3 rounded-xl mb-5'
 			style={{
-				backgroundColor: 
+				backgroundColor:
 					colorScheme === 'light'
-					? "white"
-					: theme.colors.elevation.level2,
+						? theme.colors.elevation.level3
+						: theme.colors.elevation.level2,
 			}}
 		>
-			{ children }
-		</View>
+			{children}
+		</Animated.View>
 	)
 }

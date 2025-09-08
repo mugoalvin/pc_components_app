@@ -7,6 +7,7 @@ import { FlatGrid } from 'react-native-super-grid'
 import { Ryzen } from '../../../../../packages/interfaces'
 import AppText from '../../texts/appText'
 import SubTitle from '../../texts/subTitle'
+import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
 
 interface RyzenSpecifications {
 	ryzenData: Ryzen
@@ -39,16 +40,15 @@ export default function RyzenSpecifications({ ryzenData }: RyzenSpecifications) 
 
 	return (
 		<View className='mb-5'>
-			<SubTitle bold
-			>Specifications</SubTitle>
+			<SubTitle bold enteringAnimation={FadeInRight.springify().delay(1600)}>Specifications</SubTitle>
 
 			<FlatGrid
 				data={dataInCards}
-				renderItem={({ item }) =>
-					<View className='p-3 rounded-lg justify-between min-h-[60]' style={{ backgroundColor: theme.colors.elevation.level2 }}>
+				renderItem={({ item, index }) =>
+					<Animated.View className='p-3 rounded-lg justify-between min-h-[60]' entering={FadeInDown.duration(500).delay(1900 + (index + 1) * 200)} style={{ backgroundColor: theme.colors.elevation.level2 }}>
 						<AppText className='text-xl text-right' color={theme.colors.onSurfaceDisabled}>{item.title}</AppText>
 						<AppText className='text-5xl text-center'>{item.info}</AppText>
-					</View>
+					</Animated.View>
 				}
 				itemDimension={150}
 			/>

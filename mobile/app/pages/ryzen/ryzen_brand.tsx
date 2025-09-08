@@ -15,8 +15,8 @@ import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import { ActivityIndicator, Portal, useTheme } from 'react-native-paper'
+import { View } from 'react-native'
+import { ActivityIndicator, IconButton, Portal, useTheme } from 'react-native-paper'
 import { Ryzen } from '../../../../packages/interfaces'
 import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../packages/types'
 import ChipCustom from '../../components/buttons/chips'
@@ -91,9 +91,13 @@ export default function RyzenBrand() {
 			headerTitle: "Ryzen",
 			headerLeft: () => <HeaderBackArrow />,
 			headerRight: () => (
-				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={openSheet}>
-					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
-				</TouchableOpacity>
+				<IconButton
+					icon={() =>
+						<Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />
+					}
+					onPress={openSheet}
+					hitSlop={10}
+				/>
 			)
 		})
 	}, [navigator])

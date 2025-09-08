@@ -1,20 +1,22 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useTheme } from 'react-native-paper'
+import Animated, { BounceIn } from 'react-native-reanimated'
 import AppText from './appText'
 
 interface TextPointsProps {
 	text?: string
 	color?: string
+	enteringAnimation?: object
 }
 
-export default function TextPoints({ color, text } : TextPointsProps) {
+export default function TextPoints({ color, text, enteringAnimation }: TextPointsProps) {
 	const theme = useTheme()
 
 	return (
 		<View className='flex-row items-center'>
-			<View className='h-2 aspect-square rounded-full m-3' style={{ backgroundColor: color || theme.colors.primary }} />
-			<AppText>{text}</AppText>
+			<Animated.View className='h-2 aspect-square rounded-full m-3' style={{ backgroundColor: color || theme.colors.primary }} entering={BounceIn.delay(3400)} />
+			<AppText enteringAnimation={enteringAnimation}>{text}</AppText>
 		</View>
 	)
 }
