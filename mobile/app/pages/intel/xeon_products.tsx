@@ -1,22 +1,24 @@
 import IntelXeonScrapeOptions from "@/app/components/buttomSheet/intelXeonscrapeOptions"
 import ProductCard from "@/app/components/cards/productCard"
 import HeaderBackArrow from "@/app/components/headerBackArrow"
-import HeaderRightIcon from "@/app/components/headerRightIcon"
 import Body from "@/app/components/ui/body"
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet"
-import ProgressBarCustom from "@/app/components/ui/customProgressBar"
 import { syncIntelXeonInventory } from "@/app/index"
 import { useWebSocket } from "@/context/WebsockerContext"
 import { XeonChipsOptions } from "@/utils/types"
 import useIntelXeonStore from "@/zustand/intel/xeon"
+import { Ionicons } from "@expo/vector-icons"
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router, useNavigation } from "expo-router"
 import { useEffect, useMemo, useRef, useState } from "react"
+import { IconButton, useTheme } from "react-native-paper"
 import Animated from "react-native-reanimated"
+
 import { IntelXeon } from "../../../../packages/interfaces"
 
 export default function XeonProducts() {
+	const theme = useTheme()
 	const navigation = useNavigation()
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['40%'], [])
@@ -46,7 +48,14 @@ export default function XeonProducts() {
 		navigation.setOptions({
 			title: 'Intel Xeon',
 			headerLeft: () => <HeaderBackArrow />,
-			headerRight: () => <HeaderRightIcon iconName="cloud-download-outline" onPressFunction={openSheet} />
+			headerRight: () =>
+				<IconButton
+					icon={() =>
+						<Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />
+					}
+					onPress={openSheet}
+					hitSlop={10}
+				/>
 		})
 
 		getAsync()
@@ -72,8 +81,7 @@ export default function XeonProducts() {
 			initialSnapIndex={-1}
 			sheetContent={<IntelXeonScrapeOptions sheetRef={bottomSheetRef} />}
 		>
-			<Body>
-				<ProgressBarCustom progress={progress} />
+			<Body progress={progress}>
 
 				<Animated.FlatList
 					data={xeonToDisplay}

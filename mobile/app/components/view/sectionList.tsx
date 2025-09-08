@@ -37,7 +37,7 @@ export default function CustomSectionList({ sections, isPageRefreshing = false, 
 					key={title}
 					bg_color={colorScheme === 'light' ? theme.colors.elevation.level1 : theme.colors.background}
 					bold
-					className='text-2xl'
+					className='text-3xl'
 					color={theme.colors.onBackground}
 				>
 					{title}

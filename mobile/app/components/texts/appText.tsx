@@ -1,8 +1,9 @@
 import { ReactNode } from 'react'
-import { Text } from 'react-native'
 import { useTheme } from 'react-native-paper'
+import Animated from 'react-native-reanimated'
 
 export interface AppTextProps {
+	enteringAnimation?: object
 	bold?: boolean
 	children?: ReactNode
 	color?: string
@@ -12,11 +13,12 @@ export interface AppTextProps {
 	ellipsizeMode?: "head" | "middle" | "tail" | "clip"
 }
 
-export default function AppText({bold, bg_color, children, color, className, ellipsizeMode, numberOfLines }: AppTextProps) {
+export default function AppText({ enteringAnimation, bold, bg_color, children, color, className, ellipsizeMode, numberOfLines }: AppTextProps) {
 	const theme = useTheme()
 
 	return (
-		<Text
+		<Animated.Text // @ts-expect-error
+			entering={enteringAnimation}
 			numberOfLines={numberOfLines}
 			ellipsizeMode={ellipsizeMode}
 			className={`
@@ -29,6 +31,6 @@ export default function AppText({bold, bg_color, children, color, className, ell
 			}}
 		>
 			{children}
-		</Text>
+		</Animated.Text>
 	)
 }

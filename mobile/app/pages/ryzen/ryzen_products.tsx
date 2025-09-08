@@ -3,14 +3,13 @@ import ChipView from "@/app/components/ui/chipView";
 import { filterRyzenWithPerformanceTier } from "@/utils/functions";
 import { ProductBrandFilter, RyzenDeviceChipsOptions, RyzenTierChipsOptions } from "@/utils/types";
 import useRyzenStore from "@/zustand/amd/ryzen";
-import { Ionicons } from "@expo/vector-icons";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { RefreshControl, TouchableOpacity, View } from "react-native";
+import { RefreshControl, View } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
 import { AmdDevice, RyzenSeriesNameEnum } from "../../../../packages/types";
 
 import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
@@ -25,6 +24,7 @@ import SubTitle from "../../components/texts/subTitle";
 import Body from "../../components/ui/body";
 import { syncRyzenInventory } from "../../index";
 import { scrapeRyzen } from "../../services/scrape";
+import { Ryzen } from "../../../../packages/interfaces";
 
 export default function RyzenProducts() {
 	const theme = useTheme()
@@ -35,33 +35,19 @@ export default function RyzenProducts() {
 	const { amdSeries } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 
 	const ryzenInventory = useRyzenStore(state => state.ryzen_inventory)
-	const [ryzenToDisplay, setRyzenToDisplay] = useState(ryzenInventory)
+	const [ryzenToDisplay, setRyzenToDisplay] = useState<Ryzen[]>([])
 
 	const [isFlatlistIsReloading, setIsFlatlistIsReloading] = useState<boolean>(false)
+	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const [deviceSelected, setDeviceSelected] = useState<RyzenDeviceChipsOptions>('all')
 	const [itemDevice, setItemDevice] = useState<RyzenDeviceChipsOptions>('all')
-
 	const [chipPressed, setChipPressed] = useState<RyzenTierChipsOptions>('all')
-	const [isAllChipClicked, setIsAllChipClicked] = useState<boolean>(true)
-	const [isRyzen9ChipClicked, setIsRyzen9ChipClicked] = useState<boolean>(false)
-	const [isRyzen7ChipClicked, setIsRyzen7ChipClicked] = useState<boolean>(false)
-	const [isRyzen5ChipClicked, setIsRyzen5ChipClicked] = useState<boolean>(false)
-	const [isRyzen3ChipClicked, setIsRyzen3ChipClicked] = useState<boolean>(false)
-	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['75%'], [])
 	const openSheet = () => bottomSheetRef.current?.snapToIndex(0)
 	const closeSheet = () => bottomSheetRef.current?.close()
-
-	const falsifyAllChips = () => {
-		setIsAllChipClicked(false)
-		setIsRyzen9ChipClicked(false)
-		setIsRyzen7ChipClicked(false)
-		setIsRyzen5ChipClicked(false)
-		setIsRyzen3ChipClicked(false)
-	}
 
 	if (socket) {
 		socket.onmessage = (event: MessageEvent) => {
@@ -85,6 +71,7 @@ export default function RyzenProducts() {
 			}
 			else {
 				console.log("amdSeries: ", amdSeries)
+				console.log("Device: ", itemDevice)
 				const successMsg = await scrapeRyzen({
 					isLaptop: deviceSelected === "all" ?
 						itemDevice === 'laptop' ? AmdDevice.Laptop : AmdDevice.Desktop :
@@ -110,25 +97,21 @@ export default function RyzenProducts() {
 	}, [])
 
 	useEffect(() => {
-		navigation.setOptions({
-			title: RyzenSeriesNameEnum[amdSeries],
-			headerLeft: () => <HeaderBackArrow />,
-			headerRight: () => (
-				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={sourceData}>
-					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
-				</TouchableOpacity>
+		if (amdSeries !== undefined) {
+			navigation.setOptions({
+				title: RyzenSeriesNameEnum[amdSeries],
+				headerLeft: () => <HeaderBackArrow />,
+			})
+			setRyzenToDisplay(
+				filterRyzenWithPerformanceTier(
+					(deviceSelected === 'all' ?
+						ryzenInventory :
+						ryzenInventory.filter(ryzen => (ryzen.device)?.toLowerCase() === deviceSelected)
+					).filter(ryzen => ryzen.series === RyzenSeriesNameEnum[amdSeries]),
+					chipPressed
+				)
 			)
-		})
-
-		setRyzenToDisplay(
-			filterRyzenWithPerformanceTier(
-				(deviceSelected === 'all' ?
-					ryzenInventory :
-					ryzenInventory.filter(ryzen => (ryzen.device)?.toLowerCase() === deviceSelected)
-				).filter(ryzen => ryzen.series === RyzenSeriesNameEnum[amdSeries]),
-				chipPressed
-			)
-		)
+		}
 	}, [amdSeries, chipPressed, ryzenInventory, deviceSelected])
 
 
@@ -141,32 +124,22 @@ export default function RyzenProducts() {
 		>
 			<Body progress={progress} >
 				<ChipView>
-					<ChipCustom chipText="All" selected={isAllChipClicked} onPress={() => {
-						falsifyAllChips()
-						setIsAllChipClicked(prev => !prev)
+					<ChipCustom chipText="All" selected={chipPressed === 'all'} onPress={() => {
 						setChipPressed('all')
 					}} />
-					<ChipCustom chipText="Ryzen 9" selected={isRyzen9ChipClicked} onPress={() => {
-						falsifyAllChips();
-						setIsRyzen9ChipClicked(prev => !prev);
+					<ChipCustom chipText="Ryzen 9" selected={chipPressed === '9'} onPress={() => {
 						setChipPressed('9')
 					}}
 					/>
-					<ChipCustom chipText="Ryzen 7" selected={isRyzen7ChipClicked} onPress={() => {
-						falsifyAllChips();
-						setIsRyzen7ChipClicked(prev => !prev);
+					<ChipCustom chipText="Ryzen 7" selected={chipPressed === '7'} onPress={() => {
 						setChipPressed('7')
 					}}
 					/>
-					<ChipCustom chipText="Ryzen 5" selected={isRyzen5ChipClicked} onPress={() => {
-						falsifyAllChips();
-						setIsRyzen5ChipClicked(prev => !prev);
+					<ChipCustom chipText="Ryzen 5" selected={chipPressed === '5'} onPress={() => {
 						setChipPressed('5')
 					}}
 					/>
-					<ChipCustom chipText="Ryzen 3" selected={isRyzen3ChipClicked} onPress={() => {
-						falsifyAllChips();
-						setIsRyzen3ChipClicked(prev => !prev);
+					<ChipCustom chipText="Ryzen 3" selected={chipPressed === '3'} onPress={() => {
 						setChipPressed('3')
 					}}
 					/>
@@ -188,22 +161,24 @@ export default function RyzenProducts() {
 							}}
 						/>
 					}
-					renderItem={({ item }) => (
-						<ProductCard
-							key={item.name}
-							title={item.name}
-							mainDescription={`${item.number_of_cpu_cores} cores ${item.number_of_threads} threads`}
-							secondaryDescription={`${item.max_boost_clock} boost frequency`}
-							extraInfo={item.launch_date}
-							onPress={() =>
-								router.push({
-									pathname: './product_details',
-									params: { processor: JSON.stringify(item) }
-								})
-							}
-						/>
+					renderItem={({ item, index }) => (
+						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+							<ProductCard
+								key={item.name}
+								title={item.name}
+								mainDescription={`${item.number_of_cpu_cores} cores ${item.number_of_threads} threads`}
+								secondaryDescription={`${item.max_boost_clock} boost frequency`}
+								extraInfo={item.launch_date}
+								onPress={() =>
+									router.push({
+										pathname: './product_details',
+										params: { processor: JSON.stringify(item) }
+									})
+								}
+							/>
+						</Animated.View>
 					)}
-					ItemSeparatorComponent={() => <Divider bold />}
+					ItemSeparatorComponent={({ index }) => <Divider bold />}
 					ListEmptyComponent={() => (
 						<View className="aspect-square items-center justify-around">
 							<MaterialCommunityIcons name="gesture-swipe-down" size={40} color={theme.colors.tertiary} />

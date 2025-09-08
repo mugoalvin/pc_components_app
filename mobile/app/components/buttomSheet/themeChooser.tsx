@@ -1,13 +1,13 @@
 import useThemeContext from "@/context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Appearance, Pressable, useColorScheme, View } from "react-native";
+import { Appearance, Pressable, View } from "react-native";
 import { useTheme } from "react-native-paper";
 
 import AppText from "../texts/appText";
 import BottomSheetHeader from "../texts/bottomSheetHeader";
-import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 import BottomSheetCard from "../ui/bottomSheet/bottomSheetCard";
+import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 
 export default function ThemeChooser() {
 	const theme = useTheme()
@@ -19,6 +19,7 @@ export default function ThemeChooser() {
 		{ colorName: "Violet", hex: "#bd5bf2" },
 		{ colorName: "Radical Red", hex: "#fd3660" },
 		{ colorName: "Red", hex: "#fe4337" },
+		{ colorName: "Brown", hex: "#964B00" },
 		{ colorName: "Orange", hex: "#fd9e0d" },
 		{ colorName: "Yellow", hex: "#ffd30a" },
 		{ colorName: "Green", hex: "#31cf55" }

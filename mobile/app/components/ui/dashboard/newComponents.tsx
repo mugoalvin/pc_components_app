@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { ScrollView, useColorScheme } from "react-native";
 import { syncIntelCoreInventory, syncIntelUltraInventory, syncRyzenInventory } from '../../../index';
 import NewParts from "./newParts";
+import Animated, { FadeInRight } from "react-native-reanimated";
 
 export default function NewComponents() {
 	const colorScheme = useColorScheme()
@@ -53,26 +54,27 @@ export default function NewComponents() {
 		<ScrollView horizontal showsHorizontalScrollIndicator={false} className="w-full">
 			{
 				newComponents.map((component, index) =>
-					<NewParts
-						key={index}
-						index={index}
-						title={component.name}
-						description={`${component.max_turbo_frequency || component.max_boost_clock}`}
-						image={
-							component.image ||
-							(
-								colorScheme === 'light'
-									? "https://i0.wp.com/chemmatcars.uchicago.edu/wp-content/uploads/2021/03/default-placeholder-image-1024x1024-1.png?ssl=1"
-									: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc0V1a7P8AYy3QBSO1AgldcqV9H37AtK3_aQ&s"
-							)
-						}
-						onPress={() =>
-							router.push({
-								pathname: '/pages/product_details',
-								params: { processor: JSON.stringify(component) }
-							})
-						}
-					/>
+					<Animated.View entering={FadeInRight.duration(600).delay(100*(index + 1))} key={index}>
+						<NewParts
+							index={index}
+							title={component.name}
+							description={`${component.max_turbo_frequency || component.max_boost_clock}`}
+							image={
+								component.image ||
+								(
+									colorScheme === 'light'
+										? "https://i0.wp.com/chemmatcars.uchicago.edu/wp-content/uploads/2021/03/default-placeholder-image-1024x1024-1.png?ssl=1"
+										: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc0V1a7P8AYy3QBSO1AgldcqV9H37AtK3_aQ&s"
+								)
+							}
+							onPress={() =>
+								router.push({
+									pathname: '/pages/product_details',
+									params: { processor: JSON.stringify(component) }
+								})
+							}
+						/>
+					</Animated.View>
 				)
 			}
 		</ScrollView>

@@ -21,7 +21,7 @@ export default function BasicCard({ children, className, hasTransparentBackgroun
 				color: theme.colors.secondaryContainer
 			}}
 			style={{
-				backgroundColor: hasTransparentBackground ? "transparent" : colorScheme === 'light' ? "white" : theme.colors.elevation.level2
+				backgroundColor: hasTransparentBackground ? "transparent" : colorScheme === 'light' ? theme.colors.elevation.level3 : theme.colors.elevation.level2
 			}}>
 			{children}
 		</Pressable>
