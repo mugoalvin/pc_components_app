@@ -17,9 +17,10 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RefreshControl, TouchableOpacity } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
 import { IntelCore } from "../../../../packages/interfaces";
 import { IntelGeneration } from "../../../../packages/types";
+import HeaderRightIconButtons from "@/app/components/headerRightIcon";
 
 export default function CoreProducts() {
 	const { socket } = useWebSocket()
@@ -30,20 +31,6 @@ export default function CoreProducts() {
 
 	const [chipPressed, setChipPressed] = useState<CoreTierChipOptions>("all")
 	const [progress, setProgress] = useState<number | undefined>(undefined)
-
-	const [isAllSelected, setIsAllSelected] = useState<boolean>(true)
-	const [isI9Selected, setIsI9Selected] = useState<boolean>(false)
-	const [isI7Selected, setIsI7Selected] = useState<boolean>(false)
-	const [isI5Selected, setIsI5Selected] = useState<boolean>(false)
-	const [isI3Selected, setIsI3Selected] = useState<boolean>(false)
-
-	const falsifyAllChips = () => {
-		setIsAllSelected(false)
-		setIsI9Selected(false)
-		setIsI7Selected(false)
-		setIsI5Selected(false)
-		setIsI3Selected(false)
-	}
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['50%', '75%'], [])
@@ -88,11 +75,10 @@ export default function CoreProducts() {
 		navigation.setOptions({
 			title: `Intel Core Gen ${generation}`,
 			headerLeft: () => <HeaderBackArrow />,
-			headerRight: () => (
-				<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={openSheet}>
-					<Ionicons name='cloud-download-outline' size={20} color={theme.colors.onBackground} />
-				</TouchableOpacity>
-			)
+			headerRight: () => <HeaderRightIconButtons buttons={[{
+				icon: <Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />,
+				onPress: openSheet
+			}]}/>
 		})
 	}, [])
 
@@ -106,50 +92,40 @@ export default function CoreProducts() {
 			<Body progress={progress}>
 				<ChipView>
 					<ChipCustom
-						selected={isAllSelected}
+						selected={chipPressed === 'all'}
 						chipText="All"
 						onPress={() => {
-							falsifyAllChips()
-							setIsAllSelected(true)
 							setChipPressed('all')
 						}}
 					/>
 					{
 						Number(generation) >= 8 &&
 						<ChipCustom
-							selected={isI9Selected}
+							selected={chipPressed === 'i9'}
 							chipText="Intel i9"
 							onPress={() => {
-								falsifyAllChips()
-								setIsI9Selected(true)
 								setChipPressed('i9')
 							}}
 						/>
 					}
 					<ChipCustom
-						selected={isI7Selected}
+						selected={chipPressed === 'i7'}
 						chipText="Intel i7"
 						onPress={() => {
-							falsifyAllChips()
-							setIsI7Selected(true)
 							setChipPressed('i7')
 						}}
 					/>
 					<ChipCustom
-						selected={isI5Selected}
+						selected={chipPressed === 'i5'}
 						chipText="Intel i5"
 						onPress={() => {
-							falsifyAllChips()
-							setIsI5Selected(true)
 							setChipPressed('i5')
 						}}
 					/>
 					<ChipCustom
-						selected={isI3Selected}
+						selected={chipPressed === 'i3'}
 						chipText="Intel i3"
 						onPress={() => {
-							falsifyAllChips()
-							setIsI3Selected(true)
 							setChipPressed('i3')
 						}}
 					/>
@@ -161,21 +137,23 @@ export default function CoreProducts() {
 					data={coreToDisplay}
 					keyExtractor={(_, index) => index.toString()}
 					renderItem={({ item, index }) => (
-						<ProductCard
-							key={index}
-							title={item.name}
-							mainDescription={`${item.total_cores} cores ${item.total_threads} threads`}
-							secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
-							extraInfo={item.recommended_customer_price || item.launch_date}
-							onPress={() =>
-								router.push({
-									pathname: './product_details',
-									params: { processor: JSON.stringify(item) }
-								})
-							}
-						/>
+						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+							{ index !== 0 && <Divider bold /> }
+							<ProductCard
+								key={index}
+								title={item.name}
+								mainDescription={`${item.total_cores} cores ${item.total_threads} threads`}
+								secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
+								extraInfo={item.recommended_customer_price || item.launch_date}
+								onPress={() =>
+									router.push({
+										pathname: './product_details',
+										params: { processor: JSON.stringify(item) }
+									})
+								}
+							/>
+						</Animated.View>
 					)}
-					ItemSeparatorComponent={() => <Divider bold />}
 					ListEmptyComponent={<EmptySectionList isNotScraped />}
 					refreshControl={
 						<RefreshControl

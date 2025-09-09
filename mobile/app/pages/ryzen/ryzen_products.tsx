@@ -163,6 +163,7 @@ export default function RyzenProducts() {
 					}
 					renderItem={({ item, index }) => (
 						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+							{ index !== 0 && <Divider bold /> }
 							<ProductCard
 								key={item.name}
 								title={item.name}
@@ -178,7 +179,6 @@ export default function RyzenProducts() {
 							/>
 						</Animated.View>
 					)}
-					ItemSeparatorComponent={({ index }) => <Divider bold />}
 					ListEmptyComponent={() => (
 						<View className="aspect-square items-center justify-around">
 							<MaterialCommunityIcons name="gesture-swipe-down" size={40} color={theme.colors.tertiary} />

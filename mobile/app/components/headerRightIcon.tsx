@@ -1,19 +1,33 @@
-import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
-import { useTheme } from "react-native-paper";
+import { ReactNode } from "react";
+import { FlatList } from "react-native";
+import { IconButton, useTheme } from "react-native-paper";
 
-interface HeaderRightIconProps {
-	iconName?: string;
-	onPressFunction?: () => void;
+interface IconButtonProps {
+	icon: ReactNode
+	onPress?: () => void
 }
 
-export default function HeaderRightIcon({ iconName, onPressFunction }: HeaderRightIconProps) {
+interface HeaderRightIconProps {
+	buttons: IconButtonProps[]
+}
+
+export default function HeaderRightIconButtons({ buttons }: HeaderRightIconProps) {
 	const theme = useTheme()
 
 	return (
-		<TouchableOpacity className='w-10 h-10 items-center justify-center' onPress={onPressFunction}>
-			{/* @ts-ignore */}
-			<Ionicons name={iconName || 'ellipsis-vertical'} size={20} color={theme.colors.onBackground} />
-		</TouchableOpacity>
+		<FlatList
+			horizontal
+			data={buttons}
+			renderItem={({ item }) =>
+				<IconButton
+					icon={() => item.icon}
+					onPress={item.onPress}
+					hitSlop={10}
+					style={{
+						backgroundColor: theme.colors.elevation.level5
+					}}
+				/>
+			}
+		/>
 	)
 }
