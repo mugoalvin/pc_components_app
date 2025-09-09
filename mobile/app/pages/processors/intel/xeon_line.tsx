@@ -12,7 +12,7 @@ import useIntelXeonStore from "@/zustand/intel/xeon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { IntelXeonSeries } from "../../../../packages/types";
+import { IntelXeonSeries } from "../../../../../packages/types";
 
 export default function XeonLine() {
 	const navigation = useNavigation()

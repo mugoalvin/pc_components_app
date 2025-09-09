@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { View } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 import Animated, { BounceIn, FadeInLeft, ZoomIn } from "react-native-reanimated";
-import { IntelCore, IntelCoreUltra } from "../../../../packages/interfaces";
+import { IntelCore, IntelCoreUltra } from "../../../../../packages/interfaces";
 
 
 interface RyzenMainInfoProps {

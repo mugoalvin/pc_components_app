@@ -16,7 +16,7 @@ import { Divider, useTheme } from "react-native-paper"
 import Animated, { FadeInDown } from "react-native-reanimated"
 
 import HeaderRightIconButtons from "@/app/components/headerRightIcon"
-import { IntelXeon } from "../../../../packages/interfaces"
+import { IntelXeon } from "../../../../../packages/interfaces"
 
 export default function XeonProducts() {
 	const theme = useTheme()

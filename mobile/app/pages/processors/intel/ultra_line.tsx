@@ -18,8 +18,8 @@ import useSnackbarContext from "@/context/SnackbarContext";
 import { openPage } from "@/utils/stackOptions";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "react-native-paper";
-import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../packages/types";
-import Body from "../../components/ui/body";
+import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../../packages/types";
+import Body from "../../../components/ui/body";
 
 export default function UltraLine() {
 	const theme = useTheme()

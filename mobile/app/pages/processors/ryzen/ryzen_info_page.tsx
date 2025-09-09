@@ -6,8 +6,8 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
 import Animated, { FadeInDown, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { Ryzen } from "../../../../packages/interfaces";
-import Compatibility from "../compatibility";
+import { Ryzen } from "../../../../../packages/interfaces";
+import Compatibility from "../../compatibility";
 
 interface RyzenInfoPageProps {
 	product: Ryzen

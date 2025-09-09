@@ -10,7 +10,7 @@ import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
-import { IntelCoreUltra } from "../../../../packages/interfaces";
+import { IntelCoreUltra } from "../../../../../packages/interfaces";
 
 export default function UltraProducts() {
 	const navigation = useNavigation()

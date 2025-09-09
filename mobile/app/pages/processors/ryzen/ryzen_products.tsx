@@ -10,21 +10,21 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RefreshControl, View } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
-import { AmdDevice, RyzenSeriesNameEnum } from "../../../../packages/types";
+import { AmdDevice, RyzenSeriesNameEnum } from "../../../../../packages/types";
 
 import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import useSnackbarContext from "@/context/SnackbarContext";
 import { useWebSocket } from "@/context/WebsockerContext";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
-import ChipCustom from "../../components/buttons/chips";
-import ProductCard from "../../components/cards/productCard";
-import HeaderBackArrow from "../../components/headerBackArrow";
-import SubTitle from "../../components/texts/subTitle";
-import Body from "../../components/ui/body";
-import { syncRyzenInventory } from "../../index";
-import { scrapeRyzen } from "../../services/scrape";
-import { Ryzen } from "../../../../packages/interfaces";
+import { Ryzen } from "../../../../../packages/interfaces";
+import ChipCustom from "../../../components/buttons/chips";
+import ProductCard from "../../../components/cards/productCard";
+import HeaderBackArrow from "../../../components/headerBackArrow";
+import SubTitle from "../../../components/texts/subTitle";
+import Body from "../../../components/ui/body";
+import { syncRyzenInventory } from "../../../index";
+import { scrapeRyzen } from "../../../services/scrape";
 
 export default function RyzenProducts() {
 	const theme = useTheme()
@@ -163,7 +163,7 @@ export default function RyzenProducts() {
 					}
 					renderItem={({ item, index }) => (
 						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
-							{ index !== 0 && <Divider bold /> }
+							{index !== 0 && <Divider bold />}
 							<ProductCard
 								key={item.name}
 								title={item.name}

@@ -18,8 +18,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RefreshControl, TouchableOpacity } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
-import { IntelCore } from "../../../../packages/interfaces";
-import { IntelGeneration } from "../../../../packages/types";
+import { IntelCore } from "../../../../../packages/interfaces";
+import { IntelGeneration } from "../../../../../packages/types";
 import HeaderRightIconButtons from "@/app/components/headerRightIcon";
 
 export default function CoreProducts() {
