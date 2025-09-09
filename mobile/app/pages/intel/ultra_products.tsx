@@ -9,7 +9,7 @@ import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
 import { IntelCoreUltra } from "../../../../packages/interfaces";
 
 export default function UltraProducts() {
@@ -17,16 +17,6 @@ export default function UltraProducts() {
 	const { ultraSeries } = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 
 	const [seriesSelected, setSeriesSelected] = useState<UltraSeriesChipsOptions>('all')
-	const [isAllChipSelected, setIsAllChipSelected] = useState<boolean>(true)
-	const [isSeries2ChipSelected, setisSeries2ChipSelected] = useState<boolean>(false)
-	const [isSeries1ChipSelected, setisSeries1ChipSelected] = useState<boolean>(false)
-
-	const falsifyAllChips = () => {
-		setIsAllChipSelected(false)
-		setisSeries2ChipSelected(false)
-		setisSeries1ChipSelected(false)
-	}
-
 
 	const ultraInventoryAll = useIntelCoreUltraStore(state => state.intel_ultra_inventory);
 	const [ultraToDisplay, setUltraToDisplay] = useState<IntelCoreUltra[]>([]);
@@ -66,27 +56,21 @@ export default function UltraProducts() {
 			<ChipView>
 				<ChipCustom
 					chipText="All"
-					selected={isAllChipSelected}
+					selected={seriesSelected === 'all'}
 					onPress={() => {
-						falsifyAllChips()
-						setIsAllChipSelected(prev => !prev)
 						setSeriesSelected('all')
 					}}
 				/>
 				<ChipCustom
 					chipText="Series 2"
-					selected={isSeries2ChipSelected}
+					selected={seriesSelected === 'series 2'}
 					onPress={() => {
-						falsifyAllChips();
-						setisSeries2ChipSelected(prev => !prev);
 						setSeriesSelected('series 2')
 					}}
 				/>
 				<ChipCustom chipText="Series 1"
-					selected={isSeries1ChipSelected}
+					selected={seriesSelected === 'series 1'}
 					onPress={() => {
-						falsifyAllChips();
-						setisSeries1ChipSelected(prev => !prev);
 						setSeriesSelected('series 1')
 					}}
 				/>
@@ -97,22 +81,24 @@ export default function UltraProducts() {
 				itemLayoutAnimation={LinearTransition}
 				data={ultraToDisplay}
 				keyExtractor={(_, index) => index.toString()}
-				renderItem={({ item }) => (
-					<ProductCard
-						key={item.name}
-						title={item.name}
-						mainDescription={`${item.number_of_performance_cores} cores ${item.total_threads} threads`}
-						secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
-						extraInfo={item.recommended_customer_price || item.launch_date}
-						onPress={() =>
-							router.push({
-								pathname: './product_details',
-								params: { processor: JSON.stringify(item) }
-							})
-						}
-					/>
+				renderItem={({ item, index }) => (
+					<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+						{ index !== 0 && <Divider bold /> }
+						<ProductCard
+							key={item.name}
+							title={item.name}
+							mainDescription={`${item.number_of_performance_cores} cores ${item.total_threads} threads`}
+							secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
+							extraInfo={item.recommended_customer_price || item.launch_date}
+							onPress={() =>
+								router.push({
+									pathname: './product_details',
+									params: { processor: JSON.stringify(item) }
+								})
+							}
+						/>
+					</Animated.View>
 				)}
-				ItemSeparatorComponent={() => <Divider bold />}
 			/>
 
 		</Body>

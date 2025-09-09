@@ -1,11 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
-import { useColorScheme } from "react-native";
 import { IconButton, useTheme } from "react-native-paper";
 
 export default function HeaderBackArrow() {
 	const theme = useTheme()
-	const colorScheme = useColorScheme()
 	const navigation = useNavigation()
 
 	return (

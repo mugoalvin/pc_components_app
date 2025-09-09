@@ -47,7 +47,21 @@ export const getAsyncData = async (key: string): Promise<string> => {
 	return await AsyncStorage.getItem(key) || ''
 }
 
+export function formatQuarterLabel(qStr: string): string {
+	const match = qStr.match(/^Q([1-4])'(\d{2})$/);
+	if (!match) throw new Error("Invalid format");
 
+	const quarter = parseInt(match[1], 10);
+	const year = 2000 + parseInt(match[2], 10);
+
+	const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+	const startMonth = (quarter - 1) * 3;
+	const endMonth = startMonth + 2;
+
+	// return `Q${quarter} ${year} (${monthNames[startMonth]}–${monthNames[endMonth]})`;
+	return `(${monthNames[startMonth]} - ${monthNames[endMonth]}) ${year}`;
+}
 
 
 
@@ -116,19 +130,31 @@ export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[], deviceO
 		return ultraProcessors.filter(ultra => ultra.name?.includes(line)).length
 	}
 
+	function getTimestamps(line: string) {
+		try {
+			const found = ultraProcessors.find(ultra => ultra.name?.includes(line))
+			return found && found.updated_at
+				? new Date(found.updated_at).toLocaleDateString()
+				: "Not Found"
+		} catch (err) {
+			console.log(err)
+			return "Not Found"
+		}
+	}
+
 	const allSections = [
 		{
 			title: "High-End",
 			data: [
-				{ name: "Ultra 9", lastUpdated: '', count: `${getCountPerSeries('Ultra 9')} Processors` },
-				{ name: "Ultra 7", lastUpdated: '', count: `${getCountPerSeries('Ultra 7')} Processors` },
+				{ name: "Ultra 9", lastUpdated: `${getTimestamps("Ultra 9")}`, count: `${getCountPerSeries('Ultra 9')} Processors` },
+				{ name: "Ultra 7", lastUpdated: `${getTimestamps("Ultra 7")}`, count: `${getCountPerSeries('Ultra 7')} Processors` },
 			]
 		},
 		{
 			title: "Entry/Mid-Range/Low-End",
 			data: [
-				{ name: "Ultra 5", lastUpdated: '', count: `${getCountPerSeries('Ultra 5')} Processors` },
-				{ name: "Ultra 3", lastUpdated: '', count: `${getCountPerSeries('Ultra 3')} Processors` },
+				{ name: "Ultra 5", lastUpdated: `${getTimestamps("Ultra 5")}`, count: `${getCountPerSeries('Ultra 5')} Processors` },
+				{ name: "Ultra 3", lastUpdated: `${getTimestamps("Ultra 3")}`, count: `${getCountPerSeries('Ultra 3')} Processors` },
 			]
 		}
 	]
@@ -211,20 +237,6 @@ export function getSectionedCoreData(coreProcessors: IntelCore[], chipPressed: C
 
 	return allSections
 
-	const filteredSections = allSections.map(section => ({
-		...section,
-		/* TODO */
-		// Don't forget to handle the below login to dynamically display or remove sections in the section list.
-
-		data: section.data.filter(item => {
-			const count = parseInt(item.count)
-			return !isNaN(count) && count > 0
-		})
-	})).filter(section => section.data.length > 0)
-
-	return filteredSections.length > 0
-		? filteredSections
-		: []
 }
 
 export function getSectionedXeonData(xeonProcessors: IntelXeon[], selectedChip?: XeonChipsOptions): SectionedDataItem[] {

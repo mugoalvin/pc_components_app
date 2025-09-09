@@ -1,13 +1,14 @@
 import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncIntelXeonInventoryCount } from "@/app/index";
+import { intelProcessorFamilies } from "@/utils/brands/processorsBrands";
 import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter } from "@/utils/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { RefreshControl, ScrollView } from "react-native-gesture-handler";
-import { IntelProcessorLine } from "../../../../packages/types";
+import { FlatList, RefreshControl } from "react-native";
 import CategoryListing from "../../components/cards/categoryListing";
 import HeaderBackArrow from "../../components/headerBackArrow";
 import Body from "../../components/ui/body";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 export default function IntelLines() {
 	const navigation = useNavigation()
@@ -25,9 +26,22 @@ export default function IntelLines() {
 
 	return (
 		<Body>
-			<ScrollView
-				className='gap-3'
-				showsVerticalScrollIndicator={false}
+			<FlatList
+				data={intelProcessorFamilies}
+				renderItem={({ item, index }) =>
+					<Animated.View key={index} entering={FadeInDown.delay(100*(index + 1))}>
+						<CategoryListing
+							label={item.name}
+							tables={item.tables}
+							image={item.image}
+							onClick={() => openPage({
+								selectedComponent: Number(selectedComponent),
+								brand: Number(brand),
+								line: Number(item.line)
+							})}
+						/>
+					</Animated.View>
+				}
 				refreshControl={
 					<RefreshControl
 						refreshing={isPageRefreshing}
@@ -40,40 +54,7 @@ export default function IntelLines() {
 						}}
 					/>
 				}
-			>
-				<CategoryListing
-					label="Ultra"
-					tables="ultra"
-					image="http://alitech.io/wp-content/uploads/2023/12/Unleashing-Intels-Core-Ultra-CPUs-A-Deep-Dive-into-the-Future-of-Processing-Power5-300x225.png"
-					onClick={() => openPage({
-						selectedComponent: Number(selectedComponent),
-						brand: Number(brand),
-						line: IntelProcessorLine.Ultra
-					})}
-				/>
-
-				<CategoryListing
-					label="Core"
-					tables="core"
-					image="https://upload.wikimedia.org/wikipedia/commons/0/06/Intel_Core_i9_Logo_2020.png?20210405130213"
-					onClick={() => openPage({
-						selectedComponent: Number(selectedComponent),
-						brand: Number(brand),
-						line: IntelProcessorLine.Core
-					})}
-				/>
-
-				<CategoryListing
-					label="Xeon"
-					tables="xeon"
-					image="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Intel-Xeon-Badge-2024.jpg/250px-Intel-Xeon-Badge-2024.jpg"
-					onClick={() => openPage({
-						selectedComponent: Number(selectedComponent),
-						brand: Number(brand),
-						line: IntelProcessorLine.Xeon
-					})}
-				/>
-			</ScrollView>
+			/>
 		</Body>
 	)
 }

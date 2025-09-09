@@ -21,8 +21,9 @@ export default function AppText({ enteringAnimation, bold, bg_color, children, c
 			entering={enteringAnimation}
 			numberOfLines={numberOfLines}
 			ellipsizeMode={ellipsizeMode}
+			 	// ${bold ? "font-zain_bold" : "font-zain"}
 			className={`
-			 	${bold ? "font-zain_bold" : "font-zain"}
+			 	${bold ? "font-josefin_sans_bold" : "font-josefin_sans"}
 				${className}
 			`}
 			style={{

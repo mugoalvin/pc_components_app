@@ -20,19 +20,7 @@ export default function CoreLine() {
 	const { showSnackbar } = useSnackbarContext()
 
 	const [chipPressed, setChipPressed] = useState<CoreDeviceChipsOptions>('all')
-	const [isAllSelected, setIsAllSelected] = useState<boolean>(true)
-	const [isEmbeddedSelected, setIsEmbeddedSelected] = useState<boolean>(false)
-	const [isDesktopSelected, setIsDesktopSelected] = useState<boolean>(false)
-	const [isMobileSelected, setIsMobileSelected] = useState<boolean>(false)
-
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
-
-	const falsifyAllChips = () => {
-		setIsAllSelected(false)
-		setIsEmbeddedSelected(false)
-		setIsDesktopSelected(false)
-		setIsMobileSelected(false)
-	}
 
 	const coreInventory = useIntelCoreStore(state => state.intel_core_inventory)
 
@@ -49,38 +37,30 @@ export default function CoreLine() {
 		<Body>
 			<ChipView>
 				<ChipCustom
-					selected={isAllSelected}
+					selected={chipPressed === 'all'}
 					chipText="All"
 					onPress={() => {
-						falsifyAllChips()
-						setIsAllSelected(true)
 						setChipPressed("all")
 					}}
 				/>
 				<ChipCustom
-					selected={isEmbeddedSelected}
+					selected={chipPressed === 'embedded'}
 					chipText="Embedded"
 					onPress={() => {
-						falsifyAllChips()
-						setIsEmbeddedSelected(true)
 						setChipPressed("embedded")
 					}}
 				/>
 				<ChipCustom
-					selected={isDesktopSelected}
+					selected={chipPressed === 'desktop'}
 					chipText="Desktop"
 					onPress={() => {
-						falsifyAllChips()
-						setIsDesktopSelected(true)
 						setChipPressed("desktop")
 					}}
 				/>
 				<ChipCustom
-					selected={isMobileSelected}
+					selected={chipPressed === 'mobile'}
 					chipText="Mobile"
 					onPress={() => {
-						falsifyAllChips()
-						setIsMobileSelected(true)
 						setChipPressed("mobile")
 					}}
 				/>

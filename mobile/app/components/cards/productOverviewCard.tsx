@@ -19,10 +19,11 @@ export default function ProductOverviewCard({ index, title, series, productCount
 	const theme = useTheme()
 	const [countToDisplay, setCountToDisplay] = useState<number>(0)
 
+	const target = Number(productCount?.split(' ')[0])
+
 	useEffect(() => {
-		const target = Number(productCount?.split(' ')[0])
 		setTimeout(() => setCountToDisplay(target), 100)
-	}, [productCount])
+	}, [target])
 
 	return (
 		<>
@@ -35,7 +36,7 @@ export default function ProductOverviewCard({ index, title, series, productCount
 					}}
 				>
 					{
-						lastUpdated !== 'Not Found'
+						lastUpdated !== 'Not Found' && target !== 0
 							?
 							<View className='flex-row gap-3 items-center'>
 								<View className='min-w-[12%] aspect-square items-center justify-center'>

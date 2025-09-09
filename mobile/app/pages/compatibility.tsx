@@ -1,20 +1,25 @@
 import React from 'react'
-import { View } from 'react-native'
-import { FadeInDown, FadeInRight } from 'react-native-reanimated'
+import { FlatList, View } from 'react-native'
+import { FadeInLeft, FadeInRight } from 'react-native-reanimated'
 import SubTitle from '../components/texts/subTitle'
 import TextPoints from '../components/texts/textPoints'
 
 interface CompatibilityProps {
-	data?: any
+	compatibles?: string[]
+	animationDelay: number
 }
-export default function Compatibility({ data }: CompatibilityProps) {
-
+export default function Compatibility({ compatibles, animationDelay }: CompatibilityProps) {
 	return (
 		<View>
-			<SubTitle bold enteringAnimation={FadeInRight.springify().delay(3200)}>Compatibility</SubTitle>
+			<SubTitle bold className='mb-2' enteringAnimation={FadeInRight.springify().delay(animationDelay)}>Extra Information</SubTitle>
 
 			<View>
-				<TextPoints text={`${data.cpu_socket} Socket`} enteringAnimation={FadeInDown.delay(3600)} />
+				<FlatList
+					data={compatibles}
+					renderItem={({ item, index }) =>
+						<TextPoints text={item} enteringAnimation={FadeInLeft.delay(animationDelay + (200 * index) + 200)} animationDelay={animationDelay + (200 * index)} />
+					}
+				/>
 			</View>
 		</View>
 	)

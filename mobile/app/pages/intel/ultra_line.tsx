@@ -1,48 +1,41 @@
 import IntelUltraScrapeOptions from "@/app/components/buttomSheet/intelUltraScrapeOptions";
 import ChipCustom from "@/app/components/buttons/chips";
 import HeaderBackArrow from "@/app/components/headerBackArrow";
-import HeaderRightIcon from "@/app/components/headerRightIcon";
+import HeaderRightIconButtons from "@/app/components/headerRightIcon";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import ChipView from "@/app/components/ui/chipView";
-import CustomSectionList from "@/app/components/view/sectionList";
 import { syncIntelUltraInventory } from "@/app/index";
 import { useWebSocket } from "@/context/WebsockerContext";
 import { getSectionedUltraData, setAsyncData } from "@/utils/functions";
-import { openPage } from "@/utils/stackOptions";
 import { ProductBrandFilter, UltraDeviceChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
+
+import CustomSectionList from "@/app/components/view/sectionList";
+import useSnackbarContext from "@/context/SnackbarContext";
+import { openPage } from "@/utils/stackOptions";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "react-native-paper";
 import { IntelUltraTierArray, IntelUltraTierEnum } from "../../../../packages/types";
 import Body from "../../components/ui/body";
 
 export default function UltraLine() {
+	const theme = useTheme()
 	const navigation = useNavigation()
 	const { socket } = useWebSocket()
+	const { showSnackbar } = useSnackbarContext()
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
 	const { selectedComponent, brand, line } = params
 	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
-
-
 	const [chipPressed, setChipPressed] = useState<UltraDeviceChipsOptions>('all')
-	const [isAllSelected, setIsAllChipSelected] = useState<boolean>(true)
-	const [isDesktopChipSelected, setIsDesktopChipSelected] = useState<boolean>(false)
-	const [isMobileChipSelected, setIsMobileChipSelected] = useState<boolean>(false)
-	const [isEmbeddedChipSelected, setIsEmbeddedChipSelected] = useState<boolean>(false)
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['40%'], [])
 	const openSheet = () => bottomSheetRef.current?.snapToIndex(0)
-
-	const falsifyAllChips = () => {
-		setIsAllChipSelected(false)
-		setIsDesktopChipSelected(false)
-		setIsMobileChipSelected(false)
-		setIsEmbeddedChipSelected(false)
-	}
 
 	const ultraInventory = useIntelCoreUltraStore(state => state.intel_ultra_inventory) || []
 
@@ -61,7 +54,10 @@ export default function UltraLine() {
 		navigation.setOptions({
 			title: "Ultra",
 			headerLeft: () => <HeaderBackArrow />,
-			headerRight: () => <HeaderRightIcon iconName="cloud-download-outline" onPressFunction={openSheet} />,
+			headerRight: () => <HeaderRightIconButtons buttons={[{
+				icon: <Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />,
+				onPress: openSheet
+			}]} />
 		})
 	}, [navigation])
 
@@ -80,37 +76,29 @@ export default function UltraLine() {
 				<ChipView>
 					<ChipCustom
 						chipText="All"
-						selected={isAllSelected}
+						selected={chipPressed === 'all'}
 						onPress={() => {
-							falsifyAllChips()
-							setIsAllChipSelected(prev => !prev)
 							setChipPressed('all')
 						}}
 					/>
 					<ChipCustom
 						chipText="Desktop"
-						selected={isDesktopChipSelected}
+						selected={chipPressed === 'desktop'}
 						onPress={() => {
-							falsifyAllChips()
-							setIsDesktopChipSelected(prev => !prev)
 							setChipPressed('desktop')
 						}}
 					/>
 					<ChipCustom
 						chipText="Mobile"
-						selected={isMobileChipSelected}
+						selected={chipPressed === 'mobile'}
 						onPress={() => {
-							falsifyAllChips()
-							setIsMobileChipSelected(prev => !prev)
 							setChipPressed('mobile')
 						}}
 					/>
 					<ChipCustom
 						chipText="Embedded"
-						selected={isEmbeddedChipSelected}
+						selected={chipPressed === 'embedded'}
 						onPress={() => {
-							falsifyAllChips()
-							setIsEmbeddedChipSelected(prev => !prev)
 							setChipPressed('embedded')
 						}}
 					/>

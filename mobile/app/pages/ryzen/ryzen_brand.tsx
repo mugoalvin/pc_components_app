@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import RyzenScrapeOptions from '@/app/components/buttomSheet/ryzenScrapeOptions'
+import HeaderRightIconButtons from '@/app/components/headerRightIcon'
 import AppText from '@/app/components/texts/appText'
 import PageWithBottomSheet from '@/app/components/ui/bottomSheet'
 import CustomSectionList from '@/app/components/view/sectionList'
@@ -16,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
-import { ActivityIndicator, IconButton, Portal, useTheme } from 'react-native-paper'
+import { ActivityIndicator, Portal, useTheme } from 'react-native-paper'
 import { Ryzen } from '../../../../packages/interfaces'
 import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../packages/types'
 import ChipCustom from '../../components/buttons/chips'
@@ -90,15 +91,10 @@ export default function RyzenBrand() {
 			title: ProductsArray[brand ? brand : 0],
 			headerTitle: "Ryzen",
 			headerLeft: () => <HeaderBackArrow />,
-			headerRight: () => (
-				<IconButton
-					icon={() =>
-						<Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />
-					}
-					onPress={openSheet}
-					hitSlop={10}
-				/>
-			)
+			headerRight: () => <HeaderRightIconButtons buttons={[{
+				icon: <Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />,
+				onPress: openSheet
+			}]} />
 		})
 	}, [navigator])
 

@@ -12,9 +12,10 @@ import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router, useNavigation } from "expo-router"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { IconButton, useTheme } from "react-native-paper"
-import Animated from "react-native-reanimated"
+import { Divider, useTheme } from "react-native-paper"
+import Animated, { FadeInDown } from "react-native-reanimated"
 
+import HeaderRightIconButtons from "@/app/components/headerRightIcon"
 import { IntelXeon } from "../../../../packages/interfaces"
 
 export default function XeonProducts() {
@@ -48,14 +49,10 @@ export default function XeonProducts() {
 		navigation.setOptions({
 			title: 'Intel Xeon',
 			headerLeft: () => <HeaderBackArrow />,
-			headerRight: () =>
-				<IconButton
-					icon={() =>
-						<Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />
-					}
-					onPress={openSheet}
-					hitSlop={10}
-				/>
+			headerRight: () => <HeaderRightIconButtons buttons={[{
+				icon: <Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />,
+				onPress: openSheet
+			}]} />
 		})
 
 		getAsync()
@@ -87,19 +84,22 @@ export default function XeonProducts() {
 					data={xeonToDisplay}
 					showsVerticalScrollIndicator={false}
 					renderItem={({ item, index }) => (
-						<ProductCard
-							key={index}
-							title={item.name}
-							mainDescription={`${item.total_cores} cores ${item.total_threads} threads`}
-							secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
-							extraInfo={item.recommended_customer_price || item.launch_date}
-							onPress={() =>
-								router.push({
-									pathname: '/pages/product_details',
-									params: { processor: JSON.stringify(item) }
-								})
-							}
-						/>
+						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+							{index !== 0 && <Divider bold />}
+							<ProductCard
+								key={index}
+								title={item.name}
+								mainDescription={`${item.total_cores} cores ${item.total_threads} threads`}
+								secondaryDescription={`${item.max_turbo_frequency} max turbo frequency`}
+								extraInfo={item.recommended_customer_price || item.launch_date}
+								onPress={() =>
+									router.push({
+										pathname: '/pages/product_details',
+										params: { processor: JSON.stringify(item) }
+									})
+								}
+							/>
+						</Animated.View>
 					)}
 				/>
 			</Body>
