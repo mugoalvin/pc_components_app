@@ -7,11 +7,11 @@ import React from 'react'
 
 import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
-import IntelLines from './intel/intel_lines'
+import IntelLines from './processors/intel/intel_lines'
 import IntelNavigator from './intelNavigator'
 import ProductDetails from './product_details'
-import RyzenBrand from './ryzen/ryzen_brand'
-import RyzenProducts from './ryzen/ryzen_products'
+import RyzenBrand from './processors/ryzen/ryzen_brand'
+import RyzenProducts from './processors/ryzen/ryzen_products'
 
 
 export default function CategoryNavigator() {

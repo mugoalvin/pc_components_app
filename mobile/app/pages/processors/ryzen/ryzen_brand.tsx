@@ -18,12 +18,12 @@ import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { ActivityIndicator, Portal, useTheme } from 'react-native-paper'
-import { Ryzen } from '../../../../packages/interfaces'
-import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../packages/types'
-import ChipCustom from '../../components/buttons/chips'
-import HeaderBackArrow from '../../components/headerBackArrow'
-import Body from '../../components/ui/body'
-import ChipView from '../../components/ui/chipView'
+import { Ryzen } from '../../../../../packages/interfaces'
+import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../../packages/types'
+import ChipCustom from '../../../components/buttons/chips'
+import HeaderBackArrow from '../../../components/headerBackArrow'
+import Body from '../../../components/ui/body'
+import ChipView from '../../../components/ui/chipView'
 
 
 

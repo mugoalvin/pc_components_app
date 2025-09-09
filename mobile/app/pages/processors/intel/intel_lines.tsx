@@ -5,9 +5,9 @@ import { ProductBrandFilter } from "@/utils/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, RefreshControl } from "react-native";
-import CategoryListing from "../../components/cards/categoryListing";
-import HeaderBackArrow from "../../components/headerBackArrow";
-import Body from "../../components/ui/body";
+import CategoryListing from "../../../components/cards/categoryListing";
+import HeaderBackArrow from "../../../components/headerBackArrow";
+import Body from "../../../components/ui/body";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 export default function IntelLines() {

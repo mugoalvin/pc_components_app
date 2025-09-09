@@ -11,7 +11,7 @@ import { CoreDeviceChipsOptions, ProductBrandFilter } from "@/utils/types";
 import useIntelCoreStore from "@/zustand/intel/core";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { IntelGenerationEnum } from "../../../../packages/types";
+import { IntelGenerationEnum } from "../../../../../packages/types";
 
 export default function CoreLine() {
 	const navigation = useNavigation()

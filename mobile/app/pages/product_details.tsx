@@ -3,8 +3,8 @@ import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ryzen } from '../../../packages/interfaces'
 import Body from '../components/ui/body'
-import IntelInfoPage from './intel/intel_info_page'
-import RyzenInfoPage from './ryzen/ryzen_info_page'
+import IntelInfoPage from './processors/intel/intel_info_page'
+import RyzenInfoPage from './processors/ryzen/ryzen_info_page'
 
 export default function ProductDetails() {
 	const navigation = useNavigation()

@@ -1,7 +1,7 @@
 import IntelSpecifications from "@/app/components/ui/productDetails/intel_specs";
 import { View } from "react-native";
-import { IntelCore, IntelCoreUltra, IntelXeon } from "../../../../packages/interfaces";
-import Compatibility from "../compatibility";
+import { IntelCore, IntelCoreUltra, IntelXeon } from "../../../../../packages/interfaces";
+import Compatibility from "../../compatibility";
 import IntelMainInfo from "./intel_main_info";
 
 interface IntelInfoPageProps {
