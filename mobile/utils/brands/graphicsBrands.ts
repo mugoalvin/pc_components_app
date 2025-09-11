@@ -20,3 +20,26 @@ export const graphicsBrandsArray = [
 		enumName: "Radeon"
 	}
 ]
+
+
+export const radeonBrandsArray = [
+	{
+		name: "Radeon PRO",
+		// tableNames: 'ark' as DatabaseTables,
+		logoImage: "https://upload.wikimedia.org/wikipedia/commons/1/1f/AMD_Radeon_Pro_Logo.png?20210215042035",
+		// logoImage: "https://upload.wikimedia.org/wikipedia/commons/9/96/Radeon_Pro_Logo.png",
+		enumName: "RadeonPro"
+	},
+	{
+		name: "Radeon RX",
+		tableNames: "radeon" as DatabaseTables,
+		logoImage:  "https://www.vhv.rs/dpng/d/84-848904_rx-symbol-in-pharmacy-hd-png-download.png",
+		enumName: "RadeonRX"
+	},
+	{
+		name: "Radeon Mobile",
+		tableNames: 'radeon' as DatabaseTables,
+		logoImage: "https://play-lh.googleusercontent.com/PQkSVrOFMU8hqSgZ7HZ6a9-HV_Hd2-ablixYSL5O1XT915dieaDZetVbaV2xlCgQDw=w240-h480-rw",
+		enumName: "RadeonMobile"
+	}
+]

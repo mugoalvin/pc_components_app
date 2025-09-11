@@ -1,4 +1,4 @@
-import Index from '@/app'
+import Index from '@/app/index'
 import ProductsBrands from '@/app/pages/products_brands'
 import { isSet } from '@/utils/functions'
 import { ProductBrandFilter } from '@/utils/types'
@@ -7,39 +7,93 @@ import React from 'react'
 
 import AppText from '../components/texts/appText'
 import Body from '../components/ui/body'
+import RadeonNavigator from './gpu/radeon/radeon_navigator'
+import RadeonProducts from './gpu/radeon/radeon_products'
 import IntelLines from './processors/intel/intel_lines'
-import IntelNavigator from './intelNavigator'
-import ProductDetails from './product_details'
+import IntelNavigator from './processors/intel/intelNavigator'
 import RyzenBrand from './processors/ryzen/ryzen_brand'
 import RyzenProducts from './processors/ryzen/ryzen_products'
 
+const routes = [
+	{
+		condition: (params: any) => !isSet(params.selectedComponent),
+		component: <Index />,
+	},
+	{
+		condition: (params: any) => !isSet(params.brand),
+		component: <ProductsBrands />,
+	},
+
+
+
+
+	// ============================================== AMD ==============================================
+	// Ryzen
+	{
+		condition: (params: any) =>
+			String(params.selectedComponent) === '0' &&
+			String(params.brand) === '0' &&
+			!isSet(params.amdSeries),
+		component: <RyzenBrand />,
+	},
+	{
+		condition: (params: any) =>
+			String(params.selectedComponent) === '0' &&
+			String(params.brand) === '0' &&
+			isSet(params.amdSeries),
+		component: <RyzenProducts />,
+	},
+
+	// Radeon
+	{
+		condition: (params: any) =>
+			String(params.selectedComponent) === '1' &&
+			String(params.brand) === '2' &&
+			!isSet(params.radeonLine),
+		component: <RadeonProducts />,
+	},
+	{
+		condition: (params: any) =>
+			String(params.selectedComponent) === '1' &&
+			String(params.brand) === '2' &&
+			isSet(params.radeonLine),
+		component: <RadeonNavigator />,
+	},
+
+
+	// Intel
+	{
+		condition: (params: any) =>
+			String(params.selectedComponent) === '0' &&
+			String(params.brand) === '1' &&
+			!isSet(params.line),
+		component: <IntelLines />,
+	},
+	{
+		condition: (params: any) =>
+			isSet(params.amdSeries) || isSet(params.ultraSeries) || isSet(params.line),
+		component: <IntelNavigator />,
+	},
+	// Add more routes as needed
+]
 
 export default function CategoryNavigator() {
 	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
-	const { selectedComponent, brand, line, amdSeries, ultraSeries, generation } = params
 
-	if (!isSet(selectedComponent)) return <Index />
+	for (const route of routes) {
+		if (route.condition(params)) {
+			return route.component
+		}
+	}
 
-	if (!isSet(brand)) return <ProductsBrands />
-
-	if (String(selectedComponent) === '0' && String(brand) === '0' && !isSet(amdSeries)) return <RyzenBrand />
-
-	if (String(selectedComponent) === '0' && String(brand) === '0' && isSet(amdSeries)) return <RyzenProducts />
-
-	if (String(selectedComponent) === "0" && String(brand) === "1" && !isSet(line)) return <IntelLines />
-
-	if (isSet(amdSeries) || isSet(ultraSeries) || isSet(line)) return <IntelNavigator />
-
-	if (isSet(selectedComponent) && isSet(brand) && (isSet(amdSeries) || isSet(ultraSeries)) && (isSet(generation) || isSet(line))) return <ProductDetails />
-
-
+	// Default fallback
 	return (
 		<Body>
-			<AppText>Product: {selectedComponent}</AppText>
-			<AppText>Brand: {brand}</AppText>
-			<AppText>Line: {line}</AppText>
-			<AppText>Series: {amdSeries || ultraSeries}</AppText>
-			<AppText>Generation: {generation}</AppText>
+			<AppText>Product: {params.selectedComponent}</AppText>
+			<AppText>Brand: {params.brand}</AppText>
+			<AppText>Line: {params.line}</AppText>
+			<AppText>Series: {params.amdSeries || params.ultraSeries}</AppText>
+			<AppText>Generation: {params.generation}</AppText>
 		</Body>
 	)
 }

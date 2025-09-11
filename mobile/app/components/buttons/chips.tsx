@@ -28,11 +28,10 @@ const ChipCustom = ({chipText, selected, icon, onPress} : ChipsProps) => {
 			style={{
 				// backgroundColor: selected ? theme.colors.secondary : theme.colors.elevation.level1,
 				backgroundColor: selected ? theme.colors.secondary : theme.colors.secondaryContainer,
-				borderColor: selected ? theme.colors.outline : theme.colors.outlineVariant
+				// borderColor: selected ? theme.colors.outline : theme.colors.outlineVariant
 			}}
 		>
 			<AppText color={selected ? theme.colors.onSecondary : theme.colors.onSurface}>{chipText}</AppText>
-			{/* <AppText>{chipText}</AppText> */}
 		</Chip>
 	)
 }

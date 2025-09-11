@@ -11,11 +11,12 @@ import { Ionicons } from "@expo/vector-icons"
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router, useNavigation } from "expo-router"
-import { useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { Divider, useTheme } from "react-native-paper"
 import Animated, { FadeInDown } from "react-native-reanimated"
 
 import HeaderRightIconButtons from "@/app/components/headerRightIcon"
+import { FlashList } from "@shopify/flash-list"
 import { IntelXeon } from "../../../../../packages/interfaces"
 
 export default function XeonProducts() {
@@ -79,8 +80,7 @@ export default function XeonProducts() {
 			sheetContent={<IntelXeonScrapeOptions sheetRef={bottomSheetRef} />}
 		>
 			<Body progress={progress}>
-
-				<Animated.FlatList
+				<FlashList
 					data={xeonToDisplay}
 					showsVerticalScrollIndicator={false}
 					renderItem={({ item, index }) => (

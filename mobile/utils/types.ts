@@ -1,4 +1,4 @@
-import { GraphicsBrandEnum, IntelGenerationEnum, IntelProcessorLine, IntelUltraSeriesEnum, IntelUltraTierEnum, ProcessorsEnum, RyzenSeriesEnum, IntelXeonSeries } from "../../packages/types";
+import { GraphicsBrandEnum, IntelGenerationEnum, IntelProcessorLine, IntelUltraSeriesEnum, IntelUltraTierEnum, IntelXeonSeries, ProcessorsEnum, RadeonEnum, RadeonRXSeriesEnum, RyzenSeriesEnum } from "../../packages/types";
 
 // Dashboard
 export type DashboardCategoryType = "processors" | "graphics"
@@ -34,11 +34,16 @@ export type ProductBrandFilter =
 
 	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Ark } |
 	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Nvidia } |
-	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Radeon }
+
+
+	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Radeon, radeonLine?: RadeonEnum.RadeonPro } |
+	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Radeon, radeonLine?: RadeonEnum.RadeonRX, series?: RadeonRXSeriesEnum } |
+	{ selectedComponent: ComponentTypeEnum.Graphics, brand?: GraphicsBrandEnum.Radeon, radeonLine?: RadeonEnum.RadeonMobile }
 
 
 export type RyzenTierChipsOptions = 'all' | '9' | '7' | '5' | '3'
 export type RyzenDeviceChipsOptions = 'all' | 'desktop' | 'laptop'
+export type RadeonDeviceChipsOptions = 'all' | 'desktop' | 'component'
 export type UltraDeviceChipsOptions = 'all' | 'desktop' | 'mobile' | 'embedded'
 export type UltraSeriesChipsOptions = 'all' | 'series 2' | 'series 1'
 export type CoreDeviceChipsOptions = UltraDeviceChipsOptions

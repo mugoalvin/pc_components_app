@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 
-import { AmdScrape, RadeonSeriesEnum } from '../../../../packages/types'
+import { AmdScrape, RadeonRXSeriesEnum } from '../../../../packages/types'
 import { AppDataSource, initDatabase } from '../../db'
 import { normalizeData } from '../../global/functions'
 import { ProgressReporter } from '../../global/websocket/ProgressReporter'
@@ -12,7 +12,7 @@ dotenv.config()
 
 const { amd_website_domain, amd_radeon_rx_graphics_card_route } = process.env
 
-async function runRadeonRxScraper(series?: RadeonSeriesEnum) {
+async function runRadeonRxScraper(series?: RadeonRXSeriesEnum) {
 	const reporter = new ProgressReporter()
 	reporter.report(101)
 

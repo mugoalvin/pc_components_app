@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import RyzenScrapeOptions from '@/app/components/buttomSheet/ryzenScrapeOptions'
 import HeaderRightIconButtons from '@/app/components/headerRightIcon'
-import AppText from '@/app/components/texts/appText'
 import PageWithBottomSheet from '@/app/components/ui/bottomSheet'
 import CustomSectionList from '@/app/components/view/sectionList'
 import { syncRyzenInventory } from '@/app/index'
@@ -16,8 +15,7 @@ import { BottomSheetMethods } from '@gorhom/bottom-sheet/lib/typescript/types'
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { View } from 'react-native'
-import { ActivityIndicator, Portal, useTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 import { Ryzen } from '../../../../../packages/interfaces'
 import { GraphicsBrandArray, ProcessorsArray, RyzenSeriesEnum } from '../../../../../packages/types'
 import ChipCustom from '../../../components/buttons/chips'
@@ -36,7 +34,6 @@ export default function RyzenBrand() {
 	const { selectedComponent, brand } = params
 
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
-	const [isScrapingInProgress, setIsScrapingInProgress] = useState<boolean>(false)
 	const [progress, setProgress] = useState<number | undefined>(undefined)
 
 	const [chipPressed, setChipPressed] = useState<RyzenDeviceChipsOptions>('all')
@@ -108,7 +105,7 @@ export default function RyzenBrand() {
 			ref={bottomSheetRef}
 			snapPoints={snapPoints}
 			initialSnapIndex={-1}
-			sheetContent={<RyzenScrapeOptions sheetRef={bottomSheetRef} setIsScrapingInProgress={setIsScrapingInProgress} />}
+			sheetContent={<RyzenScrapeOptions sheetRef={bottomSheetRef} />}
 		>
 
 			<Body progress={progress} >
@@ -167,16 +164,6 @@ export default function RyzenBrand() {
 						setIsPageRefreshing(false)
 					}}
 				/>
-
-				{
-					isScrapingInProgress &&
-					<Portal>
-						<View className='flex-1 items-center justify-center gap-5' style={{ backgroundColor: theme.colors.onSurfaceDisabled }}>
-							<ActivityIndicator />
-							<AppText className='text-xl'>Scraping in progress...{'\n'}Don't worry if it seems stuck.</AppText>
-						</View>
-					</Portal>
-				}
 			</Body>
 		</PageWithBottomSheet>
 	)

@@ -7,7 +7,7 @@ import React, { useEffect } from 'react'
 import { FlatList } from 'react-native'
 import Animated, { FadeInDown } from "react-native-reanimated"
 
-import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncIntelXeonInventoryCount, syncRyzenInventoryCount } from "@/app/index"
+import { syncIntelCoreInventoryCount, syncIntelUltraInventoryCount, syncIntelXeonInventoryCount, syncRadeonInventoryCount, syncRyzenInventoryCount } from "@/app/index"
 import useSnackbarContext from "@/context/SnackbarContext"
 import { Divider } from "react-native-paper"
 import { GraphicsBrandEnum, ProcessorsEnum } from "../../../packages/types"
@@ -24,10 +24,14 @@ export default function ProductsBrands() {
 
 	const runSync = async () => {
 		try {
+			// Processors Synchronization
 			await syncRyzenInventoryCount()
 			await syncIntelCoreInventoryCount()
 			await syncIntelUltraInventoryCount()
 			await syncIntelXeonInventoryCount()
+			
+			// GPU Synchronization
+			await syncRadeonInventoryCount()
 		}
 		catch (error: any) {
 			showSnackbar({

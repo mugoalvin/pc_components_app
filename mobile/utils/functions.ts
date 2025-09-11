@@ -1,8 +1,8 @@
 import { getTableRowCount } from "@/app/services/fetch"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { IntelCore, IntelCoreUltra, IntelXeon, Ryzen } from "../../packages/interfaces"
+import { IntelCore, IntelCoreUltra, IntelXeon, Radeon, Ryzen } from "../../packages/interfaces"
 import { DatabaseTables, IntelGeneration } from "../../packages/types"
-import { CoreDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem, UltraDeviceChipsOptions, XeonChipsOptions } from "./types"
+import { CoreDeviceChipsOptions, RadeonDeviceChipsOptions, RyzenDeviceChipsOptions, RyzenTierChipsOptions, SectionedDataItem, UltraDeviceChipsOptions, XeonChipsOptions } from "./types"
 
 export function makeKeyUserFriendly(text: string): string {
 	return text
@@ -123,7 +123,38 @@ export function getSectionedRyzenData(ryzenProcessors: Ryzen[], deviceOption: Ry
 		: []
 }
 
+export function getSectionedRadeonData(radeonGpus: Radeon[], deviceOption: RadeonDeviceChipsOptions): SectionedDataItem[] {
 
+	function getCount(match: string, withMatch?: boolean) {
+		return withMatch
+			? radeonGpus.filter(radeon => radeon.name?.toLowerCase().includes(match)).length
+			: radeonGpus.filter(radeon => !radeon.name?.toLowerCase().includes(match)).length
+	}
+
+	const allSections = [
+		{
+			title: "Special Edition",
+			data: [
+				{ name: "Radeon GREs", lastUpdated: `Just Now`, count: `${getCount('gre', true)} gpus` },
+			]
+		},
+		{
+			title: "High Performance",
+			data: [
+				{ name: "Radeon XTs", lastUpdated: `Just Now Again`, count: `${getCount('xt', true)} gpus` },
+			]
+		},
+		{
+			title: "High Performance",
+			data: [
+				{ name: "Radeon Base GPUs", lastUpdated: `Just Now Again`, count: `${getCount('xt', false)} gpus` },
+			]
+		}
+	]
+
+
+	return allSections
+}
 
 export function getSectionedUltraData(ultraProcessors: IntelCoreUltra[], deviceOptions: UltraDeviceChipsOptions): SectionedDataItem[] {
 	function getCountPerSeries(line: string) {

@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { FadeInDown, FadeInRight } from "react-native-reanimated";
-import AppText from "../../texts/appText";
-import SubTitle from "../../texts/subTitle";
+import AppText from "../../../components/texts/appText";
+import SubTitle from "../../../components/texts/subTitle";
 
 interface RyzenDescriptionProps {
 	description: string
