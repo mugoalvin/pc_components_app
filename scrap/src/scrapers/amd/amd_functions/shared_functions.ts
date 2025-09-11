@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { launch, Page } from 'puppeteer'
 
 import { InitialAmdProps, Radeon, Ryzen } from '../../../../../packages/interfaces'
-import { MyUrl, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../../packages/types'
+import { MyUrl, RadeonRXSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from '../../../../../packages/types'
 import { handleError, launchOptions, normalizeKey, normalizeValue } from '../../../global/functions'
 import { ProgressReporter } from '../../../global/websocket/ProgressReporter'
 
@@ -172,7 +172,7 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
  * @param serie - AMD Ryzen or Radeon series to scrape else all
  * @returns Array of detailed product information
  */
-export async function getAmdProducts(url: MyUrl, serie?: RadeonSeriesEnum | RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[] | Radeon[]> {
+export async function getAmdProducts(url: MyUrl, serie?: RadeonRXSeriesEnum | RyzenDesktopSeries | RyzenLaptopSeries): Promise<Ryzen[] | Radeon[]> {
     const browser = await launch(launchOptions)
     try {
         const page = await browser.newPage()

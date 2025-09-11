@@ -22,7 +22,8 @@ const ButtonCustom = ({ backgroundColor, btnText, center = true, className, colo
 			disabled={disabled}
 			className={`px-2 h-10 justify-center rounded-md ${center && "items-center"} ${className}`}
 			style={{
-				backgroundColor: backgroundColor || disabled ? theme.colors.onSurfaceDisabled : theme.colors.primary
+				// backgroundColor: backgroundColor || disabled ? theme.colors.onSurfaceDisabled : theme.colors.primary
+				backgroundColor: backgroundColor || disabled ? theme.colors.onSurfaceDisabled : theme.colors.secondaryContainer
 			}}
 			onPress={onPress}
 			android_ripple={{
@@ -32,7 +33,8 @@ const ButtonCustom = ({ backgroundColor, btnText, center = true, className, colo
 			<AppText
 				bold
 				className='text-xl'
-				color={color || theme.colors.onPrimary}
+				// color={color || theme.colors.onPrimary}
+				color={color || theme.colors.onSecondaryContainer}
 			>
 				{btnText}
 			</AppText>

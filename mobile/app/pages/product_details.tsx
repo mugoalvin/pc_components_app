@@ -5,6 +5,7 @@ import { Ryzen } from '../../../packages/interfaces'
 import Body from '../components/ui/body'
 import IntelInfoPage from './processors/intel/intel_info_page'
 import RyzenInfoPage from './processors/ryzen/ryzen_info_page'
+import RadeonInfoPage from './gpu/radeon/radeon_info_page'
 
 export default function ProductDetails() {
 	const navigation = useNavigation()
@@ -30,6 +31,11 @@ export default function ProductDetails() {
 				{
 					(product.name as string).toLowerCase().includes('intel') &&
 					<IntelInfoPage product={product} />
+				}
+
+				{
+					(product.name as string).toLowerCase().includes('radeon') &&
+					<RadeonInfoPage product={product} />
 				}
 			</SafeAreaView>
 		</Body>

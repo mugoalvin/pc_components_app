@@ -5,7 +5,9 @@ export const processorsBrandsArray = [
 	{
 		name: "AMD",
 		tableNames: 'ryzen' as DatabaseTables,
-		logoImage: require('../../assets/images/amd_logo.png'),
+		// logoImage: require('../../assets/images/amd_logo.png'),
+		// logoImage: "https://img.icons8.com/fluent-systems-regular/512/228BE6/ryzen-controller.png",
+		logoImage: "https://img.icons8.com/nolan/200/amd-ryzen.png"
 	},
 	{
 		name: "Intel",

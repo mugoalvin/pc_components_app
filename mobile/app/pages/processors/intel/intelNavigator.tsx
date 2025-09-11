@@ -2,14 +2,14 @@ import { isSet } from "@/utils/functions";
 import { ProductBrandFilter } from "@/utils/types";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import AppText from "../components/texts/appText";
-import Body from "../components/ui/body";
-import CoreLine from "./intel/core_line";
-import CoreProducts from "./intel/core_products";
-import UltraLine from "./intel/ultra_line";
-import UltraProducts from "./intel/ultra_products";
-import XeonLine from "./intel/xeon_line";
-import XeonProducts from "./intel/xeon_products";
+import CoreLine from "./core_line";
+import CoreProducts from "./core_products";
+import UltraLine from "./ultra_line";
+import UltraProducts from "./ultra_products";
+import XeonLine from "./xeon_line";
+import XeonProducts from "./xeon_products";
+import Body from "@/app/components/ui/body";
+import AppText from "@/app/components/texts/appText";
 
 
 export default function IntelNavigator() {

@@ -5,19 +5,18 @@ import { scrapeRyzen } from "@/app/services/scrape";
 import useSnackbarContext from "@/context/SnackbarContext";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { RefObject, useState } from "react";
-import { FlatList, Pressable, useColorScheme, View } from "react-native";
+import { FlatList, Pressable, useColorScheme } from "react-native";
 import { RadioButton, useTheme } from "react-native-paper";
 import { AmdDevice, RyzenSeriesNameArray } from "../../../../packages/types";
 import BottomSheetHeader from "../texts/bottomSheetHeader";
-import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 import BottomSheetCard from "../ui/bottomSheet/bottomSheetCard";
+import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 
 interface RyzenScrapeOptionsProps {
 	sheetRef?: RefObject<BottomSheetMethods | null>
-	setIsScrapingInProgress?: (state: boolean) => void
 }
 
-export default function RyzenScrapeOptions({ sheetRef, setIsScrapingInProgress }: RyzenScrapeOptionsProps) {
+export default function RyzenScrapeOptions({ sheetRef }: RyzenScrapeOptionsProps) {
 	const theme = useTheme();
 	const colorScheme = useColorScheme();
 	const { showSnackbar } = useSnackbarContext()
@@ -75,7 +74,6 @@ export default function RyzenScrapeOptions({ sheetRef, setIsScrapingInProgress }
 				btnText="Source From The Web Now"
 				className="my-10 h-14"
 				onPress={async () => {
-					setIsScrapingInProgress && setIsScrapingInProgress(true)
 					try {
 						sheetRef?.current?.close();
 						showSnackbar({
@@ -97,9 +95,6 @@ export default function RyzenScrapeOptions({ sheetRef, setIsScrapingInProgress }
 							message: e.errMsg || e.errTitle || e.message || "Scraping Error",
 							isError: true
 						});
-					}
-					finally {
-						setIsScrapingInProgress && setIsScrapingInProgress(false)
 					}
 				}}
 			/>

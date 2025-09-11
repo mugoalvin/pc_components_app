@@ -1,13 +1,13 @@
 import ButtonCustom from "@/app/components/buttons/buttonCust";
-import RyzenDescription from "@/app/components/ui/productDetails/ryzen_descriptions";
-import RyzenMainInfo from "@/app/components/ui/productDetails/ryzen_main_info";
-import RyzenSpecifications from "@/app/components/ui/productDetails/ryzen_specs";
+import RyzenSpecifications from "@/app/pages/processors/ryzen/ryzen_specs";
 import { router } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
 import Animated, { FadeInDown, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { Ryzen } from "../../../../../packages/interfaces";
 import Compatibility from "../../compatibility";
+import RyzenMainInfo from "./ryzen_main_info";
+import RyzenDescription from "./ryzen_descriptions";
 
 interface RyzenInfoPageProps {
 	product: Ryzen
@@ -31,10 +31,10 @@ export default function RyzenInfoPage({ product }: RyzenInfoPageProps) {
 	return (
 		<>
 			<View className='flex-1'>
-				<RyzenMainInfo product={product} />
+				<RyzenMainInfo name={product.name} mainInfo={product.series} info1={product.device} info2={product.architecture} image={product.image} />
 				<RyzenDescription description={product.description!} />
 				<RyzenSpecifications ryzenData={product as Ryzen} />
-				<Compatibility compatibles={[ `${product.cpu_socket} Socket` ]} animationDelay={3200} />
+				<Compatibility compatibles={[`${product.cpu_socket} Socket`]} animationDelay={3200} />
 			</View>
 			<Animated.View className="w-full items-center" entering={FadeInDown.delay(4000)}>
 				<Animated.View style={[animatedStyle, { alignItems: "center", width: 10 }]}>

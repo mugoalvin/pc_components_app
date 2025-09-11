@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import ChipView from "@/app/components/ui/chipView";
 import { filterRyzenWithPerformanceTier } from "@/utils/functions";
 import { ProductBrandFilter, RyzenDeviceChipsOptions, RyzenTierChipsOptions } from "@/utils/types";
@@ -10,7 +9,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RefreshControl, View } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
-import { AmdDevice, RyzenSeriesNameEnum } from "../../../../../packages/types";
 
 import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
@@ -18,6 +16,7 @@ import useSnackbarContext from "@/context/SnackbarContext";
 import { useWebSocket } from "@/context/WebsockerContext";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Ryzen } from "../../../../../packages/interfaces";
+import { AmdDevice, RyzenSeriesNameEnum } from "../../../../../packages/types";
 import ChipCustom from "../../../components/buttons/chips";
 import ProductCard from "../../../components/cards/productCard";
 import HeaderBackArrow from "../../../components/headerBackArrow";

@@ -25,9 +25,6 @@ export const RyzenSeriesNameArray = ["Ryzen 9000 Series", "Ryzen 8000 Series", "
 export const RyzenSeriesArray = ["Series9000", "Series8000", "Series7000", "Series5000", "Series4000", "RyzenAiMax", "RyzenAi300", "Ryzen200", "Ryzen9000", "Ryzen8000", "Ryzen7000", "Ryzen6000"]
 export type RyzenSeriesType = "Series9000" | "Series8000" | "Series7000" | "Series5000" | "Series4000" | "RyzenAiMax" | "RyzenAi300" | "Ryzen200" | "Ryzen9000" | "Ryzen8000" | "Ryzen7000" | "Ryzen6000"
 
-export enum RadeonSeriesEnum { Series9000, Series7000, Series6000 }
-
-
 
 
 // =================================================> Intel <=================================================
@@ -120,3 +117,7 @@ export const ProcessorsArray = ["AMD", "Intel"]
 // ================================================> Graphics <================================================
 export enum GraphicsBrandEnum { "Ark", "Nvidia", "Radeon" }
 export const GraphicsBrandArray = ["Intel Ark", "Nvidia", "AMD Radeon"]
+
+// Radeon
+export enum RadeonEnum { RadeonPro, RadeonRX, RadeonMobile }
+export enum RadeonRXSeriesEnum { Series9000, Series7000, Series6000 }

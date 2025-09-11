@@ -4,10 +4,10 @@ import { View } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import { FlatGrid } from 'react-native-super-grid'
 
+import Animated, { FadeInDown, FadeInRight } from 'react-native-reanimated'
 import { Ryzen } from '../../../../../packages/interfaces'
-import AppText from '../../texts/appText'
-import SubTitle from '../../texts/subTitle'
-import Animated, { FadeInDown, FadeInLeft, FadeInRight } from 'react-native-reanimated'
+import AppText from '../../../components/texts/appText'
+import SubTitle from '../../../components/texts/subTitle'
 
 interface RyzenSpecifications {
 	ryzenData: Ryzen

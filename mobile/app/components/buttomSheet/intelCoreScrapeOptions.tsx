@@ -4,14 +4,14 @@ import { syncIntelCoreInventory } from "@/app/index";
 import { scrapeCore } from "@/app/services/scrape";
 import useSnackbarContext from "@/context/SnackbarContext";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import ordinal from 'ordinal';
 import { RefObject, useState } from "react";
-import { Pressable, useColorScheme, View } from "react-native";
+import { Pressable } from "react-native";
 import { RadioButton, useTheme } from "react-native-paper";
 import { IntelGeneration, IntelTierEnum } from "../../../../packages/types";
 import BottomSheetHeader from "../texts/bottomSheetHeader";
-import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 import BottomSheetCard from "../ui/bottomSheet/bottomSheetCard";
-import ordinal from 'ordinal'
+import BottomSheetSection from "../ui/bottomSheet/bottomSheetSection";
 
 interface IntelCoreScrapeOptionsProps {
 	generation: IntelGeneration

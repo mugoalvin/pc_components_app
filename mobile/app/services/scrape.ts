@@ -1,7 +1,7 @@
 import axios from "axios";
 import Constants from 'expo-constants';
 import { Alert } from "react-native";
-import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, IntelXeonSeries, IntelXeonSeriesType, NvidiaGeforceSeries, RadeonSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from "../../../packages/types";
+import { AmdDevice, IntelGenerationEnum, IntelGraphicsScrapingOptions, IntelTierEnum, IntelUltraSeriesEnum, IntelXeonSeries, IntelXeonSeriesType, NvidiaGeforceSeries, RadeonRXSeriesEnum, RyzenDesktopSeries, RyzenLaptopSeries } from "../../../packages/types";
 
 const apiDomain = Constants.expoConfig?.extra?.API_DOMAIN ?? ''
 
@@ -48,7 +48,7 @@ export async function scrapeRyzen(requestParams: RyzenScrapeRequestType) {
 
 
 export interface RadeonScraperRequestType {
-	series: RadeonSeriesEnum
+	series: RadeonRXSeriesEnum
 }
 
 export async function scrapeRadeon(requestParams: RadeonScraperRequestType) {
@@ -61,7 +61,10 @@ export async function scrapeRadeon(requestParams: RadeonScraperRequestType) {
 		const error: string = err.response?.data?.errorMsg
 		const [title, ...rest] = error.split(":")
 
-		Alert.alert(title.trim(), rest.join(':').trim() || err.message)
+		throw {
+			errTitle: title.trim(),
+			errMsg: rest.join(':').trim()
+		}
 	}
 }
 
