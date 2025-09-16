@@ -6,10 +6,11 @@ import ChipView from "@/app/components/ui/chipView";
 import { getAsyncData } from "@/utils/functions";
 import { ProductBrandFilter, UltraDeviceChipsOptions, UltraSeriesChipsOptions } from "@/utils/types";
 import useIntelCoreUltraStore from "@/zustand/intel/ultra";
+import { FlashList } from "@shopify/flash-list";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { Divider } from "react-native-paper";
-import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
 import { IntelCoreUltra } from "../../../../../packages/interfaces";
 
 export default function UltraProducts() {
@@ -76,14 +77,17 @@ export default function UltraProducts() {
 				/>
 			</ChipView>
 
-			<Animated.FlatList
+			<FlashList
 				showsVerticalScrollIndicator={false}
-				itemLayoutAnimation={LinearTransition}
 				data={ultraToDisplay}
 				keyExtractor={(_, index) => index.toString()}
 				renderItem={({ item, index }) => (
-					<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
-						{ index !== 0 && <Divider bold /> }
+					<Animated.View
+						entering={FadeInLeft.duration(500).delay(100 * (index + 1))}
+						exiting={FadeOutRight.duration(500).delay(100 * (index + 1))}
+						key={item.name}
+					>
+						{index !== 0 && <Divider bold />}
 						<ProductCard
 							key={item.name}
 							title={item.name}

@@ -8,7 +8,7 @@ import { useLocalSearchParams, useNavigation } from "expo-router"
 import { useEffect } from "react"
 import { FlatList } from "react-native"
 import Animated, { FadeInDown } from "react-native-reanimated"
-import { ProcessorsEnum, RadeonEnum } from "../../../../../packages/types"
+import { RadeonEnum } from "../../../../../packages/types"
 
 export default function RadeonProducts() {
 	const navigation = useNavigation()

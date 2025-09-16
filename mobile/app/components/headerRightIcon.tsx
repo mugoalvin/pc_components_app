@@ -23,9 +23,9 @@ export default function HeaderRightIconButtons({ buttons }: HeaderRightIconProps
 					icon={() => item.icon}
 					onPress={item.onPress}
 					hitSlop={10}
-					style={{
-						backgroundColor: theme.colors.elevation.level5
-					}}
+					// style={{
+					// 	backgroundColor: theme.colors.elevation.level5
+					// }}
 				/>
 			}
 		/>
