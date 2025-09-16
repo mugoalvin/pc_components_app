@@ -121,3 +121,6 @@ export const GraphicsBrandArray = ["Intel Ark", "Nvidia", "AMD Radeon"]
 // Radeon
 export enum RadeonEnum { RadeonPro, RadeonRX, RadeonMobile }
 export enum RadeonRXSeriesEnum { Series9000, Series7000, Series6000 }
+export const RadeonRXSeriesArray = [ "Series9000", "Series7000", "Series6000" ]
+export const RadeonRXSeriesStingsArray = ["9000 Series", "7000 Series", "6000 Series"]
+export type RadeonRXSeriesType = "Series9000" | "Series7000" | "Series6000"

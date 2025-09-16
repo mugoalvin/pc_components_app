@@ -2,6 +2,7 @@ import IntelCoreScrapeOptions from "@/app/components/buttomSheet/intelCoreScrape
 import ChipCustom from "@/app/components/buttons/chips";
 import ProductCard from "@/app/components/cards/productCard";
 import HeaderBackArrow from "@/app/components/headerBackArrow";
+import HeaderRightIconButtons from "@/app/components/headerRightIcon";
 import Body from "@/app/components/ui/body";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
 import ChipView from "@/app/components/ui/chipView";
@@ -13,14 +14,14 @@ import { CoreTierChipOptions, ProductBrandFilter } from "@/utils/types";
 import useIntelCoreStore from "@/zustand/intel/core";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { FlashList } from "@shopify/flash-list";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { RefreshControl, TouchableOpacity } from "react-native";
+import { RefreshControl } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
-import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated";
 import { IntelCore } from "../../../../../packages/interfaces";
 import { IntelGeneration } from "../../../../../packages/types";
-import HeaderRightIconButtons from "@/app/components/headerRightIcon";
 
 export default function CoreProducts() {
 	const { socket } = useWebSocket()
@@ -78,7 +79,7 @@ export default function CoreProducts() {
 			headerRight: () => <HeaderRightIconButtons buttons={[{
 				icon: <Ionicons name='cloud-download-outline' size={16} color={theme.colors.onBackground} />,
 				onPress: openSheet
-			}]}/>
+			}]} />
 		})
 	}, [])
 
@@ -131,14 +132,17 @@ export default function CoreProducts() {
 					/>
 				</ChipView>
 
-				<Animated.FlatList
+				<FlashList
 					showsVerticalScrollIndicator={false}
-					itemLayoutAnimation={LinearTransition}
 					data={coreToDisplay}
 					keyExtractor={(_, index) => index.toString()}
 					renderItem={({ item, index }) => (
-						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
-							{ index !== 0 && <Divider bold /> }
+						<Animated.View
+							entering={FadeInLeft.duration(500).delay(100 * (index + 1))}
+							exiting={FadeOutRight.duration(500).delay(100 * (index + 1))}
+							key={item.name}
+						>
+							{index !== 0 && <Divider bold />}
 							<ProductCard
 								key={index}
 								title={item.name}

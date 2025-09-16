@@ -163,7 +163,8 @@ async function fetchDetailedProductSpecs(page: Page, products: InitialAmdProps[]
             handleError(error, `Failed to fetch info for ${product.name}`)
         }
     }
-    return detailedSpecs.reverse()
+    // const finalData = detailedSpecs.reverse()
+    return detailedSpecs
 }
 
 /**

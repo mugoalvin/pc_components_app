@@ -13,7 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { router, useNavigation } from "expo-router"
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { Divider, useTheme } from "react-native-paper"
-import Animated, { FadeInDown } from "react-native-reanimated"
+import Animated, { FadeInLeft, FadeOutRight } from "react-native-reanimated"
 
 import HeaderRightIconButtons from "@/app/components/headerRightIcon"
 import { FlashList } from "@shopify/flash-list"
@@ -84,7 +84,11 @@ export default function XeonProducts() {
 					data={xeonToDisplay}
 					showsVerticalScrollIndicator={false}
 					renderItem={({ item, index }) => (
-						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+						<Animated.View
+							entering={FadeInLeft.duration(500).delay(100 * (index + 1))}
+							exiting={FadeOutRight.duration(500).delay(100 * (index + 1))}
+							key={item.name}
+						>
 							{index !== 0 && <Divider bold />}
 							<ProductCard
 								key={index}

@@ -6,9 +6,9 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { RefreshControl, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { Divider, useTheme } from "react-native-paper";
-import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInLeft, FadeOutRight, LinearTransition } from "react-native-reanimated";
 
 import SelectDeviceOptions from "@/app/components/buttomSheet/selectDeviceOptions";
 import PageWithBottomSheet from "@/app/components/ui/bottomSheet";
@@ -24,6 +24,7 @@ import SubTitle from "../../../components/texts/subTitle";
 import Body from "../../../components/ui/body";
 import { syncRyzenInventory } from "../../../index";
 import { scrapeRyzen } from "../../../services/scrape";
+import { FlashList } from "@shopify/flash-list";
 
 export default function RyzenProducts() {
 	const theme = useTheme()
@@ -144,10 +145,8 @@ export default function RyzenProducts() {
 					/>
 				</ChipView>
 
-				<Animated.FlatList
-					itemLayoutAnimation={LinearTransition}
+				<FlashList
 					showsVerticalScrollIndicator={false}
-					className="flex-1"
 					data={ryzenToDisplay}
 					keyExtractor={item => item.name}
 					refreshControl={
@@ -161,7 +160,11 @@ export default function RyzenProducts() {
 						/>
 					}
 					renderItem={({ item, index }) => (
-						<Animated.View entering={FadeInDown.duration(500).delay(100 * (index + 1))} key={item.name}>
+						<Animated.View
+							entering={FadeInLeft.duration(500).delay(100 * (index + 1))}
+							exiting={FadeOutRight.duration(500).delay(100 * (index + 1))}
+							key={item.name}
+						>
 							{index !== 0 && <Divider bold />}
 							<ProductCard
 								key={item.name}
