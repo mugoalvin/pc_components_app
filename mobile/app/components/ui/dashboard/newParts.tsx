@@ -1,5 +1,4 @@
 import { Image } from "expo-image"
-import { useColorScheme } from "react-native"
 import { useTheme } from "react-native-paper"
 
 import AppText from "../../texts/appText"
@@ -15,7 +14,7 @@ interface NewPartsProps {
 
 export default function NewParts({ image, title, description, index, onPress }: NewPartsProps) {
 	const theme = useTheme()
-	const colorScheme = useColorScheme()
+	const processedImage = image && image.split('')[0] === '/' ? `https://www.intel.com${image}` : image
 
 	return (
 		<BasicCard
@@ -23,7 +22,7 @@ export default function NewParts({ image, title, description, index, onPress }: 
 			className={`w-36 rounded-xl p-3 ${index !== 0 && 'ml-2'}`}
 		>
 			<Image
-				source={image}
+				source= {processedImage}
 				style={{ resizeMode: "cover", borderRadius: 8, width: '100%', aspectRatio: 1 }}
 			/>
 			<AppText bold className="text-xl mt-2">{title}</AppText>

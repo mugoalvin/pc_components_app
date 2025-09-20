@@ -27,13 +27,11 @@ export default function RadeonRXProducts() {
 	const navigation = useNavigation()
 	const { socket } = useWebSocket()
 	const { showSnackbar } = useSnackbarContext()
+
 	const [scrapeProgress, setScrapeProgress] = useState<number | undefined>(undefined)
 	const [isPageRefreshing, setIsPageRefreshing] = useState<boolean>(false)
-
 	const [selectedChip, setSelectedChip] = useState<RadeonRXSeriesType | 'all'>('all')
 	const [radeonToDisplay, setRadeonToDisplay] = useState<Radeon[]>([])
-	const params = useLocalSearchParams() as Partial<ProductBrandFilter | any>
-	const { selectedComponent, brand } = params
 
 	const bottomSheetRef = useRef<BottomSheetMethods>(null)
 	const snapPoints = useMemo(() => ['40%'], [])

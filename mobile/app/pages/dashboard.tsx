@@ -18,6 +18,7 @@ import DashboardSection from "../components/ui/dashboard/section";
 import ToolsAndUtils from "../components/ui/dashboard/tools&Utils";
 import { connectDatabase } from '../services/scrape';
 import { useWebSocket } from '@/context/WebsockerContext';
+import Constants from "expo-constants";
 
 
 const Dashboard = () => {
